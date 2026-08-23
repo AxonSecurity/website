@@ -209,6 +209,7 @@ input {
   position: absolute;
   right: 0;
   bottom: 70px;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 10px;
