@@ -42,3 +42,55 @@ export const CANVAS_CONFIG = {
 
   DPR_CAP: 2,
 } as const
+
+/**
+ * Constellation v2 layers: depth planes, breathing, synaptic signal pulses.
+ */
+export const CONSTELLATION_V2 = {
+  /** Back-to-front depth planes. */
+  DEPTH_PLANES: [
+    { SCALE: 0.84, ALPHA: 0.5, ROT: 0.75, DRIFT: 0.65, PARALLAX: 10 },
+    { SCALE: 1.0, ALPHA: 0.78, ROT: 1.0, DRIFT: 1.0, PARALLAX: 18 },
+    { SCALE: 1.14, ALPHA: 1.0, ROT: 1.25, DRIFT: 1.25, PARALLAX: 28 },
+  ],
+  BREATHING: { AMPLITUDE: 0.018, ANGULAR_SPEED: 0.5 },
+  SIGNALS: {
+    /** Every Nth particle is a signal hub. */
+    NODE_STRIDE: 6,
+    /** Nearest-hub edges per hub. */
+    NEIGHBORS: 3,
+    MAX_ACTIVE: 7,
+    SPAWN_EVERY_MS: 380,
+    TRAVEL_MS_MIN: 650,
+    TRAVEL_MS_MAX: 1400,
+    DOT_RADIUS: 2.1,
+    COMET_SEGMENTS: 6,
+    SEGMENT_GAP_MS: 46,
+    FLASH_MS: 620,
+    FLASH_RADIUS: 3.4,
+    GLOW_BLUR: 9,
+  },
+} as const
+
+/**
+ * AmbientField tuning surface: sparse outlined triangles drifting across
+ * the whole page behind all content.
+ */
+export const AMBIENT_CONFIG = {
+  COUNT: 26,
+  SIZE_MIN: 42,
+  SIZE_MAX: 150,
+  ALPHA_MIN: 0.035,
+  ALPHA_MAX: 0.09,
+  /** Upward drift speed, px/s. */
+  SPEED_MIN: 4,
+  SPEED_MAX: 12,
+  SPIN_MAX: 0.05,
+  SWAY_AMP: 14,
+  PARALLAX_MAX: 22,
+  POINTER_HALF_LIFE_MS: 400,
+  DPR_CAP: 2,
+  SEED: 20260823,
+  COLORS: ['#89F336', '#C8F336', '#A8F336', '#9A9A9A'],
+  COLOR_WEIGHTS: [0.35, 0.22, 0.22, 0.21],
+} as const
