@@ -1,6 +1,4 @@
 @import 'tailwindcss';
-@import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
 
 :root { --background:#000; --foreground:#fff; --ghost:#9a9a9a; --lime:#89F336; --hover:#E7F336; --data:#C8F336; --ambient:#A8F336; }
 @theme inline { --color-background:var(--background); --color-foreground:var(--foreground); --font-sans:'Inter',sans-serif; --font-mono:'IBM Plex Mono',monospace; }
