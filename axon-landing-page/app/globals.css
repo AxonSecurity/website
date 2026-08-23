@@ -340,7 +340,9 @@ input {
   margin: 0;
 }
 
-.orbit-stack {
+/* Static capability orbit: stack by default (mobile / no-JS), positioned
+   ellipse slots on desktop. No scroll dynamics. */
+.orbit-stage {
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -398,33 +400,48 @@ input {
 }
 
 @media (min-width: 769px) {
-  .orbit-track.is-scenic {
-    height: 320vh;
+  .orbit-stage {
+    position: relative;
+    display: block;
+    height: clamp(560px, 52vw, 720px);
+    max-width: 1280px;
+    width: 100%;
+    margin: 36px auto 0;
   }
 
-  .orbit-track.is-scenic .orbit-stage {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  .orbit-track.is-scenic .orbit-nucleus {
+  .orbit-stage .orbit-nucleus {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -52%);
+    transform: translate(-50%, -50%);
     margin: 0;
-    z-index: 1;
     pointer-events: none;
   }
 
-  .orbit-track.is-scenic .orbit-card {
+  .orbit-stage .orbit-card {
     position: absolute;
-    left: 0;
-    top: 0;
-    width: min(360px, 34vw);
-    will-change: transform, opacity;
+    width: min(340px, 26vw);
+    margin: 0;
+  }
+
+  /* Frozen depth: the top slot reads slightly recessed. */
+  .orbit-card--discover {
+    left: 50%;
+    top: 4%;
+    transform: translate(-50%, -50%) scale(0.94);
+    opacity: 0.92;
+  }
+
+  .orbit-card--understand {
+    left: 87%;
+    top: 72%;
+    transform: translate(-50%, -50%);
+  }
+
+  .orbit-card--govern {
+    left: 13%;
+    top: 72%;
+    transform: translate(-50%, -50%);
   }
 }
 

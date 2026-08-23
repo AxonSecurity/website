@@ -1,9 +1,8 @@
 import Reveal from '@/components/motion/Reveal'
-import OrbitCards from '@/components/motion/OrbitCards'
+import { ArrowRight } from '@/components/icons'
 import Eyebrow from '@/components/typography/Eyebrow'
-import type { OrbitFeature } from '@/components/motion/OrbitCards'
 
-const FEATURES: OrbitFeature[] = [
+const FEATURES = [
   {
     label: 'DISCOVER',
     title: 'Every model. Every route. Every dependency.',
@@ -27,7 +26,26 @@ export default function FeatureFlow() {
       <Reveal>
         <Eyebrow>The Axon difference</Eyebrow>
       </Reveal>
-      <OrbitCards features={FEATURES} />
+      <Reveal className="orbit-stage">
+        <div className="orbit-nucleus" aria-hidden="true">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/axon-mark.png" alt="" width={120} height={108} />
+          <p className="orbit-subtitle">Security posture with a pulse.</p>
+        </div>
+        {FEATURES.map((feature) => (
+          <article
+            key={feature.label}
+            className={`orbit-card orbit-card--${feature.label.toLowerCase()}`}
+          >
+            <span className="feature-label">{feature.label}</span>
+            <h3>{feature.title}</h3>
+            <p>{feature.text}</p>
+            <a className="text-link" href="#access">
+              Explore {feature.label.toLowerCase()} <ArrowRight size={15} />
+            </a>
+          </article>
+        ))}
+      </Reveal>
     </section>
   )
 }

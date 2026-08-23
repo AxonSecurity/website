@@ -151,7 +151,7 @@ Primitives inventory:
 | Magnetic | `components/motion/Magnetic.tsx` | Cursor-attracted spring translate on CTA wrapper. Disabled for reduced-motion/coarse pointers. |
 | Marquee | `components/motion/Marquee.tsx` | Pure-CSS ticker, duplicated track, pauses on hover. Reduced-motion → static wrapped row. |
 | KineticMarker | `components/motion/KineticMarker.tsx` | Scroll-parallax ghost words, factor 0.16. Static when reduced-motion. |
-| OrbitCards | `components/motion/OrbitCards.tsx` | Scroll-pinned capability orbit: staggered entrance from a bottom cluster, exactly one clockwise revolution while fanning to 120° slots, sin(θ) depth (scale .82–1, alpha .45–1, front rim glow). Static final orbit under reduced motion; vertical stack below 769px and without JS. |
+| Static orbit | `components/sections/FeatureFlow.tsx` | Capability cards hard-positioned on a static ellipse around the brand mark + subtitle (server component, zero JS). Top slot reads slightly recessed; stacks vertically below 769px. |
 | AmbientField | `components/canvas/AmbientField.tsx` | Fixed full-page canvas behind all content; sparse outlined triangles; pointer parallax. |
 | ParticleOrb | `components/canvas/ParticleOrb.tsx` | Depth-shaded fibonacci-sphere hero orb: rim light, breathing, pointer tilt + parallax. Crop-proof by fit invariant. |
 
@@ -232,8 +232,7 @@ components/
 │   ├── CountUp.tsx             metric numerals
 │   ├── Magnetic.tsx            CTA attraction wrapper
 │   ├── Marquee.tsx             capability ticker (server-safe)
-│   ├── KineticMarker.tsx       ghost words
-│   └── OrbitCards.tsx          capability orbit (client)
+│   └── KineticMarker.tsx       ghost words
 ├── typography/
 │   ├── DisplayHeading.tsx      h1/h2 + optional word-reveal
 │   ├── Eyebrow.tsx             lime kicker
