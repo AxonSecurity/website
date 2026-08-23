@@ -76,17 +76,3 @@ export function CloseIcon({ size = 22 }: IconProps) {
     </svg>
   )
 }
-
-export function AxonMark() {
-  return (
-    <svg className="brand-mark" viewBox="0 0 62 68" aria-hidden="true">
-      <path
-        d="M8 59 31 12l23 47M18 40h26"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="8"
-        strokeLinecap="square"
-      />
-    </svg>
-  )
-}

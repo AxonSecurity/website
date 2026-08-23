@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowRight, AxonMark, CloseIcon, MenuIcon } from '@/components/icons'
+import { ArrowRight, CloseIcon, MenuIcon } from '@/components/icons'
+import Logo from '@/components/brand/Logo'
 
 const LINKS = [
   { href: '#platform', label: 'Platform' },
@@ -16,10 +17,7 @@ export default function Nav() {
   return (
     <nav className="nav" aria-label="Main navigation">
       <a href="#top">
-        <span className="brand" aria-label="Axon home">
-          <AxonMark />
-          <span>AXON</span>
-        </span>
+        <Logo />
       </a>
       <div className={`nav-links ${open ? 'nav-links-open' : ''}`}>
         {LINKS.map((link) => (
