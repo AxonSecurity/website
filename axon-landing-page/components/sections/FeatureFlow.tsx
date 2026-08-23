@@ -1,5 +1,5 @@
 import PillButton from '@/components/layout/PillButton'
-import Reveal from '@/components/Reveal'
+import Reveal from '@/components/motion/Reveal'
 import { ArrowRight } from '@/components/icons'
 import DisplayHeading from '@/components/typography/DisplayHeading'
 import Eyebrow from '@/components/typography/Eyebrow'

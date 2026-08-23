@@ -1,6 +1,6 @@
 import ParticleConstellation from '@/components/canvas/ParticleConstellation'
 import PillButton from '@/components/layout/PillButton'
-import Reveal from '@/components/Reveal'
+import Reveal from '@/components/motion/Reveal'
 import { ArrowDownRight, ArrowRight } from '@/components/icons'
 import BodyText from '@/components/typography/BodyText'
 import DisplayHeading from '@/components/typography/DisplayHeading'

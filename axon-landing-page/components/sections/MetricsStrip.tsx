@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import Reveal from '@/components/Reveal'
+import Reveal from '@/components/motion/Reveal'
 
 const METRICS: Array<[string, string]> = [
   ['AI SYSTEMS DISCOVERED', '2,481'],

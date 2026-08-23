@@ -1,4 +1,4 @@
-import Reveal from '@/components/Reveal'
+import Reveal from '@/components/motion/Reveal'
 import BodyText from '@/components/typography/BodyText'
 import DisplayHeading from '@/components/typography/DisplayHeading'
 import Eyebrow from '@/components/typography/Eyebrow'
