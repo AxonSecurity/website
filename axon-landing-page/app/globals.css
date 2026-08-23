@@ -23,6 +23,7 @@ html {
 
 body {
   margin: 0;
+  overflow-x: clip;
   background: var(--void);
   color: var(--text);
   font-family: var(--font-inter), 'Inter', sans-serif;
@@ -350,6 +351,10 @@ input {
 
 .orbit-nucleus {
   margin: 64px 0 46px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
   text-align: center;
 }
 
@@ -400,13 +405,14 @@ input {
 }
 
 @media (min-width: 769px) {
+  /* Full-bleed breakout: the orbit composes against the SCREEN, not the
+     1180px content shell, so the nucleus sits at true screen center. */
   .orbit-stage {
     position: relative;
     display: block;
-    height: clamp(560px, 52vw, 720px);
-    max-width: 1280px;
-    width: 100%;
-    margin: 36px auto 0;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    height: min(92vh, 820px);
   }
 
   .orbit-stage .orbit-nucleus {
@@ -433,13 +439,13 @@ input {
   }
 
   .orbit-card--understand {
-    left: 87%;
+    left: 85%;
     top: 72%;
     transform: translate(-50%, -50%);
   }
 
   .orbit-card--govern {
-    left: 13%;
+    left: 15%;
     top: 72%;
     transform: translate(-50%, -50%);
   }
