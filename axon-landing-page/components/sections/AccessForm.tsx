@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react'
 import PillButton from '@/components/layout/PillButton'
+import Magnetic from '@/components/motion/Magnetic'
 import Reveal from '@/components/motion/Reveal'
 import { ArrowRight } from '@/components/icons'
 import DisplayHeading from '@/components/typography/DisplayHeading'
@@ -38,9 +39,11 @@ export default function AccessForm() {
                 required
                 placeholder="you@company.com"
               />
-              <PillButton type="submit">
-                Request access <ArrowRight size={16} />
-              </PillButton>
+              <Magnetic>
+                <PillButton type="submit">
+                  Request access <ArrowRight size={16} />
+                </PillButton>
+              </Magnetic>
             </div>
           </form>
         )}

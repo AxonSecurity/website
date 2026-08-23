@@ -74,7 +74,31 @@ input {
   justify-content: space-between;
   min-height: 92px;
   padding: 0 max(32px, calc((100vw - 1180px) / 2));
-  background: var(--void);
+  background: transparent;
+  transition: transform 0.34s var(--ease-out-expo);
+}
+
+.nav-scrolled {
+  background: rgba(0, 0, 0, 0.72);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.nav-hidden {
+  transform: translateY(-100%);
+}
+
+.nav-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  transform-origin: left;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, var(--lime), var(--lime-hover));
+  box-shadow: 0 0 8px rgba(137, 243, 54, 0.55);
+  pointer-events: none;
 }
 
 .logo {
@@ -301,6 +325,26 @@ input {
   gap: 90px;
   min-height: 410px;
   padding: 110px 0;
+}
+
+.spotlight-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: var(--spot-o, 0);
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.spotlight-layer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    480px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(137, 243, 54, 0.06),
+    transparent 65%
+  );
 }
 
 .feature-row.reverse {
@@ -739,6 +783,14 @@ input {
 
   .count-done {
     text-shadow: none;
+  }
+
+  .nav {
+    transition: none;
+  }
+
+  .nav-hidden {
+    transform: none;
   }
 
   .magnetic {

@@ -1,5 +1,6 @@
 import ParticleConstellation from '@/components/canvas/ParticleConstellation'
 import PillButton from '@/components/layout/PillButton'
+import Magnetic from '@/components/motion/Magnetic'
 import Reveal from '@/components/motion/Reveal'
 import { ArrowDownRight, ArrowRight } from '@/components/icons'
 import BodyText from '@/components/typography/BodyText'
@@ -26,9 +27,11 @@ export default function Hero() {
             </BodyText>
           </Reveal>
           <Reveal delay={3}>
-            <PillButton href="#access">
-              Request early access <ArrowRight size={16} />
-            </PillButton>
+            <Magnetic>
+              <PillButton href="#access">
+                Request early access <ArrowRight size={16} />
+              </PillButton>
+            </Magnetic>
           </Reveal>
         </div>
         <div className="constellation-stage" aria-hidden="true">
