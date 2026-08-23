@@ -66,8 +66,8 @@ tile), all via `sips -z`.
 Rules:
 - Effects derive from these seven values only: opacity, box/text-shadow glow,
   stroke. No tints, no blends that create a new hue, no color-mix.
-- Glow ceilings: pill `rgba(137,243,54,.33)` · node dots `.75` · spotlight rows
-  `≤ .06` radial tint · count-up completion `.4`.
+- Glow ceilings: pill `rgba(137,243,54,.33)` · node dots `.75` · orb nucleus
+  veil `.35` · front orbit card `≤ .12` · count-up completion `.4`.
 - Selection: lime background, void text.
 
 ---
@@ -135,7 +135,7 @@ Shell: `min(1180px, calc(100% - 64px))` centered (36px gutters ≤760px).
 ## 6 · Motion Principles
 
 Durations: **150ms** (micro) · **250–400ms** (UI transitions: nav hide, pill,
-spotlight fade) · **700–850ms** (reveals, word masks) · up to **1700ms**
+card hover) · **700–850ms** (reveals, word masks) · up to **1700ms**
 count-up sweep. Easing: `cubic-bezier(0.16, 1, 0.3, 1)` (ease-out expo) for
 entrances; linear for tickers; exponential smoothing for physics lerp
 (`smoothing(halfLifeMs, dt)`).
@@ -151,7 +151,7 @@ Primitives inventory:
 | Magnetic | `components/motion/Magnetic.tsx` | Cursor-attracted spring translate on CTA wrapper. Disabled for reduced-motion/coarse pointers. |
 | Marquee | `components/motion/Marquee.tsx` | Pure-CSS ticker, duplicated track, pauses on hover. Reduced-motion → static wrapped row. |
 | KineticMarker | `components/motion/KineticMarker.tsx` | Scroll-parallax ghost words, factor 0.16. Static when reduced-motion. |
-| Spotlight | `components/motion/Spotlight.tsx` | Pointer-following lime radial on feature rows, alpha ≤ .06. Off for reduced-motion/touch. |
+| OrbitCards | `components/motion/OrbitCards.tsx` | Scroll-pinned capability orbit: staggered entrance from a bottom cluster, exactly one clockwise revolution while fanning to 120° slots, sin(θ) depth (scale .82–1, alpha .45–1, front rim glow). Static final orbit under reduced motion; vertical stack below 769px and without JS. |
 | AmbientField | `components/canvas/AmbientField.tsx` | Fixed full-page canvas behind all content; sparse outlined triangles; pointer parallax. |
 | ParticleOrb | `components/canvas/ParticleOrb.tsx` | Depth-shaded fibonacci-sphere hero orb: rim light, breathing, pointer tilt + parallax. Crop-proof by fit invariant. |
 
@@ -233,7 +233,7 @@ components/
 │   ├── Magnetic.tsx            CTA attraction wrapper
 │   ├── Marquee.tsx             capability ticker (server-safe)
 │   ├── KineticMarker.tsx       ghost words
-│   └── Spotlight.tsx           feature-row tint
+│   └── OrbitCards.tsx          capability orbit (client)
 ├── typography/
 │   ├── DisplayHeading.tsx      h1/h2 + optional word-reveal
 │   ├── Eyebrow.tsx             lime kicker
@@ -244,7 +244,7 @@ components/
 │   └── Footer.tsx
 ├── icons.tsx                   ArrowRight, ArrowDownRight, Menu, Close
 └── sections/                   Hero · MetricsStrip · FeatureFlow · Governance
-                                · Process · AccessForm · NodeVisual
+                                · Process · AccessForm
 lib/animation.ts
 lib/hooks/useReducedMotion.ts · lib/hooks/useInView.ts
 ```
