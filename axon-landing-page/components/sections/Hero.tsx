@@ -1,4 +1,4 @@
-import ParticleConstellation from '@/components/canvas/ParticleConstellation'
+import ParticleOrb from '@/components/canvas/ParticleOrb'
 import PillButton from '@/components/layout/PillButton'
 import Magnetic from '@/components/motion/Magnetic'
 import Reveal from '@/components/motion/Reveal'
@@ -34,8 +34,8 @@ export default function Hero() {
             </Magnetic>
           </Reveal>
         </div>
-        <div className="constellation-stage" aria-hidden="true">
-          <ParticleConstellation />
+        <div className="orb-stage" aria-hidden="true">
+          <ParticleOrb />
         </div>
       </div>
       <Reveal className="hero-index">

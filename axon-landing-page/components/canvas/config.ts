@@ -1,80 +1,63 @@
 /**
- * ParticleConstellation tuning surface.
- * Every physics/visual knob for the hero brain lives here.
+ * ParticleOrb tuning surface.
+ * The hero orb is a fibonacci-lattice particle sphere, orthographically
+ * projected, depth-shaded. All knobs live here.
+ *
+ * Anti-crop invariant (enforced in fit()):
+ *   radius = (min(w,h)/2 - PARALLAX_MAX - SHIMMER_AMP - 2) / (1 + BREATH_AMPLITUDE)
+ * Rotation preserves the radius, therefore no dot can ever cross the
+ * canvas edge — cropping is impossible by construction.
  */
-export const CANVAS_CONFIG = {
-  /** Total outlined triangles forming the constellation. */
-  PARTICLE_COUNT: 3200,
-  TRIANGLE_SIZE_MIN: 1.4,
-  TRIANGLE_SIZE_MAX: 3.8,
-
-  /** Ambient drift. */
-  DRIFT_AMPLITUDE: 3.4,
-  DRIFT_SPEED: 0.9,
-
-  /** Per-particle triangle spin (rad/s). */
-  SPIN_SPEED: 0.4,
-  /** Whole-constellation rotation (rad/s). */
-  CONSTELLATION_ROTATION: 0.015,
-
-  /** Cursor physics. */
-  REACTION_RADIUS: 150,
-  REACTION_PUSH: 30,
-  POINTER_HALF_LIFE_MS: 70,
-  EXCITATION_THRESHOLD: 0.3,
-
-  /** Silhouette mapping. */
-  BRAIN_SCALE: 1.58,
-
-  /** Geometry sampler inputs. */
-  FISSURE_WIDTH: 0.038,
-  FOLD_INTENSITY: 0.45,
-  CONTOUR_RATIO: 0.3,
+export const ORB_CONFIG = {
+  /** Surface dots. */
+  COUNT: 900,
   SEED: 20260823,
 
-  /** Render style. Palette order matches COLOR_WEIGHTS / BASE_ALPHA. */
-  LINE_WIDTH: 1,
-  EXCITED_LINE_WIDTH: 1.5,
+  /** Motion. */
+  AUTO_ROT_Y: 0.12,
+  BASE_TILT_X: 0.26,
+  WOBBLE_AMP: 0.05,
+  WOBBLE_SPEED: 0.35,
+  BREATH_AMPLITUDE: 0.015,
+  BREATH_SPEED: 0.4,
+  SHIMMER_AMP: 1.6,
+  SHIMMER_SPEED: 0.9,
+
+  /** Pointer response. */
+  POINTER_TILT: 0.15,
+  POINTER_HALF_LIFE_MS: 300,
+  PARALLAX_MAX: 18,
+
+  /** Dots. */
+  DOT_SIZE_MIN: 0.9,
+  DOT_SIZE_MAX: 2.2,
+  SIZE_JITTER: 0.35,
+
+  /** Depth shading. */
+  DEPTH_BANDS: 8,
+  ALPHA_BACK: 0.1,
+  ALPHA_FRONT: 0.92,
+
+  /** Soft halo pass under every dot. */
+  HALO_SIZE_MULT: 3.0,
+  HALO_ALPHA: 0.2,
+
+  /** Silhouette rim light. */
+  RIM_INNER: 0.9,
+  RIM_BOOST_ALPHA: 0.35,
+  RIM_COLOR: '#E7F336',
+
+  /** Palette order matches COLOR_WEIGHTS. */
   PALETTE: ['#89F336', '#C8F336', '#A8F336'],
-  EXCITED_COLOR: '#E7F336',
   COLOR_WEIGHTS: [0.56, 0.27, 0.17],
-  BASE_ALPHA: [0.9, 0.62, 0.4],
 
   DPR_CAP: 2,
 } as const
 
 /**
- * Constellation v2 layers: depth planes, breathing, synaptic signal pulses.
- */
-export const CONSTELLATION_V2 = {
-  /** Back-to-front depth planes. */
-  DEPTH_PLANES: [
-    { SCALE: 0.84, ALPHA: 0.55, ROT: 0.75, DRIFT: 0.65, PARALLAX: 10 },
-    { SCALE: 1.0, ALPHA: 0.85, ROT: 1.0, DRIFT: 1.0, PARALLAX: 18 },
-    { SCALE: 1.14, ALPHA: 1.0, ROT: 1.25, DRIFT: 1.25, PARALLAX: 28 },
-  ],
-  BREATHING: { AMPLITUDE: 0.018, ANGULAR_SPEED: 0.5 },
-  SIGNALS: {
-    /** Every Nth particle is a signal hub. */
-    NODE_STRIDE: 6,
-    /** Nearest-hub edges per hub. */
-    NEIGHBORS: 3,
-    MAX_ACTIVE: 9,
-    SPAWN_EVERY_MS: 300,
-    TRAVEL_MS_MIN: 700,
-    TRAVEL_MS_MAX: 1200,
-    DOT_RADIUS: 2.8,
-    COMET_SEGMENTS: 6,
-    SEGMENT_GAP_MS: 46,
-    FLASH_MS: 750,
-    FLASH_RADIUS: 4.2,
-    GLOW_BLUR: 13,
-  },
-} as const
-
-/**
- * AmbientField tuning surface: sparse outlined triangles drifting across
- * the whole page behind all content.
+ * AmbientField tuning surface (page-wide triangle field).
+ * Untouched by the orb reiteration; kept verbatim from the
+ * visibility-tuning pass.
  */
 export const AMBIENT_CONFIG = {
   COUNT: 34,

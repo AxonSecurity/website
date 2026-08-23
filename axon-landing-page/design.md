@@ -6,7 +6,7 @@ stroke) are the only allowed expression — never new hues.
 
 Sources of DNA:
 - **Dala** — void black, 113px/−0.04em/weight-400 display, weight-200 body,
-  single pill, triangular brain constellation, ambient particle field across
+  single pill, particle-sphere hero orb, ambient particle field across
   the whole page, zigzag rhythm, zero containers.
 - **Auros** — abyssal terminal instrument-panel language: oversized kinetic
   text as environmental section markers, luminous accent glow on statistics,
@@ -58,7 +58,7 @@ tile), all via `sips -z`.
 | `--void` | `#000000` | Page background. The container is the void itself. |
 | `--text` | `#ffffff` | Primary text, display headings, nav links hover. |
 | `--ghost` | `#9a9a9a` | Secondary text, labels at rest, footer. |
-| `--lime` | `#89f336` | Primary accent: eyebrows, pills, CTAs, constellation base, progress hairline. |
+| `--lime` | `#89f336` | Primary accent: eyebrows, pills, CTAs, orb base, progress hairline. |
 | `--lime-hover` | `#e7f336` | Hover state, excited particles, marquee-grade emphasis. |
 | `--lime-data` | `#c8f336` | Statistics numerals, secondary data accents. |
 | `--lime-ambient` | `#a8f336` | Ambient strokes: node visuals, drifting field. |
@@ -153,7 +153,7 @@ Primitives inventory:
 | KineticMarker | `components/motion/KineticMarker.tsx` | Scroll-parallax ghost words, factor 0.16. Static when reduced-motion. |
 | Spotlight | `components/motion/Spotlight.tsx` | Pointer-following lime radial on feature rows, alpha ≤ .06. Off for reduced-motion/touch. |
 | AmbientField | `components/canvas/AmbientField.tsx` | Fixed full-page canvas behind all content; sparse outlined triangles; pointer parallax. |
-| Constellation v2 | `components/canvas/ParticleConstellation.tsx` | Signal pulses, 3 parallax depth planes, breathing scale, luminous edge pickup. |
+| ParticleOrb | `components/canvas/ParticleOrb.tsx` | Depth-shaded fibonacci-sphere hero orb: rim light, breathing, pointer tilt + parallax. Crop-proof by fit invariant. |
 
 Hard rules:
 - **Reduced-motion contract:** every animation collapses to its static/end
@@ -168,33 +168,35 @@ Hard rules:
 
 ## 7 · Canvas Specs
 
-### Constellation (hero brain)
-3200 outlined triangles mapped onto the brain silhouette
-(`lib/brainGeometry.ts`, seed `20260823`). Tuning surface:
-`components/canvas/config.ts`.
+### Particle orb (hero)
+A fibonacci-lattice particle sphere — 900 surface dots, orthographically
+projected and depth-shaded (front bright/large, back dim/small), slow
+Y-auto-rotation with a fixed X-tilt and slow wobble. Tuning surface:
+`components/canvas/config.ts` (`ORB_CONFIG`).
 
 | Knob | Value | Meaning |
 |---|---|---|
-| `PARTICLE_COUNT` | 3200 | Total triangles |
-| `TRIANGLE_SIZE_MIN/MAX` | 1.4 / 3.8 | px radius range |
-| `DRIFT_AMPLITUDE / SPEED` | 3.4 / 0.9 | Ambient jitter |
-| `SPIN_SPEED` | 0.4 rad/s | Per-particle spin |
-| `CONSTELLATION_ROTATION` | 0.015 rad/s | Whole-form rotation |
-| `REACTION_RADIUS / PUSH` | 150 / 30 | Cursor repulsion |
-| `POINTER_HALF_LIFE_MS` | 70 | Pointer easing |
-| `EXCITATION_THRESHOLD` | 0.3 | Force → excited path |
-| `BRAIN_SCALE` | 1.58 | Silhouette fit |
-| `FISSURE_WIDTH / FOLD_INTENSITY / CONTOUR_RATIO` | 0.038 / 0.45 / 0.3 | Geometry sampler |
-| `PALETTE / WEIGHTS / BASE_ALPHA` | lime trio / [.56 .27 .17] / [.9 .62 .4] | Stroke batching |
-| `EXCITED_COLOR / LINE_WIDTHS / DPR_CAP` | #E7F336 / 1 & 1.5 / 2 | Render style |
+| `COUNT / SEED` | 900 / 20260823 | Deterministic even distribution |
+| `AUTO_ROT_Y / BASE_TILT_X / WOBBLE` | 0.12 rad/s / 0.26 rad / ±0.05 rad | Pose + drift |
+| `BREATH_AMPLITUDE / SPEED` | 0.015 / 0.4 rad/s | Whole-orb inhale (~16s) |
+| `SHIMMER_AMP / SPEED` | 1.6px / 0.9 | Per-dot tangential life |
+| `POINTER_TILT / PARALLAX_MAX / HALF_LIFE` | ±0.15 rad / 18px / 300ms | Cursor tilt + shift |
+| `DOT_SIZE_MIN/MAX, SIZE_JITTER` | 0.9–2.2px, ±35% | Dot population |
+| `DEPTH_BANDS / ALPHA_BACK/FRONT` | 8 / .10→.92 | Volumetric shading |
+| `HALO_SIZE_MULT / HALO_ALPHA` | ×3.0 / ×.20 | Soft halo under every dot |
+| `RIM_INNER / RIM_BOOST / RIM_COLOR` | 0.90R / +.35 additive / #E7F336 | Silhouette rim light |
+| `PALETTE / WEIGHTS / DPR_CAP` | lime trio / [.56 .27 .17] / 2 | Render style |
 
-**v2 layers:**
+**Anti-crop invariant (law):** the fit function sets
+`radius = (min(w,h)/2 − PARALLAX_MAX − SHIMMER_AMP − 2) / (1 + BREATH_AMPLITUDE)`.
+Rotation preserves radius, so no dot can ever cross the canvas edge.
+Cropping is impossible by construction; verified by boundary scan.
 
-| Layer | Knobs | Behavior |
-|---|---|---|
-| Depth planes ×3 | back/mid/front: scale .84/1.0/1.14 · alpha ×.55/.85/1.0 · rot ×.75/1/1.25 · drift ×.65/1/1.25 · pointer-parallax 10/18/28px | Differential rotation + pointer shift = depth without shadows |
-| Breathing | amplitude .018, angular speed .5 rad/s (~12.5s cycle) | Whole-form slow inhale/exhale |
-| Signal pulses | hub stride 6 · kNN k=3 · max 9 active · spawn ~300ms · travel 700–1200ms · dot r 2.8 · comet 6 segments @ α .7 · flash 750ms r 4.2 · glow blur 13 | Bright `#E7F336` dot fires between neighboring hub particles with fading trail; arrival flashes destination ("an axon firing"); `lighter` composite |
+**Container:** right-column square (`aspect-ratio: 1`, max 620px,
+vertically centered), mirroring the reference's 600/800 box. Behind the
+dots sits a static CSS glow veil (two radial gradients, `--lime` at
+.10/.05) breathing opacity over ~9s — the orb's body without JS cost.
+Mobile: full-bleed overlay at opacity .45 behind hero copy.
 
 ### Ambient field (full page)
 Fixed canvas, z-index 0, behind all content, `pointer-events: none`.
@@ -221,9 +223,9 @@ wrap-around. Reduced motion → one static frame.
 components/
 ├── brand/Logo.tsx              lockup <img>, width/height intrinsic
 ├── canvas/
-│   ├── ParticleConstellation.tsx   hero brain (client)
+│   ├── ParticleOrb.tsx               hero orb (client)
 │   ├── AmbientField.tsx            page-wide field (client)
-│   └── config.ts                   CANVAS_CONFIG + AMBIENT_CONFIG
+│   └── config.ts                   ORB_CONFIG + AMBIENT_CONFIG
 ├── motion/
 │   ├── SmoothScroll.tsx        mounted once in layout
 │   ├── Reveal.tsx              IO reveal wrapper
@@ -243,7 +245,7 @@ components/
 ├── icons.tsx                   ArrowRight, ArrowDownRight, Menu, Close
 └── sections/                   Hero · MetricsStrip · FeatureFlow · Governance
                                 · Process · AccessForm · NodeVisual
-lib/animation.ts · lib/brainGeometry.ts
+lib/animation.ts
 lib/hooks/useReducedMotion.ts · lib/hooks/useInView.ts
 ```
 
@@ -286,8 +288,8 @@ Governance → Process (+ACT marker) → AccessForm → Footer. Metrics keep
 - ✅ Effects derived from the 7 locked tokens. ❌ New hues, gradients between
   colors, opacity stacks that read as a new color.
 - ✅ Motion as physics (lerp, spring, drift). ❌ Bounce/elastic easings,
-  spin-in entrances, attention-seeking loops outside the constellation.
-- ✅ Sparse canvases (34 field triangles, ≤9 signals). ❌ Noise density that
+  spin-in entrances, attention-seeking loops outside the orb.
+- ✅ Sparse canvases (34 field triangles, 900-dot orb). ❌ Noise density that
   competes with copy.
 - ✅ Reduced-motion parity for every effect. ❌ Animations that only have an
   animated state.
