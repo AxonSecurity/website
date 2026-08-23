@@ -84,7 +84,7 @@ Next. Body weight **200**, display weight **400**, UI labels weight **600**.
 | Feature H3 | `clamp(30px, 4vw, 56px)` | 400 | −0.04em | 1.0 | Zigzag rows. |
 | Step H3 | 34px → 28px @≤760 | 400 | −0.04em | default | Process list. |
 | Metric numeral | `clamp(30px, 4vw, 54px)` | 400 | −0.04em | default | `tabular-nums`, `--lime-data`, CountUp-driven. |
-| Kinetic marker | `clamp(150px, 21vw, 230px)` | 700 | −0.02em | 1.0 | Outline ghost words behind sections. Stroke-only. |
+| Kinetic marker | `clamp(150px, 21vw, 230px)` | 700 | −0.02em | 1.0 | Outline ghost words behind sections. Stroke-only, α .12. |
 | Body | 18px | 200 | normal | 1.55–1.6 | Max-width 500px, `--ghost`. |
 | Nav link | 14px | 600 | 0.03em | — | Uppercase, `--ghost` → white on hover. |
 | Eyebrow / label | 12px | 600 | 0.14em | — | Uppercase, `--lime`. |
@@ -192,19 +192,19 @@ Hard rules:
 
 | Layer | Knobs | Behavior |
 |---|---|---|
-| Depth planes ×3 | back/mid/front: scale .84/1.0/1.14 · alpha ×.5/.78/1.0 · rot ×.75/1/1.25 · drift ×.65/1/1.25 · pointer-parallax 10/18/28px | Differential rotation + pointer shift = depth without shadows |
+| Depth planes ×3 | back/mid/front: scale .84/1.0/1.14 · alpha ×.55/.85/1.0 · rot ×.75/1/1.25 · drift ×.65/1/1.25 · pointer-parallax 10/18/28px | Differential rotation + pointer shift = depth without shadows |
 | Breathing | amplitude .018, angular speed .5 rad/s (~12.5s cycle) | Whole-form slow inhale/exhale |
-| Signal pulses | hub stride 6 · kNN k=3 · max 7 active · spawn ~380ms · travel 650–1400ms · dot r 2.1 · comet 6 segments · flash 620ms | Bright `#E7F336` dot fires between neighboring hub particles with fading trail; arrival flashes destination ("an axon firing"); `lighter` composite |
+| Signal pulses | hub stride 6 · kNN k=3 · max 9 active · spawn ~300ms · travel 700–1200ms · dot r 2.8 · comet 6 segments @ α .7 · flash 750ms r 4.2 · glow blur 13 | Bright `#E7F336` dot fires between neighboring hub particles with fading trail; arrival flashes destination ("an axon firing"); `lighter` composite |
 
 ### Ambient field (full page)
 Fixed canvas, z-index 0, behind all content, `pointer-events: none`.
 
 | Knob | Value | Meaning |
 |---|---|---|
-| `COUNT` | 26 | Sparse outlined triangles |
-| `SIZE_MIN/MAX` | 42 / 150px | Depth mix |
-| `ALPHA_MIN/MAX` | .035 / .09 | Whisper-level presence |
-| `SPEED_MIN/MAX` | 4 / 12 px/s | Upward-left drift |
+| `COUNT` | 34 | Sparse outlined triangles |
+| `SIZE_MIN/MAX` | 42 / 190px | Depth mix |
+| `ALPHA_MIN/MAX` | .06 / .14 | Whisper-level presence |
+| `SPEED_MIN/MAX` | 5 / 14 px/s | Upward-left drift |
 | `SPIN_MAX` | .05 rad/s | Slow tumble |
 | `SWAY_AMP` | 14px | Sine sway |
 | `PARALLAX_MAX` | 22px | Pointer shift (bigger = closer) |
@@ -287,7 +287,7 @@ Governance → Process (+ACT marker) → AccessForm → Footer. Metrics keep
   colors, opacity stacks that read as a new color.
 - ✅ Motion as physics (lerp, spring, drift). ❌ Bounce/elastic easings,
   spin-in entrances, attention-seeking loops outside the constellation.
-- ✅ Sparse canvases (26 field triangles, ≤7 signals). ❌ Noise density that
+- ✅ Sparse canvases (34 field triangles, ≤9 signals). ❌ Noise density that
   competes with copy.
 - ✅ Reduced-motion parity for every effect. ❌ Animations that only have an
   animated state.

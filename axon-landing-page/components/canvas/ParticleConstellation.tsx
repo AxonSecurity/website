@@ -264,7 +264,7 @@ function ParticleConstellation() {
             const ts = Math.max(0, t01 - (s * SIG.SEGMENT_GAP_MS) / pulse.travel)
             const tts = ts * ts * (3 - 2 * ts)
             const k = 1 - s / SIG.COMET_SEGMENTS
-            ctx.globalAlpha = k * 0.55
+            ctx.globalAlpha = k * 0.7
             ctx.beginPath()
             ctx.arc(
               lerp(a.x, b.x, tts),

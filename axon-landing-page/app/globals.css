@@ -286,7 +286,7 @@ input {
   line-height: 1;
   text-align: center;
   white-space: nowrap;
-  -webkit-text-stroke: 1px rgba(137, 243, 54, 0.07);
+  -webkit-text-stroke: 1px rgba(137, 243, 54, 0.12);
   pointer-events: none;
   user-select: none;
 }
