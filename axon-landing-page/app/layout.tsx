@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import { Inter } from 'next/font/google'
 import type { Metadata, Viewport } from 'next'
+import SmoothScroll from '@/components/motion/SmoothScroll'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -31,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} bg-background`}>
       <body className="antialiased">
+        <SmoothScroll />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
