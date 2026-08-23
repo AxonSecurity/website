@@ -15,7 +15,7 @@ export default function Hero() {
             <Eyebrow>AI security posture management</Eyebrow>
           </Reveal>
           <Reveal delay={1}>
-            <DisplayHeading as="h1">
+            <DisplayHeading as="h1" wordReveal>
               Know every model your company runs.
             </DisplayHeading>
           </Reveal>

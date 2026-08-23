@@ -1,5 +1,6 @@
 import PillButton from '@/components/layout/PillButton'
 import Reveal from '@/components/motion/Reveal'
+import KineticMarker from '@/components/motion/KineticMarker'
 import { ArrowRight } from '@/components/icons'
 import DisplayHeading from '@/components/typography/DisplayHeading'
 import Eyebrow from '@/components/typography/Eyebrow'
@@ -39,6 +40,7 @@ export default function FeatureFlow() {
           key={label}
           className={`feature-row ${index % 2 ? 'reverse' : ''}`}
         >
+          <KineticMarker word={label} />
           <div className="feature-copy">
             <span className="feature-label">{label}</span>
             <h3>{title}</h3>

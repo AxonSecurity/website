@@ -1,4 +1,5 @@
 import Reveal from '@/components/motion/Reveal'
+import KineticMarker from '@/components/motion/KineticMarker'
 import DisplayHeading from '@/components/typography/DisplayHeading'
 import Eyebrow from '@/components/typography/Eyebrow'
 import { ArrowRight } from '@/components/icons'
@@ -12,6 +13,7 @@ const STEPS: Array<[string, string, string]> = [
 export default function Process() {
   return (
     <section className="process section-shell" id="discovery">
+      <KineticMarker word="ACT" />
       <Reveal>
         <Eyebrow>From signal to action</Eyebrow>
         <DisplayHeading secondary>
