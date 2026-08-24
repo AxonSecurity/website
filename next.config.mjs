@@ -29,6 +29,11 @@ const securityHeaders = [
 ]
 
 const nextConfig = {
+  // Ensure runtime fs reads (OG/Twitter image fonts + brand marks) survive
+  // Vercel's serverless bundle tracing.
+  outputFileTracingIncludes: {
+    '/': ['./lib/fonts/**', './public/brand/**'],
+  },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }]
   },
