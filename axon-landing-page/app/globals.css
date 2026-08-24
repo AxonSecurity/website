@@ -1100,7 +1100,7 @@ canvas {
 
   .loop-mobile-rail {
     position: sticky;
-    top: 88px;
+    top: 72px;
     z-index: 2;
     display: flex;
     align-items: center;
@@ -1194,6 +1194,11 @@ canvas {
     font-size: clamp(38px, 10.5vw, 54px);
   }
 
+  .tide-actions {
+    flex-direction: column;
+    gap: 18px;
+  }
+
   .telemetry {
     flex-direction: column;
     gap: 40px;
@@ -1202,8 +1207,10 @@ canvas {
 
   .metric {
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
+    row-gap: 12px;
     gap: 20px;
   }
 
@@ -1258,6 +1265,18 @@ canvas {
 
   .footer span {
     order: 3;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero-badge {
+    padding: 8px 14px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+
+  .tide-accent {
+    font-size: 19px;
   }
 }
 
