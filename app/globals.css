@@ -1131,11 +1131,6 @@ canvas {
     min-height: 100svh;
   }
 
-  .tide-heading {
-    max-width: 13ch;
-    font-size: clamp(38px, 10.5vw, 54px);
-  }
-
   .tide-actions {
     flex-direction: column;
     gap: 18px;
