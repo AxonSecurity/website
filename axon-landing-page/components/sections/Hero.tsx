@@ -19,12 +19,6 @@ export default function Hero() {
         <Reveal className="tide-mark-stage">
           <DrawnMark />
         </Reveal>
-        <Reveal delay={1}>
-          <p className="hero-badge">
-            <span className="hero-badge-dot" aria-hidden="true" />
-            AI security posture management
-          </p>
-        </Reveal>
         <Reveal delay={2}>
           <DisplayHeading level={1} wordReveal>
             Know every model you run.

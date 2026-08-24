@@ -20,10 +20,6 @@ export default function Footer() {
           </a>
         ))}
       </nav>
-      <span className="footer-status">
-        <span className="status-dot" aria-hidden="true" />
-        ALL SYSTEMS NOMINAL
-      </span>
       <span>© 2026 Axon Security, Inc.</span>
     </footer>
   )
