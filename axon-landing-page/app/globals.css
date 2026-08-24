@@ -77,15 +77,6 @@ canvas {
   }
 }
 
-.label-mono {
-  font-family: var(--font-mono), 'JetBrains Mono', monospace;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  line-height: 1.4;
-}
-
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -352,11 +343,6 @@ canvas {
 .tide-mark-stage {
   color: var(--lime);
   margin-bottom: 40px;
-}
-
-.tide-heading {
-  max-width: 15ch;
-  margin-bottom: 22px;
 }
 
 .tide-accent {
@@ -988,6 +974,14 @@ canvas {
 
 .delay-3 {
   transition-delay: 0.32s;
+}
+
+.delay-4 {
+  transition-delay: 0.42s;
+}
+
+.delay-5 {
+  transition-delay: 0.52s;
 }
 
 .magnetic {

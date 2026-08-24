@@ -14,27 +14,6 @@ export const FIELD_CONFIG = {
   DPR_CAP: 2,
 } as const
 
-export const ORB_CONFIG = {
-  COUNT: 380,
-  SEED: 95255,
-  RADIUS_MARGIN: 8,
-  RADIAL_SPEED_MIN: 12,
-  RADIAL_SPEED_MAX: 26,
-  ANGULAR_SPEED_MAX: 0.22,
-  DOT_SIZE_MIN: 0.8,
-  DOT_SIZE_MAX: 2.0,
-  ALPHA_EDGE: 0.07,
-  ALPHA_CORE: 0.85,
-  CORE_RATIO: 0.16,
-  PAPER_RATIO: 0.28,
-  BREATH_AMP: 0.015,
-  BREATH_SPEED: 0.42,
-  POINTER_TILT_MAX: 10,
-  POINTER_HALF_LIFE_MS: 300,
-  RESPAWN_BAND: 0.16,
-  DPR_CAP: 2,
-} as const
-
 export const LOOP_STAGES = [
   {
     id: 'discover',

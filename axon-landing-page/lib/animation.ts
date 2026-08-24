@@ -1,4 +1,4 @@
-export type Prng = () => number
+type Prng = () => number
 
 export function mulberry32(seed: number): Prng {
   let a = seed >>> 0

@@ -8,7 +8,7 @@ interface MarkProps {
   className?: string
 }
 
-export function Mark({ size = 28, className = '' }: MarkProps) {
+function Mark({ size = 28, className = '' }: MarkProps) {
   return (
     <svg
       viewBox="0 0 100 100"
