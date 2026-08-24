@@ -393,7 +393,8 @@ canvas {
   font-weight: 500;
   font-size: clamp(20px, 2.4vw, 28px);
   line-height: 1.4;
-  color: var(--ghost);
+  color: color-mix(in oklab, var(--lime) 52%, var(--ghost));
+  text-shadow: 0 0 26px rgba(149, 255, 42, 0.14);
 }
 
 .tide-sub {
