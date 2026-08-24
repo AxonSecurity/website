@@ -6,7 +6,7 @@ import Logo from '@/components/brand/Logo'
 
 const LINKS = [
   { href: '#platform', label: 'Platform' },
-  { href: '#discovery', label: 'Discovery' },
+  { href: '#loop', label: 'Protocol' },
   { href: '#governance', label: 'Governance' },
 ]
 
@@ -15,9 +15,25 @@ export default function Nav() {
   const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const progressRef = useRef<HTMLDivElement | null>(null)
+  const menuButtonRef = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!open) return
+    const controller = new AbortController()
+    window.addEventListener(
+      'keydown',
+      (event) => {
+        if (event.key === 'Escape') {
+          setOpen(false)
+          menuButtonRef.current?.focus()
+        }
+      },
+      { signal: controller.signal },
+    )
+    return () => controller.abort()
+  }, [open])
+
+  useEffect(() => {
     let lastY = window.scrollY
     let raf = 0
 
@@ -29,7 +45,7 @@ export default function Nav() {
         progressRef.current.style.transform = `scaleX(${max > 0 ? (y / max).toFixed(4) : 0})`
       }
       setScrolled(y > 8)
-      if (!reducedMotion && !open) {
+      if (!open) {
         if (y > lastY + 4 && y > 140) setHidden(true)
         else if (y < lastY - 4 || y <= 140) setHidden(false)
       }
@@ -64,10 +80,10 @@ export default function Nav() {
 
   return (
     <nav className={classes} aria-label="Main navigation">
-      <a href="#top">
+      <a href="#top" aria-label="Axon home">
         <Logo />
       </a>
-      <div className={`nav-links ${open ? 'nav-links-open' : ''}`}>
+      <div id="nav-links" className={`nav-links ${open ? 'nav-links-open' : ''}`}>
         {LINKS.map((link) => (
           <a key={link.href} href={link.href} onClick={close}>
             {link.label}
@@ -78,9 +94,11 @@ export default function Nav() {
         </a>
       </div>
       <button
+        ref={menuButtonRef}
         className="menu-button"
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
+        aria-controls="nav-links"
         onClick={() => setOpen((value) => !value)}
       >
         {open ? <CloseIcon /> : <MenuIcon />}

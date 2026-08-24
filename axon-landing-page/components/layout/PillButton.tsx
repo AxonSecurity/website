@@ -10,6 +10,7 @@ type PillLinkProps = {
 type PillSubmitProps = {
   href?: undefined
   type?: 'submit' | 'button'
+  disabled?: boolean
   children: ReactNode
   className?: string
 }
@@ -25,7 +26,11 @@ export default function PillButton(props: PillLinkProps | PillSubmitProps) {
     )
   }
   return (
-    <button type={props.type ?? 'button'} className={classes}>
+    <button
+      type={props.type ?? 'button'}
+      className={classes}
+      disabled={props.disabled}
+    >
       {children}
     </button>
   )

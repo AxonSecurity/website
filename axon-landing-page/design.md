@@ -1,53 +1,41 @@
-# AXON Design System — Contract
+# AXON Design System — v2 "SIGNAL" Contract
 
-Single source of truth for the landing page. Every component and animation must
-derive from this document. The palette is **locked**: effects (opacity, glow,
+Single source of truth for the landing page. Every component and animation
+derives from this document. The palette is **locked**: effects (opacity, glow,
 stroke) are the only allowed expression — never new hues.
 
 Sources of DNA:
-- **Dala** — void black, 113px/−0.04em/weight-400 display, weight-200 body,
-  single pill, particle-sphere hero orb, ambient particle field across
-  the whole page, zigzag rhythm, zero containers.
-- **Auros** — abyssal terminal instrument-panel language: oversized kinetic
-  text as environmental section markers, luminous accent glow on statistics,
-  morphing button, particle-sphere depth, depth-without-shadows.
-- **Sentra.io** — enterprise proof structure only (problem → platform →
-  proof → CTA). Treatment inspiration; never structural additions.
+- **The axon itself** — the nerve fiber that carries a signal. One idea owns
+  the page: signals in → clarity out. Particles converge into the mark; the
+  protocol section walks DISCOVER → UNDERSTAND → GOVERN → ACT.
+- **Brand file (`AXON Logo lime.html`)** — canonical mark path, exact palette,
+  Syne / JetBrains Mono / Lora type stack.
+- **v1 lessons** — reduced-motion parity, rAF hygiene, AbortController
+  teardown, pill-only affordances, depth-without-shadows all carried forward.
+  Absolute-positioned content blocks are banned (they caused the orbit-card
+  overflow).
 
 ---
 
 ## 1 · Brand Assets
 
-Self-hosted under `public/brand/`. Generated from root-directory originals
-(drop zone, untracked) via `sips` — zero new dependencies, CSP untouched.
+Single vector source of truth: the mark path
+`M14 80 L50 20 L86 80 M31 58 H43 M57 58 H69`, viewBox `0 0 100 100`,
+stroke-width `11/100`, `stroke-linecap="square"`.
 
-| Asset | File | Content | Usage |
-|---|---|---|---|
-| Lockup | `public/brand/axon-lockup.png` | Lime compass-needle A + white AXON wordmark | Nav, Footer |
-| Mark | `public/brand/axon-mark.png` | Lime compass-needle A alone | Fallbacks, future surfaces |
-| Tile | `public/brand/axon-tile.png` | Lime square tile with black A | Favicons, avatars, social |
+| Surface | Implementation |
+|---|---|
+| In-page logo & hero | Inline SVG (`components/brand/Logo.tsx`, Hero `DrawnMark`) — `currentColor`, infinitely crisp |
+| Favicons / tiles / OG embed | Rasterized from the same path by `scripts/generate-brand.mjs` via `rsvg-convert`. Outputs: `icon-{dark,light}-32x32.png`, `apple-icon.png` (180), `brand/axon-tile.png` (512 lime tile + ink A), `brand/axon-tile-inverse.png`, `brand/axon-mark-lime.png` |
 
-### Usage rules
-- The mark is a sharp compass needle "A". Never redraw, skew, outline, or
-  re-space it. Never substitute the hand-drawn SVG.
-- The lockup is always used whole. Never set "AXON" in a system font next to
-  the mark.
-- Tiles are square crops only. Never round their corners — the sharp square
-  against the void is the brand gesture.
+Regenerate after any brand change: `node scripts/generate-brand.mjs`.
 
-### Clearspace & minimums
-- Clearspace around any asset = **50% of the mark's height**, on all sides.
-- Minimum sizes: lockup height ≥ 20px · standalone mark ≥ 16px · tile ≥ 24px.
-- On void (`#000000`) backgrounds use the standard assets as-is; assets are
-  keyed for pure-black compositing.
-
-### Do / Don't
-- ✅ Lime-on-black, generous clearspace, exact crops.
-- ❌ Drop shadows on brand assets, rotation, recoloring, gradients, stretching.
-
-Favicon pipeline: `axon-tile.png` → `icon-dark-32x32.png` (lime tile),
-`icon-light-32x32.png` (black tile / lime A), `apple-icon.png` (180px lime
-tile), all via `sips -z`.
+Usage rules:
+- Never redraw, skew, outline, or re-space the mark. Never substitute fonts
+  for the wordmark glyph shapes — wordmark is live text in Syne 700,
+  letter-spacing `.06em`.
+- Mark color derives from context (`currentColor`): lime on ink, ink on lime.
+- Tiles are square, corners never rounded.
 
 ---
 
@@ -55,206 +43,199 @@ tile), all via `sips -z`.
 
 | Token | Value | Role |
 |---|---|---|
-| `--void` | `#000000` | Page background. The container is the void itself. |
-| `--text` | `#ffffff` | Primary text, display headings, nav links hover. |
-| `--ghost` | `#9a9a9a` | Secondary text, labels at rest, footer. |
-| `--lime` | `#89f336` | Primary accent: eyebrows, pills, CTAs, orb base, progress hairline. |
-| `--lime-hover` | `#e7f336` | Hover state, excited particles, marquee-grade emphasis. |
-| `--lime-data` | `#c8f336` | Statistics numerals, secondary data accents. |
-| `--lime-ambient` | `#a8f336` | Ambient strokes: node visuals, drifting field. |
+| `--ink` | `#0b0c0a` | Page background (from brand file) |
+| `--paper` | `#f3f2f2` | Primary text (from brand file) |
+| `--lime` | `#95ff2a` | Primary accent: eyebrow, pills, CTAs, orb particles, progress, ring |
+| `--lime-hover` | `#b7ff6b` | Hover fill, ticker emphasis |
+| `--ghost` | `rgba(243,242,242,.58)` | Secondary text (opacity-derived) |
+| `--faint` | `rgba(243,242,242,.34)` | Tertiary text, diagram strokes |
+| `--hairline` | `rgba(243,242,242,.10)` | Separators, base ring |
 
 Rules:
-- Effects derive from these seven values only: opacity, box/text-shadow glow,
-  stroke. No tints, no blends that create a new hue, no color-mix.
-- Glow ceilings: pill `rgba(137,243,54,.33)` · node dots `.75` · orb nucleus
-  veil `.35` · front orbit card `≤ .12` · count-up completion `.4`.
-- Selection: lime background, void text.
+- Derived colors come from opacity of paper/lime only. No tints, no new hues.
+- Glow ceilings: pill `rgba(149,255,42,.33)` · ring/needle drop-shadow `.45–.5`
+  · count-up completion `.4` · drawn-mark `.28`.
+- Selection: lime background, ink text. Focus-visible: 2px lime outline.
 
 ---
 
 ## 3 · Typography
 
-Engine: Inter via `next/font/google`, variable `--font-inter`, self-hosted by
-Next. Body weight **200**, display weight **400**, UI labels weight **600**.
+All self-hosted by `next/font/google`: **Syne 700** display
+(`--font-syne`), **JetBrains Mono 400/600** operational labels
+(`--font-mono`), **Lora 400/500 (+italic)** body (`--font-lora`).
 
-| Style | Size | Weight | Tracking | Leading | Notes |
-|---|---|---|---|---|---|
-| Display H1 | `clamp(62px, 8.4vw, 113px)` | 400 | −0.04em | 0.92 | Hero only. Word-reveal masked. |
-| Display H2 | `clamp(56px, 7vw, 94px)` | 400 | −0.04em | 0.92 | Section statements. |
-| Feature H3 | `clamp(30px, 4vw, 56px)` | 400 | −0.04em | 1.0 | Zigzag rows. |
-| Step H3 | 34px → 28px @≤760 | 400 | −0.04em | default | Process list. |
-| Metric numeral | `clamp(30px, 4vw, 54px)` | 400 | −0.04em | default | `tabular-nums`, `--lime-data`, CountUp-driven. |
-| Kinetic marker | `clamp(150px, 21vw, 230px)` | 700 | −0.02em | 1.0 | Outline ghost words behind sections. Stroke-only, α .12. |
-| Body | 18px | 200 | normal | 1.55–1.6 | Max-width 500px, `--ghost`. |
-| Nav link | 14px | 600 | 0.03em | — | Uppercase, `--ghost` → white on hover. |
-| Eyebrow / label | 12px | 600 | 0.14em | — | Uppercase, `--lime`. |
-| Small label | 11px | 600 | 0.08–0.12em | — | Uppercase, `--ghost`. |
+| Style | Size | Font | Tracking | Notes |
+|---|---|---|---|---|
+| Display H1 | `clamp(52px, 8vw, 118px)` lh .98 | Syne 700 | −0.02em | Hero only, word-reveal masked |
+| Display H2 | `clamp(38px, 5.6vw, 78px)` lh 1.02 | Syne 700 | −0.02em | Section statements |
+| Display H3 | `clamp(26px, 3.2vw, 42px)` lh 1.08 | Syne 700 | −0.01em | Capability titles, step titles |
+| Cap numeral | `clamp(72px, 9vw, 128px)` | Syne 700 | — | Stroke-only lime α .5, fills on hover |
+| Kinetic word | `clamp(120px, 22vw, 300px)` | Syne 700 | .02em | Ghost stroke α .09, aria-hidden |
+| Body | 18px lh 1.68 | Lora 400 | normal | Max-width 520px, `--ghost`; `<strong>` paper/500 |
+| Eyebrow | 12px 600 | JetBrains Mono | .14em | Uppercase lime, hairline dash prefix |
+| Label mono | 11–12px 600 | JetBrains Mono | .12–.16em | Uppercase, operational only |
+| Metric numeral | `clamp(30px, 3.6vw, 48px)` | JetBrains Mono 600 | tabular | Lime, CountUp-driven |
+| Nav link | 12px 600 | JetBrains Mono | .1em | Uppercase ghost → paper on hover |
+| Pill label | 13px 600 | JetBrains Mono | .06em | Uppercase ink-on-lime |
 
-Rules:
-- Display type is environmental — oversized words are architecture, not just
-  content (Auros). Never shrink display headings to fit; let them crop.
-- Uppercase + wide tracking is reserved for 11–14px operational labels.
-  Display stays sentence case.
-- Numerals in statistics are always tabular to prevent layout shift during
-  count-up.
+Rules: display type is architecture — never shrink to fit, let it crop.
+Uppercase reserved for mono labels ≤14px. Numerals always tabular.
 
 ---
 
 ## 4 · Spacing & Rhythm
 
-Shell: `min(1180px, calc(100% - 64px))` centered (36px gutters ≤760px).
+Shell: `min(1200px, calc(100% - 48px))` (40px gutters ≤760px).
 
 | Zone | Rhythm |
 |---|---|
-| Hero | 96px top / 110px bottom (72/84 mobile) |
-| Metrics strip | 68px top / 80px bottom |
-| Feature flow / Process sections | 170px vertical |
-| Feature rows | 110px padding, min-height 410px, 90px copy↔visual gap |
-| Governance band | 140px vertical, min-height 720px |
-| Access section | 170px top / 190px bottom |
-| Footer | 34px top / 50px bottom |
+| Nav | sticky, min-height 88 (72 mobile), hide-on-scroll past 140px |
+| Hero | 72/96 padding, grid min-height `min(78vh, 720px)` |
+| Loop | 150 top padding; steps at `92vh` each (72vh ≤900px) |
+| Telemetry | 46px vertical, hairline top+bottom |
+| Capabilities | 150 top; rows 74px vertical, hairlines between |
+| Governance | 190/170, kinetic word behind |
+| Access | 170/190, two-column grid |
+| Footer | 38/54, hairline top |
 
-- Cinematic gaps live in the **68–170px** band. Nothing touches the viewport
-  edges except full-bleed canvases.
-- Zigzag rhythm: feature rows alternate direction (`row-reverse`) — Dala DNA,
-  never converted to card grids.
+Cinematic gaps live in the 46–190px band. Zigzag rhythm: even capability rows
+mirror column order (grid `order` swap — no absolute positioning).
 
 ---
 
 ## 5 · Shape
 
-- **Pill-only rule.** Every interactive affordance is a pill
-  (`border-radius: 9999px`, padding 16px×23px, 14px/600). One pill style:
-  lime fill, void text, hover lifts −3px ×1.025 with `.33` glow and
-  `--lime-hover` fill.
-- No cards, no borders-as-containers, no rounded rectangles anywhere else.
-- Visual motifs are triangles (particles, ambient field, marquee separators).
+- **Pill-only rule.** Every interactive affordance is a pill (radius 9999px,
+  17×26px padding, mono 13px/600 uppercase). Hover: −3px lift ×1.02,
+  `.33` glow, `--lime-hover`.
+- No cards, no bordered boxes. Hairlines separate; they never enclose.
+- Triangle motifs: ticker separators and access-point markers use the
+  clip-path triangle; the field drifts with dash-motes.
 
 ---
 
 ## 6 · Motion Principles
 
-Durations: **150ms** (micro) · **250–400ms** (UI transitions: nav hide, pill,
-card hover) · **700–850ms** (reveals, word masks) · up to **1700ms**
-count-up sweep. Easing: `cubic-bezier(0.16, 1, 0.3, 1)` (ease-out expo) for
-entrances; linear for tickers; exponential smoothing for physics lerp
-(`smoothing(halfLifeMs, dt)`).
+Durations: 150ms micro · 250–400ms UI · 700–850ms reveals/draw-ins · up to
+1700ms count-ups/sparklines · 36s linear ticker. Easing:
+`cubic-bezier(0.16,1,0.3,1)` entrances; linear tickers; exponential
+smoothing `smoothing(halfLifeMs, dt)` for physics.
 
 Primitives inventory:
 
 | Primitive | File | Contract |
 |---|---|---|
-| SmoothScroll | `components/motion/SmoothScroll.tsx` | rAF-lerp wheel scrolling (~40 lines). Bypassed entirely for reduced-motion and coarse pointers. Native anchors/keyboard untouched via resync. |
-| Reveal | `components/motion/Reveal.tsx` | IO threshold 0.14, translateY 28px→0, 850ms, delays .12/.22/.32s. |
-| WordReveal (CSS) | `components/typography/DisplayHeading.tsx` | Per-word clip-mask stagger, 80ms/word, SSR-safe: words exist in HTML. |
-| CountUp | `components/motion/CountUp.tsx` | IO-triggered ease-out-expo sweep, tabular-nums, lime glow on completion. Reduced-motion renders final value instantly. |
-| Magnetic | `components/motion/Magnetic.tsx` | Cursor-attracted spring translate on CTA wrapper. Disabled for reduced-motion/coarse pointers. |
-| Marquee | `components/motion/Marquee.tsx` | Pure-CSS ticker, duplicated track, pauses on hover. Reduced-motion → static wrapped row. |
-| KineticMarker | `components/motion/KineticMarker.tsx` | Scroll-parallax ghost words, factor 0.16. Static when reduced-motion. |
-| Static orbit | `components/sections/FeatureFlow.tsx` | Capability cards hard-positioned on a static ellipse around the brand mark + subtitle (server component, zero JS). Top slot reads slightly recessed; stacks vertically below 769px. |
-| AmbientField | `components/canvas/AmbientField.tsx` | Fixed full-page canvas behind all content; sparse outlined triangles; pointer parallax. |
-| ParticleOrb | `components/canvas/ParticleOrb.tsx` | Depth-shaded fibonacci-sphere hero orb: rim light, breathing, pointer tilt + parallax. Crop-proof by fit invariant. |
+| SmoothScroll | `motion/SmoothScroll.tsx` | rAF-lerp wheel (~110 half-life). Off for reduced-motion/coarse pointers; native anchors resync |
+| Reveal | `motion/Reveal.tsx` | IO 0.14, translateY 30→0, 850ms, delays .12/.22/.32 |
+| Word reveal | `typography/DisplayHeading.tsx` + CSS | Per-word clip-mask stagger 85ms; SSR-safe words in HTML |
+| CountUp | `motion/CountUp.tsx` | IO-triggered ease-out-expo sweep; instant final value when reduced |
+| Magnetic | `motion/Magnetic.tsx` | Cursor spring on CTA wrapper; off reduced/touch |
+| Marquee/Ticker | `motion/Marquee.tsx` | Pure-CSS duplicated track, pause on hover; reduced → static wrapped row |
+| DrawnMark | `sections/Hero.tsx` | Two paths `pathLength=1`, dash draw-in on Reveal; crossbars delayed 550ms |
+| Sparkline | `canvas/Sparkline.tsx` | Deterministic seeded polyline, draws once in view; static frame when reduced |
+| usePinnedScene | `hooks/usePinnedScene.ts` | Scroll→progress var `--loop-progress` + active index; rAF throttled; reduced → final state |
 
 Hard rules:
-- **Reduced-motion contract:** every animation collapses to its static/end
-  state via `prefers-reduced-motion` (CSS) or `useReducedMotion()` (JS).
-  SmoothScroll and Magnetic disable completely.
-- **rAF hygiene:** delta-time clamped (≤34ms), loop stops on
-  `visibilitychange`, single `requestAnimationFrame` chain per canvas.
-- **Teardown:** every listener registered through an `AbortController`
-  `signal`; observers disconnected; no leaks on unmount.
+- **Reduced-motion parity:** every animation collapses to its end state via
+  CSS media block or JS `matchMedia`. SmoothScroll/Magnetic disable fully.
+- **rAF hygiene:** dt clamped ≤34ms; loops stop on `visibilitychange`;
+  one chain per canvas.
+- **Teardown:** every listener via AbortController signal; observers
+  disconnected.
 
 ---
 
 ## 7 · Canvas Specs
 
-### Particle orb (hero)
-A fibonacci-lattice particle sphere — 900 surface dots, orthographically
-projected and depth-shaded (front bright/large, back dim/small), slow
-Y-auto-rotation with a fixed X-tilt and slow wobble. Tuning surface:
-`components/canvas/config.ts` (`ORB_CONFIG`).
+### SignalOrb (hero)
+380 particles spiral inward along curved paths toward the mark, respawn at
+the rim. Depth = radius ratio drives alpha (.07 edge → .85 core) and size;
+core 16% boosted ×1.6 alpha. 72% lime / 28% paper dots. Breathing ±1.5% over
+~15s. Pointer tilt ±10px, 300ms half-life.
 
-| Knob | Value | Meaning |
-|---|---|---|
-| `COUNT / SEED` | 900 / 20260823 | Deterministic even distribution |
-| `AUTO_ROT_Y / BASE_TILT_X / WOBBLE` | 0.12 rad/s / 0.26 rad / ±0.05 rad | Pose + drift |
-| `BREATH_AMPLITUDE / SPEED` | 0.015 / 0.4 rad/s | Whole-orb inhale (~16s) |
-| `SHIMMER_AMP / SPEED` | 1.6px / 0.9 | Per-dot tangential life |
-| `POINTER_TILT / PARALLAX_MAX / HALF_LIFE` | ±0.15 rad / 18px / 300ms | Cursor tilt + shift |
-| `DOT_SIZE_MIN/MAX, SIZE_JITTER` | 0.9–2.2px, ±35% | Dot population |
-| `DEPTH_BANDS / ALPHA_BACK/FRONT` | 8 / .10→.92 | Volumetric shading |
-| `HALO_SIZE_MULT / HALO_ALPHA` | ×3.0 / ×.20 | Soft halo under every dot |
-| `RIM_INNER / RIM_BOOST / RIM_COLOR` | 0.90R / +.35 additive / #E7F336 | Silhouette rim light |
-| `PALETTE / WEIGHTS / DPR_CAP` | lime trio / [.56 .27 .17] / 2 | Render style |
+**Anti-crop invariant (law):** `maxRadius = min(w,h)/2 − MARGIN − TILT_MAX`;
+all radii ≤ maxRadius × breath(≤1.015) < available half-extent. Cropping
+impossible by construction.
 
-**Anti-crop invariant (law):** the fit function sets
-`radius = (min(w,h)/2 − PARALLAX_MAX − SHIMMER_AMP − 2) / (1 + BREATH_AMPLITUDE)`.
-Rotation preserves radius, so no dot can ever cross the canvas edge.
-Cropping is impossible by construction; verified by boundary scan.
+Knobs in `canvas/config.ts → ORB_CONFIG` (COUNT, SEED, speeds, alphas,
+breath, pointer, DPR_CAP=2).
 
-**Container:** right-column square (`aspect-ratio: 1`, max 620px,
-vertically centered), mirroring the reference's 600/800 box. Behind the
-dots sits a static CSS glow veil (two radial gradients, `--lime` at
-.10/.05) breathing opacity over ~9s — the orb's body without JS cost.
-Mobile: full-bleed overlay at opacity .45 behind hero copy.
+### SignalField (page ambient)
+Fixed full-page canvas behind everything, `pointer-events:none`. 26 dash
+motes drifting up-left, alpha .05–.13, 35% lime, per-mote parallax by depth,
+pointer shift ±14px @400ms half-life. Reduced motion → single static frame.
 
-### Ambient field (full page)
-Fixed canvas, z-index 0, behind all content, `pointer-events: none`.
+Knobs in `canvas/config.ts → FIELD_CONFIG`.
 
-| Knob | Value | Meaning |
-|---|---|---|
-| `COUNT` | 34 | Sparse outlined triangles |
-| `SIZE_MIN/MAX` | 42 / 190px | Depth mix |
-| `ALPHA_MIN/MAX` | .06 / .14 | Whisper-level presence |
-| `SPEED_MIN/MAX` | 5 / 14 px/s | Upward-left drift |
-| `SPIN_MAX` | .05 rad/s | Slow tumble |
-| `SWAY_AMP` | 14px | Sine sway |
-| `PARALLAX_MAX` | 22px | Pointer shift (bigger = closer) |
-| `POINTER_HALF_LIFE_MS` | 400 | Lazy follow |
+### THE LOOP (scrollytelling)
+Structure: `.loop-track` grid `[diagram-cell | steps]`. Diagram cell is
+`position: sticky; height: 100vh` — sticky inside its own grid column while
+the steps column scrolls four ~92vh stages. **Zero absolute positioning of
+content.**
 
-Strokes alternate lime-family and ghost-white at the alphas above. Edge
-wrap-around. Reduced motion → one static frame.
+Diagram (viewBox 400², aria-hidden): base ring (hairline), progress arc
+(lime, `strokeDashoffset: calc(C * (1 - var(--loop-progress)))`, rotated to
+start at 12 o'clock), needle rotating
+`rotate(calc(var(--loop-progress) * 360deg))`, four station nodes lighting up
+progressively, center word swaps to active stage. Station numerals sit
+inward-facing so nothing can exit the viewBox (v1 overflow class eliminated).
+
+Mobile ≤900px: diagram hidden; slim sticky rail shows stage word +
+`scaleX(var(--loop-progress))` lime bar.
+
+Reduced motion: hook pins progress=1, last stage active, all steps opacity 1.
 
 ---
 
 ## 8 · Component Inventory
 
 ```
+app/
+├── layout.tsx                     fonts, metadata, SignalField + SmoothScroll mount
+├── page.tsx                       JSON-LD graph + section order
+├── globals.css                    v2 token/type/section styles
+├── api/access/route.ts            POST: JSON-only, size cap, validation, honeypot,
+│                                  rate limit 5/10min/IP, dev JSONL store (.data/),
+│                                  masked PII log in prod, generic responses
+├── opengraph-image.tsx            1200×630 satori card: Syne TTF + mark PNG, glows
+├── twitter-image.tsx              re-export of OG card
+├── robots.ts · sitemap.ts · manifest.ts   crawler plumbing off SITE_URL
 components/
-├── brand/Logo.tsx              lockup <img>, width/height intrinsic
-├── canvas/
-│   ├── ParticleOrb.tsx               hero orb (client)
-│   ├── AmbientField.tsx            page-wide field (client)
-│   └── config.ts                   ORB_CONFIG + AMBIENT_CONFIG
-├── motion/
-│   ├── SmoothScroll.tsx        mounted once in layout
-│   ├── Reveal.tsx              IO reveal wrapper
-│   ├── CountUp.tsx             metric numerals
-│   ├── Magnetic.tsx            CTA attraction wrapper
-│   ├── Marquee.tsx             capability ticker (server-safe)
-│   └── KineticMarker.tsx       ghost words
-├── typography/
-│   ├── DisplayHeading.tsx      h1/h2 + optional word-reveal
-│   ├── Eyebrow.tsx             lime kicker
-│   └── BodyText.tsx            ghost paragraph
-├── layout/
-│   ├── Nav.tsx                 v2: hide/show, blur, progress hairline
-│   ├── PillButton.tsx          the single pill
-│   └── Footer.tsx
-├── icons.tsx                   ArrowRight, ArrowDownRight, Menu, Close
-└── sections/                   Hero · MetricsStrip · FeatureFlow · Governance
-                                · Process · AccessForm
-lib/animation.ts
-lib/hooks/useReducedMotion.ts · lib/hooks/useInView.ts
+├── brand/Logo.tsx                 inline-SVG mark (currentColor) + Syne wordmark
+├── canvas/config.ts               ORB_CONFIG · FIELD_CONFIG · LOOP_STAGES
+├── canvas/SignalOrb.tsx           hero convergence orb
+├── canvas/SignalField.tsx         page ambient motes
+├── canvas/Sparkline.tsx           telemetry sparklines
+├── motion/SmoothScroll.tsx        inertial wheel scroll
+├── motion/Reveal.tsx              IO reveal wrapper
+├── motion/CountUp.tsx             metric sweep
+├── motion/Magnetic.tsx            CTA attraction
+├── motion/Marquee.tsx             capability ticker
+├── typography/DisplayHeading.tsx  h1/h2/h3 + word-reveal split
+├── layout/Nav.tsx                 hide/show, blur, progress hairline, mobile menu
+├── layout/PillButton.tsx          the single pill (link | submit, disabled state)
+├── layout/Footer.tsx              lockup, nav links, status pulse, copyright
+├── icons.tsx                      ArrowRight, ArrowDownRight, Menu, Close
+└── sections/
+    ├── Hero.tsx                   copy + SignalOrb + DrawnMark
+    ├── Loop.tsx                   pinned protocol scrollytelling
+    ├── Telemetry.tsx              metrics + sparklines
+    ├── Capabilities.tsx           editorial rows + SVG micro-diagrams
+    ├── Governance.tsx             manifesto band + kinetic word
+    └── AccessForm.tsx             early-access form (client states)
+lib/
+├── animation.ts                   mulberry32 · clamp · lerp · smoothing
+├── site.ts                        SITE_URL/name/title/locale constants
+├── hooks/useReducedMotion.ts · useInView.ts · usePinnedScene.ts
+scripts/generate-brand.mjs         true-SVG → PNG pipeline (rsvg-convert)
+lib/fonts/Syne-Bold.ttf            satori-only font for OG card (Google Fonts, OFL)
 ```
 
-Server components by default; `'use client'` only where state/canvas lives
-(Nav, AccessForm, motion primitives, canvases, Logo consumers stay server).
+Server components by default; `'use client'` only where state/canvas lives.
 
-Page order (unchanged, enriched in place): Nav → Hero → MetricsStrip →
-CapabilityMarquee → FeatureFlow (+DISCOVER/UNDERSTAND/GOVERN markers) →
-Governance → Process (+ACT marker) → AccessForm → Footer. Metrics keep
-2,481 / 18.7k / 24/7 — now animated.
+Page order: Nav → Hero → Ticker → Loop → Telemetry → Capabilities →
+Governance → AccessForm → Footer.
 
 ---
 
@@ -263,32 +244,48 @@ Governance → Process (+ACT marker) → AccessForm → Footer. Metrics keep
 - Short declarative sentences. Full stops as punctuation marks of confidence:
   "No blind spots. No alert fatigue."
 - Sentence case headlines ending in a period. Uppercase only for operational
-  labels (eyebrows, metrics, markers).
+  labels (eyebrows, metrics, markers, ticker).
 - Concrete over abstract: numbers, systems, routes, dependencies — never
   "revolutionary", "cutting-edge", "seamless".
-- Second person plural for the customer ("your company", "your teams");
-  Axon speaks in third person singular.
-- Capabilities vocabulary (marquee + features): DISCOVERY · CONTEXT MAPPING ·
-  RISK PRIORITIZATION · POLICY GUARDRAILS · CONTINUOUS AUDIT · VENDOR
-  INTELLIGENCE.
-- Ghost words are verbs of the loop: DISCOVER → UNDERSTAND → GOVERN → ACT.
+- Second person plural for the customer ("your company"); Axon speaks third
+  person singular.
+- Capabilities vocabulary (ticker + rows): DISCOVERY · CONTEXT MAPPING · RISK
+  PRIORITIZATION · POLICY GUARDRAILS · CONTINUOUS AUDIT · VENDOR INTELLIGENCE.
+- Protocol stages: DISCOVER → UNDERSTAND → GOVERN → ACT.
 
 ---
 
-## 10 · Do / Don't (distilled guardrails)
+## 10 · SEO & Metadata Contract
 
-- ✅ Depth without shadows — glow, stroke, parallax. ❌ Box-shadows on
-  containers, drop-shadowed panels.
-- ✅ Void as container. ❌ Cards, bordered boxes, background fills behind text.
-- ✅ One pill per action hierarchy. ❌ Secondary button styles, ghost buttons,
-  icon buttons beyond menu/close.
-- ✅ Oversized type as environment (display 113px, markers 230px). ❌ Shrinking
-  display type into tidy columns.
-- ✅ Effects derived from the 7 locked tokens. ❌ New hues, gradients between
-  colors, opacity stacks that read as a new color.
-- ✅ Motion as physics (lerp, spring, drift). ❌ Bounce/elastic easings,
-  spin-in entrances, attention-seeking loops outside the orb.
-- ✅ Sparse canvases (34 field triangles, 900-dot orb). ❌ Noise density that
-  competes with copy.
-- ✅ Reduced-motion parity for every effect. ❌ Animations that only have an
-  animated state.
+- **Canonical origin:** `NEXT_PUBLIC_SITE_URL` env var; placeholder fallback
+  `https://axon.example.com`. Domain swap later = one env var. All absolute
+  URLs derive from `lib/site.ts` — never hard-coded.
+- **Metadata:** title/description single-source in `lib/site.ts`; canonical
+  `/`; OG via file convention; Twitter `summary_large_image` reusing the card.
+- **Structured data:** server-rendered JSON-LD entity graph (Organization ·
+  WebSite · WebPage · SoftwareApplication SecurityApplication).
+- **Crawler files** read the same constant; `/api/` never indexed.
+- **Semantics:** exactly one h1; sections carry h2 statements; cards/steps
+  h3; canvases/kinetic words/diagrams aria-hidden decoration.
+- **Keywords** woven through voice, not stuffing: "AI security posture
+  management" (eyebrow + meta), "AI governance", "every model your company
+  runs" (h1 + meta).
+- **Form endpoint:** POSTs `{ email, company_website }`; honeypot visually
+  hidden + out of tab order; distinct copy for invalid_email/rate_limited.
+
+---
+
+## 11 · Do / Don't (distilled guardrails)
+
+- ✅ Flow/grid layout. ❌ Absolutely-positioned content blocks (decor exempt:
+  aria-hidden, contained, pointer-events none).
+- ✅ Depth without shadows — glow, stroke, parallax. ❌ Drop shadows on text
+  containers.
+- ✅ Void as container. ❌ Cards, bordered boxes, background fills behind copy.
+- ✅ One pill per action hierarchy. ❌ Ghost buttons, secondary styles.
+- ✅ Oversized Syne as environment. ❌ Shrinking display into tidy columns.
+- ✅ Effects from locked tokens. ❌ New hues, gradient blends between colors.
+- ✅ Motion as physics. ❌ Bounce easings, attention loops outside orb/ticker.
+- ✅ Sparse canvases (380-dot orb, 26 motes). ❌ Density that competes with copy.
+- ✅ Reduced-motion parity everywhere. ❌ Effects that only have an animated
+  state.

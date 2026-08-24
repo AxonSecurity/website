@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { lerp, smoothing } from '@/lib/animation'
 
-const HALF_LIFE_MS = 110
+const HALF_LIFE_MS = 140
 
 /**
  * Lenis-style inertial scrolling: wheel input accumulates a target,

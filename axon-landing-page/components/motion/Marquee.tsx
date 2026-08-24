@@ -9,11 +9,11 @@ const ITEMS = [
 
 export default function Marquee() {
   return (
-    <div className="marquee" aria-label="Axon capabilities">
-      <div className="marquee-track">
+    <div className="ticker" aria-label="Axon capabilities">
+      <div className="ticker-track">
         {[0, 1].map((copy) => (
           <ul
-            className="marquee-group"
+            className="ticker-group"
             key={copy}
             aria-hidden={copy === 1 || undefined}
           >
