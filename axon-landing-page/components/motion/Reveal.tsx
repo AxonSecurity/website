@@ -6,7 +6,7 @@ import type { ReactNode } from 'react'
 interface RevealProps {
   children: ReactNode
   className?: string
-  delay?: 1 | 2 | 3
+  delay?: 1 | 2 | 3 | 4 | 5
 }
 
 export default function Reveal({ children, className = '', delay }: RevealProps) {

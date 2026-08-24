@@ -302,35 +302,122 @@ canvas {
   padding: 10px;
 }
 
-.hero {
+.hero-tidal {
   position: relative;
-  padding: 72px 0 96px;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  align-items: center;
-  gap: 56px;
-  min-height: min(78vh, 720px);
-}
-
-.hero-copy {
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  overflow: clip;
 }
 
-.hero-copy .eyebrow {
+.tide-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.tide-canvas canvas {
+  display: block;
+}
+
+.tide-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(11, 12, 10, 0.55) 0%, transparent 26%),
+    radial-gradient(
+      115% 90% at 50% 46%,
+      transparent 42%,
+      rgba(11, 12, 10, 0.72) 100%
+    );
+}
+
+.tide-static {
+  position: absolute;
+  inset: 0;
+}
+
+.tide-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  padding-bottom: clamp(96px, 14vh, 168px);
+}
+
+.tide-mark-stage {
+  color: var(--lime);
+  margin-bottom: 40px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 34px;
+  padding: 9px 18px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background: rgba(11, 12, 10, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--ghost);
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 12px rgba(149, 255, 42, 0.6);
+}
+
+.tide-heading {
+  max-width: 15ch;
+  margin-bottom: 22px;
+}
+
+.tide-accent {
   margin-bottom: 30px;
+  font-family: var(--font-lora), 'Lora', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(20px, 2.4vw, 28px);
+  line-height: 1.4;
+  color: var(--ghost);
 }
 
-.hero-copy .display-hero {
-  margin-bottom: 36px;
+.tide-sub {
+  max-width: 520px;
+  margin-bottom: 48px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--ghost);
 }
 
-.hero-copy .body-copy {
-  margin-bottom: 64px;
+.tide-actions {
+  justify-content: center;
+}
+
+.tide-scroll-cue {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--faint);
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.34em;
 }
 
 .hero-actions {
@@ -348,27 +435,12 @@ canvas {
   color: var(--paper);
 }
 
-.signal-stage {
-  position: relative;
-  aspect-ratio: 1;
-  max-width: 560px;
-  width: 100%;
-  justify-self: end;
-}
-
-.signal-stage canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
 .drawn-mark {
-  position: absolute;
-  inset: 0;
-  margin: auto;
+  position: relative;
+  display: block;
+  margin: 0 auto;
   color: var(--lime);
-  filter: drop-shadow(0 0 18px rgba(149, 255, 42, 0.28));
+  filter: drop-shadow(0 0 22px rgba(149, 255, 42, 0.32));
 }
 
 .is-visible .drawn-mark {
@@ -403,17 +475,6 @@ canvas {
   to {
     stroke-dashoffset: 0;
   }
-}
-
-.hero-index {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 64px;
-  color: var(--faint);
-  font-family: var(--font-mono), 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.12em;
 }
 
 .ticker {
@@ -1014,14 +1075,6 @@ canvas {
 }
 
 @media (max-width: 1100px) {
-  .hero-grid {
-    gap: 40px;
-  }
-
-  .signal-stage {
-    max-width: 480px;
-  }
-
   .cap-row,
   .cap-row:nth-child(even) {
     grid-template-columns: 150px 1fr 200px;
@@ -1131,19 +1184,13 @@ canvas {
     display: block;
   }
 
-  .hero {
-    padding: 48px 0 72px;
+  .hero-tidal {
+    min-height: 100svh;
   }
 
-  .hero-grid {
-    grid-template-columns: 1fr;
-    min-height: 0;
-    gap: 56px;
-  }
-
-  .signal-stage {
-    justify-self: center;
-    max-width: 400px;
+  .tide-heading {
+    max-width: 13ch;
+    font-size: clamp(38px, 10.5vw, 54px);
   }
 
   .telemetry {

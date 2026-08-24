@@ -1,78 +1,64 @@
-import SignalOrb from '@/components/canvas/SignalOrb'
+'use client'
+
+import { useState } from 'react'
 import PillButton from '@/components/layout/PillButton'
 import Magnetic from '@/components/motion/Magnetic'
 import Reveal from '@/components/motion/Reveal'
 import DisplayHeading from '@/components/typography/DisplayHeading'
+import DrawnMark from '@/components/brand/DrawnMark'
+import TideCanvas from '@/components/gl/TideCanvas'
 import { ArrowDownRight, ArrowRight } from '@/components/icons'
 
-function DrawnMark() {
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      className="drawn-mark"
-      style={{ width: '46%', height: '46%' }}
-      aria-hidden="true"
-    >
-      <path
-        d="M14 80 L50 20 L86 80"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={11}
-        strokeLinecap="square"
-        pathLength={1}
-      />
-      <path
-        d="M31 58 H43 M57 58 H69"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={11}
-        strokeLinecap="square"
-        pathLength={1}
-      />
-    </svg>
-  )
-}
-
 export default function Hero() {
+  const [hovering, setHovering] = useState(false)
+
   return (
-    <section className="hero shell" id="top">
-      <div className="hero-grid">
-        <div className="hero-copy">
-          <Reveal>
-            <p className="eyebrow">AI security posture management</p>
-          </Reveal>
-          <Reveal delay={1}>
-            <DisplayHeading level={1} wordReveal>
-              Know every model you run.
-            </DisplayHeading>
-          </Reveal>
-          <Reveal delay={2}>
-            <p className="body-copy">
-              One living map of every model, vendor, and dependency — always
-              current.
-            </p>
-          </Reveal>
-          <Reveal delay={3}>
-            <div className="hero-actions">
-              <Magnetic>
-                <PillButton href="#access">
-                  Request access <ArrowRight size={16} />
-                </PillButton>
-              </Magnetic>
-              <a className="text-link hero-anchor" href="#loop">
-                See the protocol <ArrowDownRight size={15} />
-              </a>
-            </div>
-          </Reveal>
-        </div>
-        <Reveal className="signal-stage" delay={1}>
-          <SignalOrb />
+    <section className="hero-tidal" id="top">
+      <TideCanvas introspect={hovering} />
+      <div className="tide-content shell">
+        <Reveal className="tide-mark-stage">
           <DrawnMark />
         </Reveal>
+        <Reveal delay={1}>
+          <p className="hero-badge">
+            <span className="hero-badge-dot" aria-hidden="true" />
+            AI security posture management
+          </p>
+        </Reveal>
+        <Reveal delay={2}>
+          <DisplayHeading level={1} wordReveal>
+            Know every model you run.
+          </DisplayHeading>
+        </Reveal>
+        <Reveal delay={3}>
+          <p className="tide-accent">Nothing slips past you.</p>
+        </Reveal>
+        <Reveal delay={4}>
+          <p className="tide-sub">
+            Axon gives security teams one living map of every model, vendor,
+            and dependency — always current, ready to govern.
+          </p>
+        </Reveal>
+        <Reveal delay={5}>
+          <div
+            className="hero-actions tide-actions"
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={() => setHovering(false)}
+          >
+            <Magnetic>
+              <PillButton href="#access">
+                Request access <ArrowRight size={16} />
+              </PillButton>
+            </Magnetic>
+            <a className="text-link hero-anchor" href="#loop">
+              See the protocol <ArrowDownRight size={15} />
+            </a>
+          </div>
+        </Reveal>
       </div>
-      <Reveal className="hero-index">
-        SCROLL TO EXPLORE <ArrowDownRight size={16} />
-      </Reveal>
+      <div className="tide-scroll-cue" aria-hidden="true">
+        SCROLL
+      </div>
     </section>
   )
 }

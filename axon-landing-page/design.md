@@ -91,7 +91,7 @@ Shell: `min(1200px, calc(100% - 48px))` (40px gutters ≤760px).
 | Zone | Rhythm |
 |---|---|
 | Nav | sticky, min-height 88 (72 mobile), hide-on-scroll past 140px |
-| Hero | 72/96 padding, grid min-height `min(78vh, 720px)` |
+| Hero | full `100svh` tidal stage; content bottom-centered, `padding-bottom: clamp(96px, 14vh, 168px)` |
 | Loop | 150 top padding; steps at `92vh` each (72vh ≤900px) |
 | Telemetry | 46px vertical, hairline top+bottom |
 | Capabilities | 150 top; rows 74px vertical, hairlines between |
@@ -148,18 +148,28 @@ Hard rules:
 
 ## 7 · Canvas Specs
 
-### SignalOrb (hero)
-380 particles spiral inward along curved paths toward the mark, respawn at
-the rim. Depth = radius ratio drives alpha (.07 edge → .85 core) and size;
-core 16% boosted ×1.6 alpha. 72% lime / 28% paper dots. Breathing ±1.5% over
-~15s. Pointer tilt ±10px, 300ms half-life.
+### Tide (hero — TIDAL system)
+Full-viewport GPGPU particle sea behind the hero, ported from the Skal
+Ventures engine and re-tuned for AXON:
 
-**Anti-crop invariant (law):** `maxRadius = min(w,h)/2 − MARGIN − TILT_MAX`;
-all radii ≤ maxRadius × breath(≤1.015) < available half-extent. Cropping
-impossible by construction.
+- 512² texture = 262,144 particles on a plane (`planeScale 10`); positions
+  advected each frame into an FBO (`TideParticles.tsx`)
+- Displacement = three phase-offset periodic-noise samples (+0°/+120°/+240°)
+  driving X/Y/Z; noise loops over exactly **24s** → seamless, never drifts
+- DoF point sizing (`focus 3.8`, `blur 1.79`, size ×10) → photographic depth
+- Per-particle sparkle (hash-seeded sine clusters, ~30% active); brightest
+  crests tint **lime** over paper-white base
+- Cinematic entry: center-out radial reveal, 3.5s cubic ease with
+  noise-perturbed edge
+- Camera `[1.263, 2.665, −1.818]` fov 50; CSS vignette overlay
+  (radial + top fade) replaces a post-processing pass
+- **Introspect**: hovering the hero CTA row damps `uTransition` → sea
+  dissolves into lime sparks only (tau 120ms in / 70ms out)
 
-Knobs in `canvas/config.ts → ORB_CONFIG` (COUNT, SEED, speeds, alphas,
-breath, pointer, DPR_CAP=2).
+Hardening: DPR clamp [1,2] · frameloop pauses off-screen (IntersectionObserver)
+· mobile (<768px) sim drops to 256² · no WebGL or prefers-reduced-motion →
+static layered-gradient fallback (`StaticTide`) · loaded client-only via
+next/dynamic ssr:false. Deps: `three @react-three/fiber` only (FBO hand-rolled).
 
 ### SignalField (page ambient)
 Fixed full-page canvas behind everything, `pointer-events:none`. 26 dash
@@ -203,25 +213,31 @@ app/
 ├── robots.ts · sitemap.ts · manifest.ts   crawler plumbing off SITE_URL
 components/
 ├── brand/Logo.tsx                 inline-SVG mark (currentColor) + Syne wordmark
-├── canvas/config.ts               ORB_CONFIG · FIELD_CONFIG · LOOP_STAGES
-├── canvas/SignalOrb.tsx           hero convergence orb
+├── brand/DrawnMark.tsx            hero A, pathLength draw-in + sway
+├── canvas/config.ts               FIELD_CONFIG · LOOP_STAGES
 ├── canvas/SignalField.tsx         page ambient motes
 ├── canvas/Sparkline.tsx           telemetry sparklines
+├── gl/TideCanvas.tsx              client gate: WebGL/reduced-motion/mount
+├── gl/TideScene.tsx               R3F Canvas (camera, DPR clamp, frameloop)
+├── gl/TideParticles.tsx           FBO sim loop + points
+├── gl/StaticTide.tsx              gradient fallback
+├── gl/shaders/*                   periodic noise · sim material · point material
 ├── motion/SmoothScroll.tsx        inertial wheel scroll
 ├── motion/Reveal.tsx              IO reveal wrapper
 ├── motion/CountUp.tsx             metric sweep
 ├── motion/Magnetic.tsx            CTA attraction
 ├── motion/Marquee.tsx             capability ticker
+├── motion/Parallax.tsx            scroll drift via --parallax-y
 ├── typography/DisplayHeading.tsx  h1/h2/h3 + word-reveal split
 ├── layout/Nav.tsx                 hide/show, blur, progress hairline, mobile menu
 ├── layout/PillButton.tsx          the single pill (link | submit, disabled state)
 ├── layout/Footer.tsx              lockup, nav links, status pulse, copyright
 ├── icons.tsx                      ArrowRight, ArrowDownRight, Menu, Close
 └── sections/
-    ├── Hero.tsx                   copy + SignalOrb + DrawnMark
+    ├── Hero.tsx                   tidal stage: TideCanvas + bottom-centered copy
     ├── Loop.tsx                   pinned protocol scrollytelling
     ├── Telemetry.tsx              metrics + sparklines
-    ├── Capabilities.tsx           editorial rows + SVG micro-diagrams
+    ├── Capabilities.tsx           sticky stacking deck + SVG micro-diagrams
     ├── Governance.tsx             manifesto band + kinetic word
     └── AccessForm.tsx             early-access form (client states)
 lib/
