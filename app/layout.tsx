@@ -80,7 +80,9 @@ export default function RootLayout({
       lang="en"
       className={`${syne.variable} ${jetbrainsMono.variable} ${lora.variable}`}
     >
-      <body>
+      {/* suppressHydrationWarning: browser extensions inject attributes
+          onto <body> before hydration (e.g. data-atm-ext-installed). */}
+      <body suppressHydrationWarning>
         <SignalField />
         <SmoothScroll />
         {children}

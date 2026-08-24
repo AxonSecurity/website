@@ -1,10 +1,13 @@
 /** @type {import('next').NextConfig} */
+const isDev = process.env.NODE_ENV !== 'production'
+
 const securityHeaders = [
   {
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'",
+      // React's dev build uses eval() for debugging; prod stays strict.
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data:",
       "font-src 'self'",
