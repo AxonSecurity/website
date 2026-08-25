@@ -1,5 +1,4 @@
-import nodemailer from 'nodemailer'
-import type { Transporter } from 'nodemailer'
+import { Resend } from 'resend'
 import { SITE_NAME } from '@/lib/site'
 
 const FROM_ADDRESS = `${SITE_NAME} <no-reply@axonsecurity.tech>`
@@ -20,31 +19,16 @@ export class EmailSendError extends Error {
   }
 }
 
-/* ── Transporter (lazy singleton) ───────────────────────────────────────── */
+/* ── Resend client (lazy singleton) ─────────────────────────────────────── */
 
-let _transporter: Transporter | null = null
+let _client: Resend | null = null
 
-function requireEnv(name: string): string {
-  const value = process.env[name]
-  if (!value) throw new EmailConfigError(`Missing environment variable: ${name}`)
-  return value
-}
-
-function transporter(): Transporter {
-  if (_transporter) return _transporter
-
-  const host = requireEnv('SMTP_HOST')
-  const port = Number(process.env.SMTP_PORT) || 465
-  const user = requireEnv('SMTP_USER')
-  const pass = requireEnv('SMTP_PASS')
-
-  _transporter = nodemailer.createTransport({
-    host,
-    port,
-    secure: port !== 587,
-    auth: { user, pass },
-  })
-  return _transporter
+function client(): Resend {
+  if (_client) return _client
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) throw new EmailConfigError('Missing environment variable: RESEND_API_KEY')
+  _client = new Resend(apiKey)
+  return _client
 }
 
 /* ── Notification email (to you) ────────────────────────────────────────── */
@@ -66,14 +50,13 @@ export async function sendNotificationEmail(
     timeZoneName: 'short',
   })
 
-  try {
-    await transporter().sendMail({
-      from: FROM_ADDRESS,
-      to,
-      replyTo: submittedEmail,
-      subject: `New early-access request — ${submittedEmail}`,
-      text: `New early-access request.\n\nEmail: ${submittedEmail}\nIP: ${ip}\nTime: ${timestamp}`,
-      html: `
+  const { error } = await client().emails.send({
+    from: FROM_ADDRESS,
+    to,
+    replyTo: submittedEmail,
+    subject: `New early-access request — ${submittedEmail}`,
+    text: `New early-access request.\n\nEmail: ${submittedEmail}\nIP: ${ip}\nTime: ${timestamp}`,
+    html: `
 <!DOCTYPE html>
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -111,12 +94,10 @@ export async function sendNotificationEmail(
   </table>
 </body>
 </html>`,
-    })
-  } catch (err) {
-    if (err instanceof EmailConfigError) throw err
-    throw new EmailSendError(
-      `Notification email failed: ${err instanceof Error ? err.message : String(err)}`,
-    )
+  })
+
+  if (error) {
+    throw new EmailSendError(`Notification email failed: ${error.message}`)
   }
 }
 
@@ -125,13 +106,12 @@ export async function sendNotificationEmail(
 export async function sendConfirmationEmail(
   submittedEmail: string,
 ): Promise<void> {
-  try {
-    await transporter().sendMail({
-      from: FROM_ADDRESS,
-      to: submittedEmail,
-      subject: `You're on the ${SITE_NAME} waitlist`,
-      text: `You're on the list.\n\nThanks for your interest in ${SITE_NAME}. We'll be in touch soon with your early-access details.\n\n— The ${SITE_NAME} Team`,
-      html: `
+  const { error } = await client().emails.send({
+    from: FROM_ADDRESS,
+    to: submittedEmail,
+    subject: `You're on the ${SITE_NAME} waitlist`,
+    text: `You're on the list.\n\nThanks for your interest in ${SITE_NAME}. We'll be in touch soon with your early-access details.\n\n— The ${SITE_NAME} Team`,
+    html: `
 <!DOCTYPE html>
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -157,11 +137,9 @@ export async function sendConfirmationEmail(
   </table>
 </body>
 </html>`,
-    })
-  } catch (err) {
-    if (err instanceof EmailConfigError) throw err
-    throw new EmailSendError(
-      `Confirmation email failed: ${err instanceof Error ? err.message : String(err)}`,
-    )
+  })
+
+  if (error) {
+    throw new EmailSendError(`Confirmation email failed: ${error.message}`)
   }
 }
