@@ -1,4 +1,5 @@
 import { Analytics } from '@vercel/analytics/next'
+import Script from 'next/script'
 import { Syne, JetBrains_Mono, Lora } from 'next/font/google'
 import type { Metadata, Viewport } from 'next'
 import SmoothScroll from '@/components/motion/SmoothScroll'
@@ -87,6 +88,12 @@ export default function RootLayout({
         <SmoothScroll />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
+        {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+          <Script
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+            strategy="afterInteractive"
+          />
+        )}
       </body>
     </html>
   )

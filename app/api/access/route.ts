@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
-import { promises as fs } from 'node:fs'
-import path from 'node:path'
+import { sendNotificationEmail, sendConfirmationEmail } from '@/lib/email'
 
 export const dynamic = 'force-dynamic'
 
@@ -9,6 +8,7 @@ const MAX_EMAIL_LENGTH = 254
 const MAX_BODY_BYTES = 1024
 const RATE_LIMIT_MAX = 5
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
+const MIN_SUBMISSION_MS = 2_000
 
 const hits = new Map<string, number[]>()
 
@@ -38,33 +38,23 @@ function isValidEmail(value: unknown): value is string {
   )
 }
 
-function maskEmail(email: string): string {
-  const [user, domain] = email.split('@')
-  const head = user.slice(0, 1)
-  return `${head}${'*'.repeat(Math.max(user.length - 1, 1))}@${domain}`
-}
+async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
+  const secretKey = process.env.TURNSTILE_SECRET_KEY
+  if (!secretKey) return true
 
-async function persist(email: string): Promise<void> {
-  const record = JSON.stringify({ email, receivedAt: new Date().toISOString() })
-  if (process.env.NODE_ENV === 'production') {
-    console.log(`[access] ${maskEmail(email)}`)
-    return
-  }
-  const dir = path.join(process.cwd(), '.data')
-  await fs.mkdir(dir, { recursive: true })
-  await fs.appendFile(
-    path.join(dir, 'access-requests.jsonl'),
-    `${record}\n`,
-    'utf8',
-  )
-}
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ secret: secretKey, response: token, remoteip: ip }),
+  })
 
-function ok(): NextResponse {
-  return NextResponse.json({ ok: true })
+  const data = (await res.json()) as { success?: boolean }
+  return data.success === true
 }
 
 export async function POST(request: Request): Promise<NextResponse> {
   const key = clientKey(request)
+
   if (isRateLimited(key)) {
     return NextResponse.json(
       { ok: false, error: 'rate_limited' },
@@ -93,21 +83,53 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ ok: false, error: 'bad_request' }, { status: 400 })
   }
 
-  const { email, company_website: honeypot } = body as Record<string, unknown>
+  const { email, company_website: honeypot, turnstileToken, ts: clientTimestamp } =
+    body as Record<string, unknown>
 
   if (typeof honeypot === 'string' && honeypot.trim().length > 0) {
-    return ok()
+    return NextResponse.json({ ok: true })
+  }
+
+  if (turnstileToken && typeof turnstileToken === 'string') {
+    const valid = await verifyTurnstile(turnstileToken, key)
+    if (!valid) {
+      return NextResponse.json({ ok: false, error: 'bad_request' }, { status: 403 })
+    }
+  }
+
+  if (typeof clientTimestamp === 'number') {
+    if (Date.now() - clientTimestamp < MIN_SUBMISSION_MS) {
+      return NextResponse.json({ ok: false, error: 'bad_request' }, { status: 400 })
+    }
   }
 
   if (!isValidEmail(email)) {
     return NextResponse.json({ ok: false, error: 'invalid_email' }, { status: 422 })
   }
 
+  const cookies = request.headers.get('cookie') ?? ''
+  const alreadySubmitted = cookies.split(';').some((c) => c.trim().startsWith('_ax='))
+  if (alreadySubmitted) {
+    return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 })
+  }
+
+  const normalised = (email as string).trim().toLowerCase()
+
   try {
-    await persist((email as string).trim().toLowerCase())
-  } catch {
+    await sendNotificationEmail(normalised, key)
+    await sendConfirmationEmail(normalised)
+  } catch (err) {
+    console.error('[access] email send failed:', err)
     return NextResponse.json({ ok: false, error: 'server_error' }, { status: 500 })
   }
 
-  return ok()
+  const response = NextResponse.json({ ok: true })
+  response.cookies.set('_ax', '1', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'strict',
+    maxAge: 86_400,
+    path: '/',
+  })
+  return response
 }

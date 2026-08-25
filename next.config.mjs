@@ -7,11 +7,12 @@ const securityHeaders = [
     value: [
       "default-src 'self'",
       // React's dev build uses eval() for debugging; prod stays strict.
-      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://challenges.cloudflare.com`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data:",
       "font-src 'self'",
       "connect-src 'self' https://vitals.vercel-insights.com",
+      "frame-src 'self' https://challenges.cloudflare.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
