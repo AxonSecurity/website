@@ -23,6 +23,9 @@ type Status = 'idle' | 'submitting' | 'success'
 const ERROR_COPY: Record<string, string> = {
   invalid_email: 'Enter a valid work email.',
   rate_limited: 'Too many attempts. Try again in a few minutes.',
+  email_not_configured: 'Service is being set up. Please try again shortly.',
+  email_failed:
+    "Couldn't send confirmation — your request was received and we'll follow up.",
 }
 
 const POINTS = [

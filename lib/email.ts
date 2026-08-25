@@ -4,18 +4,45 @@ import { SITE_NAME } from '@/lib/site'
 
 const FROM_ADDRESS = `${SITE_NAME} <no-reply@axonsecurity.tech>`
 
+/* ── Error classes ──────────────────────────────────────────────────────── */
+
+export class EmailConfigError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'EmailConfigError'
+  }
+}
+
+export class EmailSendError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'EmailSendError'
+  }
+}
+
+/* ── Transporter (lazy singleton) ───────────────────────────────────────── */
+
 let _transporter: Transporter | null = null
+
+function requireEnv(name: string): string {
+  const value = process.env[name]
+  if (!value) throw new EmailConfigError(`Missing environment variable: ${name}`)
+  return value
+}
 
 function transporter(): Transporter {
   if (_transporter) return _transporter
+
+  const host = requireEnv('SMTP_HOST')
+  const port = Number(process.env.SMTP_PORT) || 465
+  const user = requireEnv('SMTP_USER')
+  const pass = requireEnv('SMTP_PASS')
+
   _transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT) || 465,
-    secure: Number(process.env.SMTP_PORT) !== 587,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
+    host,
+    port,
+    secure: port !== 587,
+    auth: { user, pass },
   })
   return _transporter
 }
@@ -27,10 +54,7 @@ export async function sendNotificationEmail(
   ip: string,
 ): Promise<void> {
   const to = process.env.NOTIFICATION_TO
-  if (!to) {
-    console.error('[email] NOTIFICATION_TO is not set — skipping notification')
-    return
-  }
+  if (!to) throw new EmailConfigError('NOTIFICATION_TO is not set')
 
   const timestamp = new Date().toLocaleString('en-US', {
     timeZone: 'UTC',
@@ -42,13 +66,14 @@ export async function sendNotificationEmail(
     timeZoneName: 'short',
   })
 
-  await transporter().sendMail({
-    from: FROM_ADDRESS,
-    to,
-    replyTo: submittedEmail,
-    subject: `New early-access request — ${submittedEmail}`,
-    text: `New early-access request.\n\nEmail: ${submittedEmail}\nIP: ${ip}\nTime: ${timestamp}`,
-    html: `
+  try {
+    await transporter().sendMail({
+      from: FROM_ADDRESS,
+      to,
+      replyTo: submittedEmail,
+      subject: `New early-access request — ${submittedEmail}`,
+      text: `New early-access request.\n\nEmail: ${submittedEmail}\nIP: ${ip}\nTime: ${timestamp}`,
+      html: `
 <!DOCTYPE html>
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -86,7 +111,13 @@ export async function sendNotificationEmail(
   </table>
 </body>
 </html>`,
-  })
+    })
+  } catch (err) {
+    if (err instanceof EmailConfigError) throw err
+    throw new EmailSendError(
+      `Notification email failed: ${err instanceof Error ? err.message : String(err)}`,
+    )
+  }
 }
 
 /* ── Confirmation email (to the submitter) ──────────────────────────────── */
@@ -94,12 +125,13 @@ export async function sendNotificationEmail(
 export async function sendConfirmationEmail(
   submittedEmail: string,
 ): Promise<void> {
-  await transporter().sendMail({
-    from: FROM_ADDRESS,
-    to: submittedEmail,
-    subject: `You're on the ${SITE_NAME} waitlist`,
-    text: `You're on the list.\n\nThanks for your interest in ${SITE_NAME}. We'll be in touch soon with your early-access details.\n\n— The ${SITE_NAME} Team`,
-    html: `
+  try {
+    await transporter().sendMail({
+      from: FROM_ADDRESS,
+      to: submittedEmail,
+      subject: `You're on the ${SITE_NAME} waitlist`,
+      text: `You're on the list.\n\nThanks for your interest in ${SITE_NAME}. We'll be in touch soon with your early-access details.\n\n— The ${SITE_NAME} Team`,
+      html: `
 <!DOCTYPE html>
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -125,5 +157,11 @@ export async function sendConfirmationEmail(
   </table>
 </body>
 </html>`,
-  })
+    })
+  } catch (err) {
+    if (err instanceof EmailConfigError) throw err
+    throw new EmailSendError(
+      `Confirmation email failed: ${err instanceof Error ? err.message : String(err)}`,
+    )
+  }
 }

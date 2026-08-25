@@ -1,5 +1,10 @@
 import { NextResponse } from 'next/server'
-import { sendNotificationEmail, sendConfirmationEmail } from '@/lib/email'
+import {
+  sendNotificationEmail,
+  sendConfirmationEmail,
+  EmailConfigError,
+  EmailSendError,
+} from '@/lib/email'
 
 export const dynamic = 'force-dynamic'
 
@@ -119,8 +124,18 @@ export async function POST(request: Request): Promise<NextResponse> {
     await sendNotificationEmail(normalised, key)
     await sendConfirmationEmail(normalised)
   } catch (err) {
-    console.error('[access] email send failed:', err)
-    return NextResponse.json({ ok: false, error: 'server_error' }, { status: 500 })
+    if (err instanceof EmailConfigError) {
+      console.error('[access] email config error:', err.message)
+      return NextResponse.json(
+        { ok: false, error: 'email_not_configured' },
+        { status: 503 },
+      )
+    }
+    console.error('[access] email send error:', err)
+    return NextResponse.json(
+      { ok: false, error: 'email_failed' },
+      { status: 502 },
+    )
   }
 
   const response = NextResponse.json({ ok: true })
