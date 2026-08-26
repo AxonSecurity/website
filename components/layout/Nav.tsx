@@ -90,7 +90,7 @@ export default function Nav() {
           </a>
         ))}
         <a className="nav-cta" href="#access" onClick={close}>
-          Request access <ArrowRight size={15} />
+          Request early access <ArrowRight size={15} />
         </a>
       </div>
       <button

@@ -151,7 +151,7 @@ export default function AccessForm() {
           </Reveal>
           <Reveal delay={1}>
             <DisplayHeading level={2} wordReveal>
-              See what you&apos;re missing.
+              Get early access.
             </DisplayHeading>
           </Reveal>
           <Reveal delay={2}>
@@ -168,7 +168,8 @@ export default function AccessForm() {
           <Reveal delay={1}>
             {status === 'success' ? (
               <p className="success-message" role="status">
-                You&apos;re on the list. We&apos;ll be in touch soon.
+                You&apos;re on the list. We&apos;ll reach out within 2–3
+                business days to schedule your teardown.
               </p>
             ) : (
               <form onSubmit={handleSubmit} aria-busy={status === 'submitting'}>
@@ -185,7 +186,7 @@ export default function AccessForm() {
                   />
                   <Magnetic>
                     <PillButton type="submit" disabled={status === 'submitting'}>
-                      Request access <ArrowRight size={16} />
+                      Request early access <ArrowRight size={16} />
                     </PillButton>
                   </Magnetic>
                 </div>
@@ -209,6 +210,15 @@ export default function AccessForm() {
                 ) : null}
               </form>
             )}
+          </Reveal>
+          <Reveal delay={2}>
+            <p className="access-note">
+              We review every request and respond within 2–3 business days.
+            </p>
+            <p className="access-note">
+              We only use your information to contact you about Axon. No spam,
+              no sharing.
+            </p>
           </Reveal>
         </div>
       </div>

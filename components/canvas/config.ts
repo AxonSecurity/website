@@ -19,7 +19,7 @@ export const LOOP_STAGES = [
     id: 'discover',
     word: 'DISCOVER',
     num: '01',
-    title: 'See every model you run',
+    title: 'Discover every model you run',
     text: 'Axon sweeps your cloud, code, and contracts to inventory every AI system your teams build, buy, or quietly ship.',
   },
   {
@@ -33,7 +33,7 @@ export const LOOP_STAGES = [
     id: 'govern',
     word: 'GOVERN',
     num: '03',
-    title: 'Set policy once',
+    title: 'Enforce policy once',
     text: 'Guardrails encode your standards and enforce them everywhere models appear — before incidents do.',
   },
   {

@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'Axon — AI Security Posture Management',
     short_name: 'Axon',
     description:
-      'Discover, understand, and govern every model your company runs.',
+      'Continuous AI posture & governance for security teams.',
     start_url: '/',
     display: 'browser',
     background_color: '#000000',

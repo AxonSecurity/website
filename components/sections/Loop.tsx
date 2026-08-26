@@ -36,6 +36,12 @@ export default function Loop() {
             One loop. Total posture.
           </DisplayHeading>
         </Reveal>
+        <Reveal delay={2}>
+          <p className="body-copy">
+            The Axon protocol turns your scattered AI usage into a single,
+            continuously updated security posture.
+          </p>
+        </Reveal>
       </div>
 
       <div className="loop-mobile-rail">

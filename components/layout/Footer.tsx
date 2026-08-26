@@ -4,7 +4,7 @@ const LINKS = [
   { href: '#platform', label: 'Platform' },
   { href: '#loop', label: 'Protocol' },
   { href: '#governance', label: 'Governance' },
-  { href: '#access', label: 'Contact' },
+  { href: '#access', label: 'Request early access' },
 ]
 
 export default function Footer() {
@@ -20,6 +20,7 @@ export default function Footer() {
           </a>
         ))}
       </nav>
+      <span className="footer-tagline">Continuous AI posture &amp; governance for security teams.</span>
       <span>© 2026 Axon Security, Inc.</span>
     </footer>
   )
