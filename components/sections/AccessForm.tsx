@@ -211,15 +211,6 @@ export default function AccessForm() {
               </form>
             )}
           </Reveal>
-          <Reveal delay={2}>
-            <p className="access-note">
-              We review every request and respond within 2–3 business days.
-            </p>
-            <p className="access-note">
-              We only use your information to contact you about Axon. No spam,
-              no sharing.
-            </p>
-          </Reveal>
         </div>
       </div>
     </section>

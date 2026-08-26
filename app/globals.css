@@ -337,12 +337,12 @@ canvas {
   align-items: center;
   justify-content: flex-end;
   text-align: center;
-  padding-bottom: clamp(96px, 14vh, 168px);
+  padding-bottom: clamp(64px, 10vh, 140px);
 }
 
 .tide-mark-stage {
   color: var(--lime);
-  margin-bottom: 40px;
+  margin-bottom: 28px;
 }
 
 .tide-accent {
@@ -358,7 +358,7 @@ canvas {
 
 .tide-sub {
   max-width: 520px;
-  margin-bottom: 48px;
+  margin-bottom: 36px;
   font-size: 16px;
   line-height: 1.75;
   color: var(--ghost);
@@ -945,13 +945,6 @@ canvas {
   background: var(--lime);
   clip-path: polygon(50% 0, 100% 100%, 0 100%);
   transform: translateY(-1px);
-}
-
-.access-note {
-  margin: 14px 0 0;
-  color: var(--faint);
-  font-size: 13px;
-  line-height: 1.6;
 }
 
 .footer {
