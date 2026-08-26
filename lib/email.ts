@@ -110,7 +110,7 @@ export async function sendConfirmationEmail(
     from: FROM_ADDRESS,
     to: submittedEmail,
     subject: `You're in — ${SITE_NAME} early access`,
-    text: `You're in.\n\nThanks for your interest in ${SITE_NAME}. You're now on the early-access list.\n\nWe'll be in touch soon with next steps — including a direct line to our founding engineers.\n\n— The ${SITE_NAME} Team`,
+    text: `You're in.\n\nThanks for your interest in ${SITE_NAME}. You're now on the early-access list.\n\nWe'll be in touch soon with next steps — including a direct line to our founding engineers.\n\n-The ${SITE_NAME} Team\n\n${SITE_NAME}\nContinuous AI posture & governance`,
     html: `
 <!DOCTYPE html>
 <html lang="en">
@@ -131,10 +131,19 @@ export async function sendConfirmationEmail(
         We&apos;ll be in touch soon with next steps &mdash; including a direct line to our founding engineers.
       </p>
     </td></tr>
-    <tr><td style="padding-top:28px;border-top:1px solid rgba(243,242,242,0.1);">
-      <img src="${SITE_URL}/brand/axon-mark-lime.png" width="36" height="36" alt="" style="display:block;margin-bottom:10px;" />
-      <p style="margin:0;font-size:14px;font-weight:600;color:#f3f2f2;letter-spacing:0.04em;">AXON</p>
-      <p style="margin:4px 0 0;font-size:11px;color:rgba(243,242,242,0.4);">Continuous AI posture &amp; governance</p>
+    <tr><td style="padding-top:24px;border-top:1px solid rgba(243,242,242,0.1);">
+      <p style="margin:0 0 24px;font-size:14px;color:rgba(243,242,242,0.6);">-The ${SITE_NAME} Team</p>
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td style="padding-right:10px;vertical-align:middle;">
+            <img src="${SITE_URL}/brand/axon-mark-lime.png" width="32" height="32" alt="${SITE_NAME}" style="display:block;" />
+          </td>
+          <td style="vertical-align:middle;">
+            <span style="font-size:16px;font-weight:700;color:#f3f2f2;letter-spacing:0.06em;">AXON</span>
+          </td>
+        </tr>
+      </table>
+      <p style="margin:6px 0 0;font-size:11px;color:rgba(243,242,242,0.4);letter-spacing:0.04em;">Continuous AI posture &amp; governance</p>
     </td></tr>
   </table>
 </body>
