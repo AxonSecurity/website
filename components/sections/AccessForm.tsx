@@ -192,7 +192,7 @@ export default function AccessForm() {
                   name="note"
                   maxLength={500}
                   rows={3}
-                  placeholder="Retrospective chest CT cohort, about 400 subjects."
+                  placeholder="We're deploying GPT-4 and Claude across 3 product teams..."
                 />
                 <div className="hp-field" aria-hidden="true">
                   <label htmlFor="company_website">Company website</label>
