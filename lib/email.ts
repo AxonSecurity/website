@@ -1,5 +1,5 @@
 import { Resend } from 'resend'
-import { SITE_NAME } from '@/lib/site'
+import { SITE_NAME, SITE_URL } from '@/lib/site'
 
 const FROM_ADDRESS = `${SITE_NAME} <no-reply@axonsecurity.tech>`
 
@@ -109,8 +109,8 @@ export async function sendConfirmationEmail(
   const { error } = await client().emails.send({
     from: FROM_ADDRESS,
     to: submittedEmail,
-    subject: `You're on the ${SITE_NAME} waitlist`,
-    text: `You're on the list.\n\nThanks for your interest in ${SITE_NAME}. We'll be in touch soon with your early-access details.\n\n— The ${SITE_NAME} Team`,
+    subject: `You're in — ${SITE_NAME} early access`,
+    text: `You're in.\n\nThanks for your interest in ${SITE_NAME}. You're now on the early-access list.\n\nWe'll be in touch soon with next steps — including a direct line to our founding engineers.\n\n— The ${SITE_NAME} Team`,
     html: `
 <!DOCTYPE html>
 <html lang="en">
@@ -121,18 +121,20 @@ export async function sendConfirmationEmail(
       <span style="font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:#95ff2a;">${SITE_NAME}</span>
     </td></tr>
     <tr><td style="padding:40px 0 24px;">
-      <h1 style="margin:0;font-size:24px;font-weight:600;color:#f3f2f2;line-height:1.3;">You&apos;re on the list.</h1>
+      <h1 style="margin:0;font-size:24px;font-weight:600;color:#f3f2f2;line-height:1.3;">You&apos;re in.</h1>
     </td></tr>
     <tr><td style="padding-bottom:32px;">
       <p style="margin:0 0 16px;font-size:16px;line-height:1.7;color:rgba(243,242,242,0.85);">
-        Thanks for your interest in ${SITE_NAME}. We&apos;re building something we think you&apos;ll want to see.
+        Thanks for your interest in ${SITE_NAME}. You&apos;re now on the early-access list.
       </p>
       <p style="margin:0;font-size:16px;line-height:1.7;color:rgba(243,242,242,0.85);">
-        We&apos;ll reach out soon with your early-access details — including a guided teardown of your AI surface, founding-partner pricing, and a direct line to our engineering team.
+        We&apos;ll be in touch soon with next steps &mdash; including a direct line to our founding engineers.
       </p>
     </td></tr>
-    <tr><td style="padding-top:24px;border-top:1px solid rgba(243,242,242,0.1);">
-      <p style="margin:0;font-size:13px;color:rgba(243,242,242,0.4);">— The ${SITE_NAME} Team</p>
+    <tr><td style="padding-top:28px;border-top:1px solid rgba(243,242,242,0.1);">
+      <img src="${SITE_URL}/brand/axon-mark-lime.png" width="36" height="36" alt="" style="display:block;margin-bottom:10px;" />
+      <p style="margin:0;font-size:14px;font-weight:600;color:#f3f2f2;letter-spacing:0.04em;">AXON</p>
+      <p style="margin:4px 0 0;font-size:11px;color:rgba(243,242,242,0.4);">Continuous AI posture &amp; governance</p>
     </td></tr>
   </table>
 </body>
