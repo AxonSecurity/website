@@ -29,8 +29,6 @@ const ERROR_COPY: Record<string, string> = {
 }
 
 const POINTS = [
-  'A 30-minute guided teardown of your AI surface',
-  'Founding-partner pricing, locked in for life',
   'A direct line to the founding engineers',
 ]
 
