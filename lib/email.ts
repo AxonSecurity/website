@@ -1,5 +1,5 @@
 import { Resend } from 'resend'
-import { SITE_NAME, SITE_URL } from '@/lib/site'
+import { SITE_NAME } from '@/lib/site'
 
 const FROM_ADDRESS = `${SITE_NAME} <no-reply@axonsecurity.tech>`
 
@@ -12,6 +12,16 @@ const FAINT = 'rgba(11,12,10,0.35)'
 const HAIRLINE = 'rgba(11,12,10,0.1)'
 const CARD_BG = 'rgba(11,12,10,0.04)'
 const CARD_BORDER = 'rgba(11,12,10,0.08)'
+
+/* ── Helpers ────────────────────────────────────────────────────────────── */
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
 
 /* ── Error classes ──────────────────────────────────────────────────────── */
 
@@ -46,6 +56,7 @@ function client(): Resend {
 export async function sendNotificationEmail(
   submittedEmail: string,
   ip: string,
+  note?: string,
 ): Promise<void> {
   const to = process.env.NOTIFICATION_TO
   if (!to) throw new EmailConfigError('NOTIFICATION_TO is not set')
@@ -65,7 +76,7 @@ export async function sendNotificationEmail(
     to,
     replyTo: submittedEmail,
     subject: `New early-access request — ${submittedEmail}`,
-    text: `New early-access request.\n\nEmail: ${submittedEmail}\nIP: ${ip}\nTime: ${timestamp}`,
+    text: `New early-access request.\n\nEmail: ${submittedEmail}\nIP: ${ip}\nTime: ${timestamp}${note ? `\nNote: ${note}` : ''}`,
     html: `
 <!DOCTYPE html>
 <html lang="en">
@@ -96,6 +107,10 @@ export async function sendNotificationEmail(
             </td>
           </tr></table>
         </td></tr>
+        ${note ? `<tr><td style="padding:12px 20px;border-top:1px solid ${CARD_BORDER};">
+          <p style="margin:0 0 4px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:${GHOST};">Note</p>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:${INK};">${escapeHtml(note)}</p>
+        </td></tr>` : ''}
       </table>
     </td></tr>
     <tr><td style="padding-top:16px;border-top:1px solid ${HAIRLINE};">
@@ -143,17 +158,7 @@ export async function sendConfirmationEmail(
     </td></tr>
     <tr><td style="padding-top:24px;border-top:1px solid ${HAIRLINE};">
       <p style="margin:0 0 24px;font-size:14px;color:${GHOST};">-The ${SITE_NAME} Team</p>
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td style="padding-right:10px;vertical-align:middle;">
-            <img src="${SITE_URL}/brand/axon-tile.png" width="40" height="40" alt="${SITE_NAME}" style="display:block;" />
-          </td>
-          <td style="vertical-align:middle;">
-            <span style="font-size:16px;font-weight:700;color:${INK};letter-spacing:0.06em;">AXON</span>
-          </td>
-        </tr>
-      </table>
-      <p style="margin:6px 0 0;font-size:11px;color:${FAINT};letter-spacing:0.04em;">Continuous AI posture &amp; governance</p>
+      <p style="margin:0;font-size:12px;color:${FAINT};letter-spacing:0.04em;">Continuous AI posture &amp; governance</p>
     </td></tr>
   </table>
 </body>

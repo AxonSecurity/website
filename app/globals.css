@@ -832,6 +832,46 @@ canvas {
   margin-bottom: 9px;
 }
 
+.access textarea {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 15px 0;
+  border: 0;
+  border-bottom: 1px solid var(--faint);
+  outline: 0;
+  color: var(--paper);
+  background: transparent;
+  font-family: var(--font-lora), 'Lora', serif;
+  font-size: 18px;
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color 0.3s;
+}
+
+.access textarea::placeholder {
+  color: var(--faint);
+}
+
+.access textarea:focus {
+  border-color: var(--lime);
+}
+
+.optional-tag {
+  color: var(--faint);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 11px;
+}
+
+.access-privacy {
+  margin-top: 24px;
+  color: var(--faint);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
 .hp-field {
   position: absolute;
   left: -9999px;

@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 const MAX_EMAIL_LENGTH = 254
-const MAX_BODY_BYTES = 1024
+const MAX_BODY_BYTES = 2048
 const RATE_LIMIT_MAX = 5
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
 const MIN_SUBMISSION_MS = 2_000
@@ -88,7 +88,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ ok: false, error: 'bad_request' }, { status: 400 })
   }
 
-  const { email, company_website: honeypot, turnstileToken, ts: clientTimestamp } =
+  const { email, note: rawNote, company_website: honeypot, turnstileToken, ts: clientTimestamp } =
     body as Record<string, unknown>
 
   if (typeof honeypot === 'string' && honeypot.trim().length > 0) {
@@ -112,6 +112,11 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ ok: false, error: 'invalid_email' }, { status: 422 })
   }
 
+  const note =
+    typeof rawNote === 'string'
+      ? rawNote.trim().slice(0, 500)
+      : ''
+
   const cookies = request.headers.get('cookie') ?? ''
   const alreadySubmitted = cookies.split(';').some((c) => c.trim().startsWith('_ax='))
   if (alreadySubmitted) {
@@ -121,7 +126,7 @@ export async function POST(request: Request): Promise<NextResponse> {
   const normalised = (email as string).trim().toLowerCase()
 
   try {
-    await sendNotificationEmail(normalised, key)
+    await sendNotificationEmail(normalised, key, note)
     await sendConfirmationEmail(normalised)
   } catch (err) {
     if (err instanceof EmailConfigError) {

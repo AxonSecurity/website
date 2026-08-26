@@ -110,6 +110,7 @@ export default function AccessForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: data.get('email'),
+          note: data.get('note'),
           company_website: data.get('company_website'),
           turnstileToken: turnstileToken || undefined,
           ts: mountedAtRef.current,
@@ -188,6 +189,16 @@ export default function AccessForm() {
                     </PillButton>
                   </Magnetic>
                 </div>
+                <label htmlFor="note">
+                  What are you working on? <span className="optional-tag">optional</span>
+                </label>
+                <textarea
+                  id="note"
+                  name="note"
+                  maxLength={500}
+                  rows={3}
+                  placeholder="Retrospective chest CT cohort, about 400 subjects."
+                />
                 <div className="hp-field" aria-hidden="true">
                   <label htmlFor="company_website">Company website</label>
                   <input
@@ -206,6 +217,11 @@ export default function AccessForm() {
                     {errorMessage}
                   </p>
                 ) : null}
+                <p className="access-privacy">
+                  Your address and your note are all that is kept.
+                  No IP address, no analytics, no tracker.
+                  Ask and it is deleted.
+                </p>
               </form>
             )}
           </Reveal>
