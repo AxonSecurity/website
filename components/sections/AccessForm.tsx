@@ -184,7 +184,7 @@ export default function AccessForm() {
                     placeholder="you@company.com"
                   />
                 </div>
-                <label htmlFor="note">
+                <label htmlFor="note" className="note-label">
                   WHAT ARE YOU WORKING ON? <span className="optional-tag">optional</span>
                 </label>
                 <textarea

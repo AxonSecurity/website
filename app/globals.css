@@ -800,6 +800,10 @@ canvas {
   text-transform: uppercase;
 }
 
+.note-label {
+  margin-top: 40px;
+}
+
 .email-field {
   border-bottom: 1px solid var(--faint);
   transition: border-color 0.3s;
