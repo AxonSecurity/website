@@ -3,7 +3,6 @@ import Capabilities from '@/components/sections/Capabilities'
 import Governance from '@/components/sections/Governance'
 import Hero from '@/components/sections/Hero'
 import Loop from '@/components/sections/Loop'
-import Telemetry from '@/components/sections/Telemetry'
 import Marquee from '@/components/motion/Marquee'
 import Footer from '@/components/layout/Footer'
 import Nav from '@/components/layout/Nav'
@@ -63,7 +62,6 @@ export default function Page() {
       <Hero />
       <Marquee />
       <Loop />
-      <Telemetry />
       <Capabilities />
       <Governance />
       <AccessForm />
