@@ -173,7 +173,7 @@ export default function AccessForm() {
             ) : (
               <form onSubmit={handleSubmit} aria-busy={status === 'submitting'}>
                 <label htmlFor="email">WORK EMAIL</label>
-                <div className="email-row">
+                <div className="email-field">
                   <input
                     id="email"
                     name="email"
@@ -183,14 +183,9 @@ export default function AccessForm() {
                     autoComplete="email"
                     placeholder="you@company.com"
                   />
-                  <Magnetic>
-                    <PillButton type="submit" disabled={status === 'submitting'}>
-                      Request early access <ArrowRight size={16} />
-                    </PillButton>
-                  </Magnetic>
                 </div>
                 <label htmlFor="note">
-                  What are you working on? <span className="optional-tag">optional</span>
+                  WHAT ARE YOU WORKING ON? <span className="optional-tag">optional</span>
                 </label>
                 <textarea
                   id="note"
@@ -217,6 +212,13 @@ export default function AccessForm() {
                     {errorMessage}
                   </p>
                 ) : null}
+                <div className="form-actions">
+                  <Magnetic>
+                    <PillButton type="submit" disabled={status === 'submitting'}>
+                      Request early access <ArrowRight size={16} />
+                    </PillButton>
+                  </Magnetic>
+                </div>
               </form>
             )}
           </Reveal>

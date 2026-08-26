@@ -800,21 +800,18 @@ canvas {
   text-transform: uppercase;
 }
 
-.email-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 20px;
+.email-field {
   border-bottom: 1px solid var(--faint);
   transition: border-color 0.3s;
 }
 
-.email-row:focus-within {
+.email-field:focus-within {
   border-color: var(--lime);
 }
 
-.email-row input {
-  flex: 1;
-  min-width: 0;
+.email-field input {
+  display: block;
+  width: 100%;
   padding: 15px 0;
   border: 0;
   outline: 0;
@@ -824,12 +821,8 @@ canvas {
   font-size: 18px;
 }
 
-.email-row input::placeholder {
+.email-field input::placeholder {
   color: var(--faint);
-}
-
-.email-row .pill {
-  margin-bottom: 9px;
 }
 
 .access textarea {
@@ -855,6 +848,10 @@ canvas {
 
 .access textarea:focus {
   border-color: var(--lime);
+}
+
+.form-actions {
+  margin-top: 32px;
 }
 
 .optional-tag {
@@ -1160,22 +1157,6 @@ canvas {
 
   .access {
     padding: 120px 0 140px;
-  }
-
-  .email-row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 18px;
-    border-bottom: 0;
-  }
-
-  .email-row input {
-    border-bottom: 1px solid var(--faint);
-  }
-
-  .email-row .pill {
-    margin-bottom: 0;
-    align-self: flex-start;
   }
 
   .footer {
