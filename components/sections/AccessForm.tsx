@@ -217,11 +217,6 @@ export default function AccessForm() {
                     {errorMessage}
                   </p>
                 ) : null}
-                <p className="access-privacy">
-                  Your address and your note are all that is kept.
-                  No IP address, no analytics, no tracker.
-                  Ask and it is deleted.
-                </p>
               </form>
             )}
           </Reveal>

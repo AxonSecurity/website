@@ -865,13 +865,6 @@ canvas {
   font-size: 11px;
 }
 
-.access-privacy {
-  margin-top: 24px;
-  color: var(--faint);
-  font-size: 12px;
-  line-height: 1.6;
-}
-
 .hp-field {
   position: absolute;
   left: -9999px;
