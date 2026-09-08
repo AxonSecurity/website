@@ -437,69 +437,6 @@ canvas {
   }
 }
 
-.ticker {
-  overflow: hidden;
-  border-top: 1px solid var(--hairline);
-  border-bottom: 1px solid var(--hairline);
-  padding: 22px 0;
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 9%,
-    #000 91%,
-    transparent
-  );
-  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
-}
-
-.ticker-track {
-  display: flex;
-  width: max-content;
-  animation: ticker-scroll 44s linear infinite;
-}
-
-.ticker:hover .ticker-track {
-  animation-play-state: paused;
-}
-
-.ticker-group {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.ticker-group li {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  padding-right: 28px;
-  white-space: nowrap;
-  color: var(--ghost);
-  font-family: var(--font-mono), 'JetBrains Mono', monospace;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.ticker-group li::after {
-  content: '';
-  width: 7px;
-  height: 7px;
-  background: var(--lime);
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-  opacity: 0.7;
-}
-
-@keyframes ticker-scroll {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 .partners {
   border-top: 1px solid var(--hairline);
   border-bottom: 1px solid var(--hairline);
@@ -682,6 +619,21 @@ canvas {
   font-weight: 700;
   font-size: 30px;
   letter-spacing: 0.04em;
+}
+
+.loop-cap-label {
+  fill: var(--faint);
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: fill 0.35s var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.loop-diagram:hover .loop-cap-label {
+  fill: var(--paper);
 }
 
 .loop-needle {
@@ -1388,12 +1340,6 @@ canvas {
 
   .kinetic-word {
     transform: none;
-  }
-
-  .ticker-track {
-    animation: none;
-    flex-wrap: wrap;
-    width: 100%;
   }
 
   .diagram-line {

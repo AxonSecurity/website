@@ -10,11 +10,31 @@ const CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS
 
 const STATION_ANGLE_DEG = [-90, 0, 90, 180]
 
+const CAPABILITY_LABELS = [
+  'DISCOVERY',
+  'CONTEXT MAPPING',
+  'RISK PRIORITIZATION',
+  'POLICY GUARDRAILS',
+  'CONTINUOUS AUDIT',
+  'VENDOR INTELLIGENCE',
+]
+
+const LABEL_RADIUS = 170
+const LABEL_ANGLE_DEG = [-90, -30, 30, 90, 150, 210] as const
+
 function stationPosition(index: number) {
   const radians = (STATION_ANGLE_DEG[index] * Math.PI) / 180
   return {
     x: 200 + RING_RADIUS * Math.cos(radians),
     y: 200 + RING_RADIUS * Math.sin(radians),
+  }
+}
+
+function labelPosition(index: number) {
+  const radians = (LABEL_ANGLE_DEG[index] * Math.PI) / 180
+  return {
+    x: 200 + LABEL_RADIUS * Math.cos(radians),
+    y: 200 + LABEL_RADIUS * Math.sin(radians),
   }
 }
 
@@ -99,6 +119,20 @@ export default function Loop() {
                     r={index === activeIndex ? 10 : 7}
                   />
                 </g>
+              )
+            })}
+            {CAPABILITY_LABELS.map((label, index) => {
+              const position = labelPosition(index)
+              return (
+                <text
+                  key={label}
+                  className="loop-cap-label"
+                  x={position.x}
+                  y={position.y}
+                  textAnchor="middle"
+                >
+                  {label}
+                </text>
               )
             })}
             <text
