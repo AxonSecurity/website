@@ -24,7 +24,7 @@ const GROUPS = [
     ],
   },
   {
-    heading: 'Member of',
+    heading: 'Member of the cybersecurity program of',
     items: [
       {
         name: 'Anthropic Cyber Verification Program',
@@ -55,7 +55,6 @@ export default function Partners() {
                     <span className="partners-mark">
                       <Mark />
                     </span>
-                    <span className="partners-name">{name}</span>
                   </a>
                 </li>
               ))}

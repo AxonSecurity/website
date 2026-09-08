@@ -12,21 +12,31 @@ const LINKS = [
   { href: '#access', label: 'Request early access' },
 ]
 
-const ECHO = [
+const ECHO_GROUPS = [
   {
-    name: 'HackNation Venture Lab',
-    href: 'https://ventures.hack-nation.ai/',
-    Mark: HackNationMark,
+    label: 'Backed by',
+    items: [
+      {
+        name: 'HackNation Venture Lab',
+        href: 'https://ventures.hack-nation.ai/',
+        Mark: HackNationMark,
+      },
+      {
+        name: 'AWS for Startups',
+        href: 'https://aws.amazon.com/startups/',
+        Mark: AwsMark,
+      },
+    ],
   },
   {
-    name: 'AWS for Startups',
-    href: 'https://aws.amazon.com/startups/',
-    Mark: AwsMark,
-  },
-  {
-    name: 'Anthropic Cyber Verification Program',
-    href: 'https://support.claude.com/en/articles/14604842-real-time-cyber-safeguards-on-claude-opus-and-sonnet',
-    Mark: AnthropicMark,
+    label: 'Member of the cybersecurity program of',
+    items: [
+      {
+        name: 'Anthropic Cyber Verification Program',
+        href: 'https://support.claude.com/en/articles/14604842-real-time-cyber-safeguards-on-claude-opus-and-sonnet',
+        Mark: AnthropicMark,
+      },
+    ],
   },
 ]
 
@@ -50,21 +60,24 @@ export default function Footer() {
         <span>© 2026 Axon Security, Inc.</span>
       </div>
       <div className="footer-echo">
-        <span className="footer-echo-label">Backed by · Member of</span>
-        {ECHO.map(({ name, href, Mark }) => (
-          <a
-            key={name}
-            className="footer-echo-link"
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={name}
-          >
-            <span className="footer-echo-mark">
-              <Mark size={14} />
-            </span>
-            <span className="footer-echo-name">{name}</span>
-          </a>
+        {ECHO_GROUPS.map((group) => (
+          <div className="footer-echo-group" key={group.label}>
+            <span className="footer-echo-label">{group.label}</span>
+            {group.items.map(({ name, href, Mark }) => (
+              <a
+                key={name}
+                className="footer-echo-link"
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={name}
+              >
+                <span className="footer-echo-mark">
+                  <Mark size={14} />
+                </span>
+              </a>
+            ))}
+          </div>
         ))}
       </div>
     </footer>
