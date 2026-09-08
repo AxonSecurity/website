@@ -621,21 +621,6 @@ canvas {
   letter-spacing: 0.04em;
 }
 
-.loop-cap-label {
-  fill: var(--faint);
-  font-family: var(--font-mono), 'JetBrains Mono', monospace;
-  font-size: 8px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transition: fill 0.35s var(--ease-out-expo);
-  pointer-events: none;
-}
-
-.loop-diagram:hover .loop-cap-label {
-  fill: var(--paper);
-}
-
 .loop-needle {
   stroke: var(--lime);
   stroke-width: 1.5;
@@ -684,6 +669,41 @@ canvas {
   font-size: 17px;
   line-height: 1.7;
   color: var(--ghost);
+}
+
+.loop-step-keywords {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.loop-step-keywords li {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: var(--ghost);
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.loop-step-keywords li::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--lime);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  opacity: 0.7;
+}
+
+.loop-step.is-active .loop-step-keywords li {
+  color: var(--paper);
 }
 
 .caps {

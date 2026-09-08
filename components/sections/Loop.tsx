@@ -10,31 +10,11 @@ const CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS
 
 const STATION_ANGLE_DEG = [-90, 0, 90, 180]
 
-const CAPABILITY_LABELS = [
-  'DISCOVERY',
-  'CONTEXT MAPPING',
-  'RISK PRIORITIZATION',
-  'POLICY GUARDRAILS',
-  'CONTINUOUS AUDIT',
-  'VENDOR INTELLIGENCE',
-]
-
-const LABEL_RADIUS = 170
-const LABEL_ANGLE_DEG = [-90, -30, 30, 90, 150, 210] as const
-
 function stationPosition(index: number) {
   const radians = (STATION_ANGLE_DEG[index] * Math.PI) / 180
   return {
     x: 200 + RING_RADIUS * Math.cos(radians),
     y: 200 + RING_RADIUS * Math.sin(radians),
-  }
-}
-
-function labelPosition(index: number) {
-  const radians = (LABEL_ANGLE_DEG[index] * Math.PI) / 180
-  return {
-    x: 200 + LABEL_RADIUS * Math.cos(radians),
-    y: 200 + LABEL_RADIUS * Math.sin(radians),
   }
 }
 
@@ -121,20 +101,6 @@ export default function Loop() {
                 </g>
               )
             })}
-            {CAPABILITY_LABELS.map((label, index) => {
-              const position = labelPosition(index)
-              return (
-                <text
-                  key={label}
-                  className="loop-cap-label"
-                  x={position.x}
-                  y={position.y}
-                  textAnchor="middle"
-                >
-                  {label}
-                </text>
-              )
-            })}
             <text
               className="loop-center-word"
               x="200"
@@ -155,6 +121,13 @@ export default function Loop() {
               <span className="loop-step-num">{stage.num}</span>
               <h3>{stage.title}</h3>
               <p>{stage.text}</p>
+              {stage.keywords.length > 0 && (
+                <ul className="loop-step-keywords" aria-label="Capabilities">
+                  {stage.keywords.map((keyword) => (
+                    <li key={keyword}>{keyword}</li>
+                  ))}
+                </ul>
+              )}
             </article>
           ))}
         </div>

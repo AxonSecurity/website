@@ -21,6 +21,7 @@ export const LOOP_STAGES = [
     num: '01',
     title: 'Discover every model you run',
     text: 'Axon sweeps your cloud, code, and contracts to inventory every AI system your teams build, buy, or quietly ship.',
+    keywords: ['DISCOVERY'],
   },
   {
     id: 'understand',
@@ -28,6 +29,7 @@ export const LOOP_STAGES = [
     num: '02',
     title: 'Trace risk to its source',
     text: 'Data, permissions, prompts, and vendors resolve into one continuously updated picture of exposure.',
+    keywords: ['CONTEXT MAPPING', 'VENDOR INTELLIGENCE'],
   },
   {
     id: 'govern',
@@ -35,6 +37,7 @@ export const LOOP_STAGES = [
     num: '03',
     title: 'Enforce policy once',
     text: 'Guardrails encode your standards and enforce them everywhere models appear — before incidents do.',
+    keywords: ['POLICY GUARDRAILS'],
   },
   {
     id: 'act',
@@ -42,5 +45,6 @@ export const LOOP_STAGES = [
     num: '04',
     title: 'Fix what matters first',
     text: 'Prioritized findings route straight to owners. Exposure drops. Audit evidence writes itself.',
+    keywords: ['RISK PRIORITIZATION', 'CONTINUOUS AUDIT'],
   },
 ] as const
