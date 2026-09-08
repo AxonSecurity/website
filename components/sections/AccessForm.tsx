@@ -162,35 +162,7 @@ export default function AccessForm() {
               ))}
             </div>
           </Reveal>
-          <Reveal delay={3}>
-            <div className="access-trust">
-              <p className="access-trust-label">Backed by &amp; member of</p>
-              <div className="access-trust-row">
-                <a
-                  href="https://ventures.hack-nation.ai/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  HackNation Venture Lab
-                </a>
-                <a
-                  href="https://aws.amazon.com/startups/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  AWS for Startups
-                </a>
-                <a
-                  href="https://support.claude.com/en/articles/14604842-real-time-cyber-safeguards-on-claude-opus-and-sonnet"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Anthropic Cyber Verification Program
-                </a>
-              </div>
-            </div>
-          </Reveal>
-        </div>
+          </div>
         <div className="access-form-col">
           <Reveal delay={1}>
             {status === 'success' ? (
