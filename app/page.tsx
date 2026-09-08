@@ -3,6 +3,7 @@ import Capabilities from '@/components/sections/Capabilities'
 import Governance from '@/components/sections/Governance'
 import Hero from '@/components/sections/Hero'
 import Loop from '@/components/sections/Loop'
+import Partners from '@/components/sections/Partners'
 import Marquee from '@/components/motion/Marquee'
 import Footer from '@/components/layout/Footer'
 import Nav from '@/components/layout/Nav'
@@ -18,6 +19,23 @@ const structuredData = {
       url: SITE_URL,
       logo: `${SITE_URL}/brand/axon-tile.png`,
       description: SITE_DESCRIPTION,
+      memberOf: [
+        {
+          '@type': 'Organization',
+          name: 'HackNation Venture Lab',
+          url: 'https://ventures.hack-nation.ai/',
+        },
+        {
+          '@type': 'Organization',
+          name: 'AWS for Startups',
+          url: 'https://aws.amazon.com/startups/',
+        },
+        {
+          '@type': 'Organization',
+          name: 'Anthropic Cyber Verification Program',
+          url: 'https://support.claude.com/en/articles/14604842-real-time-cyber-safeguards-on-claude-opus-and-sonnet',
+        },
+      ],
     },
     {
       '@type': 'WebPage',
@@ -61,6 +79,7 @@ export default function Page() {
       <Nav />
       <Hero />
       <Marquee />
+      <Partners />
       <Loop />
       <Capabilities />
       <Governance />
