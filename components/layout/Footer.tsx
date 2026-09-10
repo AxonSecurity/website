@@ -6,10 +6,10 @@ import {
 } from '@/components/partners/marks'
 
 const LINKS = [
-  { href: '#platform', label: 'Platform' },
-  { href: '#loop', label: 'Protocol' },
-  { href: '#governance', label: 'Governance' },
-  { href: '#access', label: 'Request early access' },
+  { href: '#platform', label: 'Why Axon' },
+  { href: '#loop', label: 'How it works' },
+  { href: '#governance', label: 'Coverage' },
+  { href: '#access', label: 'Get covered' },
 ]
 
 const ECHO_GROUPS = [
@@ -55,7 +55,7 @@ export default function Footer() {
           ))}
         </nav>
         <span className="footer-tagline">
-          Continuous AI posture &amp; governance for security teams.
+          Managed AI security, end to end.
         </span>
         <span>© 2026 Axon Security, Inc.</span>
       </div>

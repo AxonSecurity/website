@@ -7,7 +7,8 @@ stroke) are the only allowed expression — never new hues.
 Sources of DNA:
 - **The axon itself** — the nerve fiber that carries a signal. One idea owns
   the page: signals in → clarity out. Particles converge into the mark; the
-  protocol section walks DISCOVER → UNDERSTAND → GOVERN → ACT.
+  loop section walks DISCOVER → UNDERSTAND → GOVERN → ACT — what Axon runs
+  for the customer.
 - **Brand file (`AXON Logo lime.html`)** — canonical mark path, exact palette,
   Syne / JetBrains Mono / Lora type stack.
 - **v1 lessons** — reduced-motion parity, rAF hygiene, AbortController
@@ -93,7 +94,6 @@ Shell: `min(1200px, calc(100% - 48px))` (40px gutters ≤760px).
 | Nav | sticky, min-height 88 (72 mobile), hide-on-scroll past 140px |
 | Hero | full `100svh` tidal stage; content bottom-centered, `padding-bottom: clamp(96px, 14vh, 168px)` |
 | Loop | 150 top padding; steps at `92vh` each (72vh ≤900px) |
-| Telemetry | 46px vertical, hairline top+bottom |
 | Capabilities | 150 top; rows 74px vertical, hairlines between |
 | Governance | 190/170, kinetic word behind |
 | Access | 170/190, two-column grid |
@@ -235,11 +235,11 @@ components/
 ├── icons.tsx                      ArrowRight, ArrowDownRight, Menu, Close
 └── sections/
     ├── Hero.tsx                   tidal stage: TideCanvas + bottom-centered copy
-    ├── Loop.tsx                   pinned protocol scrollytelling
-    ├── Telemetry.tsx              metrics + sparklines
-    ├── Capabilities.tsx           sticky stacking deck + SVG micro-diagrams
+    ├── Partners.tsx               trust band — HackNation, AWS, Anthropic
+    ├── Loop.tsx                   pinned loop scrollytelling
+    ├── Capabilities.tsx           stacking deck + SVG micro-diagrams
     ├── Governance.tsx             manifesto band + kinetic word
-    └── AccessForm.tsx             early-access form (client states)
+    └── AccessForm.tsx             coverage form (client states)
 lib/
 ├── animation.ts                   mulberry32 · clamp · lerp · smoothing
 ├── site.ts                        SITE_URL/name/title/locale constants
@@ -250,12 +250,19 @@ lib/fonts/Syne-Bold.ttf            satori-only font for OG card (Google Fonts, O
 
 Server components by default; `'use client'` only where state/canvas lives.
 
-Page order: Nav → Hero → Ticker → Loop → Telemetry → Capabilities →
-Governance → AccessForm → Footer.
+Page order: Nav → Hero → Partners → Loop → Capabilities → Governance →
+AccessForm → Footer.
 
 ---
 
 ## 9 · Voice & Copy Rules
+
+Positioning: Axon sells **managed AI security** — a service Axon operates,
+not a tool sold to a security team. Never address a "security team"; the
+reader is the company (founders/leadership). Verbs describe what Axon does
+on the customer's behalf ("we find, govern, defend") — not what the customer
+must operate. The only actions for the reader are getting covered or learning
+how it works.
 
 - Short declarative sentences. Full stops as punctuation marks of confidence:
   "No blind spots. No alert fatigue."
@@ -267,7 +274,9 @@ Governance → AccessForm → Footer.
   person singular.
 - Capabilities vocabulary (ticker + rows): DISCOVERY · CONTEXT MAPPING · RISK
   PRIORITIZATION · POLICY GUARDRAILS · CONTINUOUS AUDIT · VENDOR INTELLIGENCE.
-- Protocol stages: DISCOVER → UNDERSTAND → GOVERN → ACT.
+- Loop stages — what Axon runs for the customer:
+  DISCOVER → UNDERSTAND → GOVERN → ACT.
+- CTAs: coverage language ("Get covered"), never "request access to a tool".
 
 ---
 
@@ -279,13 +288,12 @@ Governance → AccessForm → Footer.
 - **Metadata:** title/description single-source in `lib/site.ts`; canonical
   `/`; OG via file convention; Twitter `summary_large_image` reusing the card.
 - **Structured data:** server-rendered JSON-LD entity graph (Organization ·
-  WebSite · WebPage · SoftwareApplication SecurityApplication).
+  WebSite · WebPage · Service).
 - **Crawler files** read the same constant; `/api/` never indexed.
 - **Semantics:** exactly one h1; sections carry h2 statements; cards/steps
   h3; canvases/kinetic words/diagrams aria-hidden decoration.
-- **Keywords** woven through voice, not stuffing: "AI security posture
-  management" (eyebrow + meta), "AI governance", "every model your company
-  runs" (h1 + meta).
+- **Keywords** woven through voice, not stuffing: "managed AI security"
+  (eyebrow + meta), "no security team required", "end to end" (h1 + meta).
 - **Form endpoint:** POSTs `{ email, company_website }`; honeypot visually
   hidden + out of tab order; distinct copy for invalid_email/rate_limited.
 

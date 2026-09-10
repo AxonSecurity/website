@@ -10,20 +10,20 @@ export default function Governance() {
       </Parallax>
       <div className="shell governance-inner">
         <Reveal>
-          <p className="eyebrow">Always-on intelligence</p>
+          <p className="eyebrow">Always-on coverage</p>
         </Reveal>
         <Reveal delay={1}>
           <DisplayHeading level={2} wordReveal>
             The model layer changes daily.
             <br />
-            Your clarity doesn&apos;t have to.
+            Our watch doesn&apos;t.
           </DisplayHeading>
         </Reveal>
         <Reveal delay={2}>
           <p className="body-copy">
-            Axon continuously discovers, contextualizes, and prioritizes every
-            exposure across your AI environment. <em>No blind spots.</em>{' '}
-            <em>No alert fatigue.</em> Posture that holds while everything
+            We continuously discover, contextualize, and resolve every exposure
+            across your AI environment. <em>No blind spots.</em>{' '}
+            <em>No alert fatigue.</em> Coverage that holds while everything
             underneath it moves.
           </p>
         </Reveal>

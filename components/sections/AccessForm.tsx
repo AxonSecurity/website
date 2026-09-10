@@ -146,11 +146,11 @@ export default function AccessForm() {
       <div className="access-inner">
         <div className="access-head">
           <Reveal>
-            <p className="eyebrow">Early access</p>
+            <p className="eyebrow">Coverage</p>
           </Reveal>
           <Reveal delay={1}>
             <DisplayHeading level={2} wordReveal>
-              Get early access.
+              Get covered.
             </DisplayHeading>
           </Reveal>
           <Reveal delay={2}>
@@ -168,7 +168,7 @@ export default function AccessForm() {
             {status === 'success' ? (
               <p className="success-message" role="status">
                 You&apos;re on the list. We&apos;ll reach out within 2–3
-                business days to schedule your teardown.
+                business days to start your coverage.
               </p>
             ) : (
               <form onSubmit={handleSubmit} aria-busy={status === 'submitting'}>
@@ -215,7 +215,7 @@ export default function AccessForm() {
                 <div className="form-actions">
                   <Magnetic>
                     <PillButton type="submit" disabled={status === 'submitting'}>
-                      Request early access <ArrowRight size={16} />
+                      Get covered <ArrowRight size={16} />
                     </PillButton>
                   </Magnetic>
                 </div>

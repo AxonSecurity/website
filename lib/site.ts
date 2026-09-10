@@ -4,9 +4,9 @@ export const SITE_URL = rawUrl.replace(/\/+$/, '')
 
 export const SITE_NAME = 'Axon'
 
-export const SITE_TITLE = 'Axon — AI Security Posture Management'
+export const SITE_TITLE = 'Axon — Managed AI Security'
 
 export const SITE_DESCRIPTION =
-  'Continuous AI posture & governance for security teams. Discover, understand, and govern every AI model, vendor, and dependency your company runs.'
+  'Managed AI security, end to end. We discover, govern, and defend every model, vendor, and dependency your company runs — no security team required.'
 
 export const SITE_LOCALE = 'en_US'

@@ -5,9 +5,9 @@ import { ArrowRight, CloseIcon, MenuIcon } from '@/components/icons'
 import Logo from '@/components/brand/Logo'
 
 const LINKS = [
-  { href: '#platform', label: 'Platform' },
-  { href: '#loop', label: 'Protocol' },
-  { href: '#governance', label: 'Governance' },
+  { href: '#platform', label: 'Why Axon' },
+  { href: '#loop', label: 'How it works' },
+  { href: '#governance', label: 'Coverage' },
 ]
 
 export default function Nav() {
@@ -90,7 +90,7 @@ export default function Nav() {
           </a>
         ))}
         <a className="nav-cta" href="#access" onClick={close}>
-          Request early access <ArrowRight size={15} />
+          Get covered <ArrowRight size={15} />
         </a>
       </div>
       <button

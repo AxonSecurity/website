@@ -29,17 +29,17 @@ export default function Loop() {
     <section className="loop" id="loop" ref={ref}>
       <div className="shell loop-head">
         <Reveal>
-          <p className="eyebrow">The Axon protocol</p>
+          <p className="eyebrow">The Axon loop</p>
         </Reveal>
         <Reveal delay={1}>
           <DisplayHeading level={2} wordReveal>
-            One loop. Total posture.
+            One loop. We run it for you.
           </DisplayHeading>
         </Reveal>
         <Reveal delay={2}>
           <p className="body-copy">
-            The Axon protocol turns your scattered AI usage into a single,
-            continuously updated security posture.
+            We turn your scattered AI usage into a single, continuously updated
+            security posture — on our end, not yours.
           </p>
         </Reveal>
       </div>

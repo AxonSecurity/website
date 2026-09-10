@@ -75,8 +75,8 @@ export async function sendNotificationEmail(
     from: FROM_ADDRESS,
     to,
     replyTo: submittedEmail,
-    subject: `New early-access request — ${submittedEmail}`,
-    text: `New early-access request.\n\nEmail: ${submittedEmail}\nIP: ${ip}\nTime: ${timestamp}${note ? `\nNote: ${note}` : ''}`,
+    subject: `New coverage request — ${submittedEmail}`,
+    text: `New coverage request.\n\nEmail: ${submittedEmail}\nIP: ${ip}\nTime: ${timestamp}${note ? `\nNote: ${note}` : ''}`,
     html: `
 <!DOCTYPE html>
 <html lang="en">
@@ -84,10 +84,10 @@ export async function sendNotificationEmail(
 <body style="margin:0;padding:0;background:${BG};color:${INK};font-family:Georgia,serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;margin:40px auto;padding:0 24px;">
     <tr><td style="padding-bottom:24px;border-bottom:1px solid ${HAIRLINE};">
-      <span style="font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:#95ff2a;">${SITE_NAME} Early Access</span>
+      <span style="font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:#95ff2a;">${SITE_NAME} Coverage</span>
     </td></tr>
     <tr><td style="padding:32px 0 16px;">
-      <h1 style="margin:0;font-size:22px;font-weight:600;color:${INK};">New early-access request</h1>
+      <h1 style="margin:0;font-size:22px;font-weight:600;color:${INK};">New coverage request</h1>
     </td></tr>
     <tr><td style="padding-bottom:24px;">
       <table width="100%" cellpadding="0" cellspacing="0" style="background:${CARD_BG};border-radius:8px;overflow:hidden;">
@@ -134,8 +134,8 @@ export async function sendConfirmationEmail(
   const { error } = await client().emails.send({
     from: FROM_ADDRESS,
     to: submittedEmail,
-    subject: `You're in — ${SITE_NAME} early access`,
-    text: `You're in.\n\nThanks for your interest in ${SITE_NAME}. You're now on the early-access list.\n\nWe'll be in touch soon with next steps — including a direct line to our founding engineers.\n\n-The ${SITE_NAME} Team\n\n${SITE_NAME}\nContinuous AI posture & governance`,
+    subject: `You're in — ${SITE_NAME} coverage`,
+    text: `You're in.\n\nThanks for your interest in ${SITE_NAME}. You're now on the list for managed coverage.\n\nWe'll be in touch soon with next steps — including a direct line to our founding engineers.\n\n-The ${SITE_NAME} Team\n\n${SITE_NAME}\nManaged AI security, end to end`,
     html: `
 <!DOCTYPE html>
 <html lang="en">
@@ -150,7 +150,7 @@ export async function sendConfirmationEmail(
     </td></tr>
     <tr><td style="padding-bottom:32px;">
       <p style="margin:0 0 16px;font-size:16px;line-height:1.7;color:rgba(11,12,10,0.75);">
-        Thanks for your interest in ${SITE_NAME}. You&apos;re now on the early-access list.
+        Thanks for your interest in ${SITE_NAME}. You&apos;re now on the list for managed coverage.
       </p>
       <p style="margin:0;font-size:16px;line-height:1.7;color:rgba(11,12,10,0.75);">
         We&apos;ll be in touch soon with next steps &mdash; including a direct line to our founding engineers.
@@ -158,7 +158,7 @@ export async function sendConfirmationEmail(
     </td></tr>
     <tr><td style="padding-top:24px;border-top:1px solid ${HAIRLINE};">
       <p style="margin:0 0 24px;font-size:14px;color:${GHOST};">-The ${SITE_NAME} Team</p>
-      <p style="margin:0;font-size:12px;color:${FAINT};letter-spacing:0.04em;">Continuous AI posture &amp; governance</p>
+      <p style="margin:0;font-size:12px;color:${FAINT};letter-spacing:0.04em;">Managed AI security, end to end</p>
     </td></tr>
   </table>
 </body>

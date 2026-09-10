@@ -21,17 +21,17 @@ export default function Hero() {
         </Reveal>
         <Reveal delay={2}>
           <DisplayHeading level={1} wordReveal>
-            Know every AI model your company runs.
+            We take care of your security. End to end.
           </DisplayHeading>
         </Reveal>
         <Reveal delay={3}>
-          <p className="tide-accent">Nothing slips past your security team.</p>
+          <p className="tide-accent">You don&apos;t need a security team. That&apos;s our job.</p>
         </Reveal>
         <Reveal delay={4}>
           <p className="tide-sub">
-            Axon is the continuous AI posture platform for security teams: one
-            live map of every model, vendor, and dependency — always current,
-            audit-ready, and governed.
+            Axon is the managed security service for AI: we find, govern, and
+            defend every model your company runs — always current, audit-ready,
+            and off your plate.
           </p>
         </Reveal>
         <Reveal delay={5}>
@@ -42,7 +42,7 @@ export default function Hero() {
           >
             <Magnetic>
               <PillButton href="#access">
-                Request early access <ArrowRight size={16} />
+                Get covered <ArrowRight size={16} />
               </PillButton>
             </Magnetic>
             <a className="text-link hero-anchor" href="#loop">

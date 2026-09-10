@@ -61,10 +61,10 @@ const CAPABILITIES: Capability[] = [
   {
     num: '01',
     label: 'DISCOVER',
-    title: 'Inventory beyond the shadow stack.',
-    text: 'Models, agents, APIs, and vendor integrations — found in your cloud, code, and contracts, including unapproved LLM wrappers and internal agents nobody reported.',
+    title: 'Your whole AI stack, on our radar.',
+    text: 'Models, agents, APIs, and vendor integrations — we find them in your cloud, code, and contracts, including unapproved wrappers and internal agents nobody reported.',
     linkHref: '#loop',
-    linkText: 'See the protocol',
+    linkText: 'See the loop',
     diagram: <NetworkDiagram />,
   },
   {
@@ -79,10 +79,10 @@ const CAPABILITIES: Capability[] = [
   {
     num: '03',
     label: 'GOVERN',
-    title: 'Policy becomes guardrails.',
-    text: 'Write the standard once. Axon enforces it at every model surface and produces audit evidence as a side effect of operating — e.g., block models accessing production PII without approval.',
+    title: 'Guardrails, run for you.',
+    text: 'Your standards become enforced guardrails at every model surface — e.g., no model touches production PII without approval. Audit evidence follows as a side effect.',
     linkHref: '#governance',
-    linkText: 'See governance in action',
+    linkText: 'See coverage in action',
     diagram: <GateDiagram />,
   },
 ]
@@ -134,11 +134,11 @@ export default function Capabilities() {
     <section className="caps shell" id="platform">
       <div className="caps-head">
         <Reveal>
-          <p className="eyebrow">The platform</p>
+          <p className="eyebrow">What we handle</p>
         </Reveal>
         <Reveal delay={1}>
           <DisplayHeading level={2} wordReveal>
-            Built for the whole model layer.
+            Security without a security team.
           </DisplayHeading>
         </Reveal>
       </div>

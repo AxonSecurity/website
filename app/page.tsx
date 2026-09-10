@@ -44,7 +44,7 @@ const structuredData = {
       description: SITE_DESCRIPTION,
       inLanguage: 'en',
       isPartOf: { '@id': `${SITE_URL}/#website` },
-      about: { '@id': `${SITE_URL}/#software` },
+      about: { '@id': `${SITE_URL}/#service` },
     },
     {
       '@type': 'WebSite',
@@ -54,14 +54,13 @@ const structuredData = {
       publisher: { '@id': `${SITE_URL}/#organization` },
     },
     {
-      '@type': 'SoftwareApplication',
-      '@id': `${SITE_URL}/#software`,
+      '@type': 'Service',
+      '@id': `${SITE_URL}/#service`,
       name: SITE_NAME,
-      applicationCategory: 'SecurityApplication',
-      operatingSystem: 'Web',
+      serviceType: 'Managed AI security',
       url: SITE_URL,
       description: SITE_DESCRIPTION,
-      publisher: { '@id': `${SITE_URL}/#organization` },
+      provider: { '@id': `${SITE_URL}/#organization` },
     },
   ],
 }
