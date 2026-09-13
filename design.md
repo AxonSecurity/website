@@ -238,7 +238,8 @@ components/
     ├── Partners.tsx               trust band — HackNation, AWS, Anthropic
     ├── Loop.tsx                   pinned loop scrollytelling
     ├── Capabilities.tsx           stacking deck + SVG micro-diagrams
-    ├── Governance.tsx             manifesto band + kinetic word
+    ├── Governance.tsx             sovereignty band + kinetic word
+    ├── Path.tsx                   day-one coverage chips + NOW/NEXT/THEREAFTER roadmap
     └── AccessForm.tsx             coverage form (client states)
 lib/
 ├── animation.ts                   mulberry32 · clamp · lerp · smoothing
@@ -251,29 +252,30 @@ lib/fonts/Syne-Bold.ttf            satori-only font for OG card (Google Fonts, O
 Server components by default; `'use client'` only where state/canvas lives.
 
 Page order: Nav → Hero → Partners → Loop → Capabilities → Governance →
-AccessForm → Footer.
+Path → AccessForm → Footer.
 
 ---
 
 ## 9 · Voice & Copy Rules
 
-Positioning: Axon sells **managed AI security** — a service Axon operates,
-not a tool sold to a security team. Never address a "security team"; the
-reader is the company (founders/leadership). Verbs describe what Axon does
-on the customer's behalf ("we find, govern, defend") — not what the customer
-must operate. The only actions for the reader are getting covered or learning
-how it works.
+Positioning: Axon is **agent security for the AI stack you already run** — a
+sovereign in-tenant security layer, not a dashboard of model inventories.
+The voice stays first-person ("we") for the operations Axon performs, but
+"we" is the product working inside the customer's tenant; the reader is the
+company (founders/leadership and security-minded operators). Never address a
+"security team" as the buyer. The only actions for the reader are getting
+covered or learning how it works.
 
 - Short declarative sentences. Full stops as punctuation marks of confidence:
-  "No blind spots. No alert fatigue."
+  "Your data never leaves your tenant."
 - Sentence case headlines ending in a period. Uppercase only for operational
   labels (eyebrows, metrics, markers, ticker).
-- Concrete over abstract: numbers, systems, routes, dependencies — never
+- Concrete over abstract: agents, MCP servers, blast radius, paths — never
   "revolutionary", "cutting-edge", "seamless".
-- Second person plural for the customer ("your company"); Axon speaks third
+- Second person plural for the customer ("your stack"); Axon speaks third
   person singular.
-- Capabilities vocabulary (ticker + rows): DISCOVERY · CONTEXT MAPPING · RISK
-  PRIORITIZATION · POLICY GUARDRAILS · CONTINUOUS AUDIT · VENDOR INTELLIGENCE.
+- Capabilities vocabulary (ticker + rows): DISCOVERY · AGENT GRAPH · RISK
+  PATHS · POLICY GUARDRAILS · SOVEREIGN BY DESIGN · FRAMEWORK MAPPING.
 - Loop stages — what Axon runs for the customer:
   DISCOVER → UNDERSTAND → GOVERN → ACT.
 - CTAs: coverage language ("Get covered"), never "request access to a tool".
@@ -292,8 +294,9 @@ how it works.
 - **Crawler files** read the same constant; `/api/` never indexed.
 - **Semantics:** exactly one h1; sections carry h2 statements; cards/steps
   h3; canvases/kinetic words/diagrams aria-hidden decoration.
-- **Keywords** woven through voice, not stuffing: "managed AI security"
-  (eyebrow + meta), "no security team required", "end to end" (h1 + meta).
+- **Keywords** woven through voice, not stuffing: "agent security" (eyebrow +
+  meta), "AI stack", "coding agents", "MCP servers", "framework agents",
+  "security graph", "blast radius" (h1 + meta).
 - **Form endpoint:** POSTs `{ email, company_website }`; honeypot visually
   hidden + out of tab order; distinct copy for invalid_email/rate_limited.
 
