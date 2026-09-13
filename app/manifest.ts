@@ -2,9 +2,10 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Axon — Managed AI Security',
+    name: 'Axon — Agent Security',
     short_name: 'Axon',
-    description: 'Managed AI security, end to end. No security team required.',
+    description:
+      'Agent security for the AI stack you run. Sovereign, framework-grounded, live on day one.',
     start_url: '/',
     display: 'browser',
     background_color: '#000000',

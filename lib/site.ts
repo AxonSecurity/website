@@ -4,9 +4,9 @@ export const SITE_URL = rawUrl.replace(/\/+$/, '')
 
 export const SITE_NAME = 'Axon'
 
-export const SITE_TITLE = 'Axon — Managed AI Security'
+export const SITE_TITLE = 'Axon — Agent Security for the AI Stack You Run'
 
 export const SITE_DESCRIPTION =
-  'Managed AI security, end to end. We discover, govern, and defend every model, vendor, and dependency your company runs — no security team required.'
+  'Axon maps your coding agents, MCP servers, and framework agents into one security graph of blast radius. Sovereign, framework-grounded, live on day one.'
 
 export const SITE_LOCALE = 'en_US'

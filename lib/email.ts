@@ -135,7 +135,7 @@ export async function sendConfirmationEmail(
     from: FROM_ADDRESS,
     to: submittedEmail,
     subject: `You're in — ${SITE_NAME} coverage`,
-    text: `You're in.\n\nThanks for your interest in ${SITE_NAME}. You're now on the list for managed coverage.\n\nWe'll be in touch soon with next steps — including a direct line to our founding engineers.\n\n-The ${SITE_NAME} Team\n\n${SITE_NAME}\nManaged AI security, end to end`,
+    text: `You're in.\n\nThanks for your interest in ${SITE_NAME}. You're now on the list for early access.\n\nWe'll be in touch soon with next steps — including a direct line to our founding engineers.\n\n-The ${SITE_NAME} Team\n\n${SITE_NAME}\nAgent security for the AI stack you run`,
     html: `
 <!DOCTYPE html>
 <html lang="en">
@@ -150,7 +150,7 @@ export async function sendConfirmationEmail(
     </td></tr>
     <tr><td style="padding-bottom:32px;">
       <p style="margin:0 0 16px;font-size:16px;line-height:1.7;color:rgba(11,12,10,0.75);">
-        Thanks for your interest in ${SITE_NAME}. You&apos;re now on the list for managed coverage.
+        Thanks for your interest in ${SITE_NAME}. You&apos;re now on the list for early access.
       </p>
       <p style="margin:0;font-size:16px;line-height:1.7;color:rgba(11,12,10,0.75);">
         We&apos;ll be in touch soon with next steps &mdash; including a direct line to our founding engineers.
@@ -158,7 +158,7 @@ export async function sendConfirmationEmail(
     </td></tr>
     <tr><td style="padding-top:24px;border-top:1px solid ${HAIRLINE};">
       <p style="margin:0 0 24px;font-size:14px;color:${GHOST};">-The ${SITE_NAME} Team</p>
-      <p style="margin:0;font-size:12px;color:${FAINT};letter-spacing:0.04em;">Managed AI security, end to end</p>
+      <p style="margin:0;font-size:12px;color:${FAINT};letter-spacing:0.04em;">Agent security for the AI stack you run</p>
     </td></tr>
   </table>
 </body>
