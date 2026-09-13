@@ -49,7 +49,7 @@ export default function Hero() {
               </PillButton>
             </Magnetic>
             <a className="text-link hero-anchor" href="#loop">
-              How it works <ArrowDownRight size={15} />
+              The road ahead <ArrowDownRight size={15} />
             </a>
           </div>
         </Reveal>

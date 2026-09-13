@@ -7,8 +7,8 @@ import {
 
 const LINKS = [
   { href: '#platform', label: 'Why Axon' },
-  { href: '#loop', label: 'How it works' },
-  { href: '#path', label: 'Roadmap' },
+  { href: '#loop', label: 'The road ahead' },
+  { href: '#path', label: 'Day one' },
   { href: '#access', label: 'Get covered' },
 ]
 

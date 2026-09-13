@@ -8,7 +8,7 @@ import { LOOP_STAGES } from '@/components/canvas/config'
 const RING_RADIUS = 150
 const CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS
 
-const STATION_ANGLE_DEG = [-90, 0, 90, 180]
+const STATION_ANGLE_DEG = [-90, 30, 150]
 
 function stationPosition(index: number) {
   const radians = (STATION_ANGLE_DEG[index] * Math.PI) / 180
@@ -18,9 +18,6 @@ function stationPosition(index: number) {
   }
 }
 
-const LABEL_ANCHOR = ['middle', 'start', 'middle', 'end'] as const
-const LABEL_DY = [-14, 4, 22, 4] as const
-
 export default function Loop() {
   const { ref, activeIndex } = usePinnedScene(LOOP_STAGES.length)
   const activeStage = LOOP_STAGES[activeIndex]
@@ -29,17 +26,17 @@ export default function Loop() {
     <section className="loop" id="loop" ref={ref}>
       <div className="shell loop-head">
         <Reveal>
-          <p className="eyebrow">The Axon loop</p>
+          <p className="eyebrow">The road ahead</p>
         </Reveal>
         <Reveal delay={1}>
           <DisplayHeading level={2} wordReveal>
-            Every agent. One living graph.
+            Now. Next. Thereafter.
           </DisplayHeading>
         </Reveal>
         <Reveal delay={2}>
           <p className="body-copy">
-            We turn the agents you already run into one continuously updated
-            security graph — mapped, measured, and enforced from a single pane.
+            From graph to real-time protection to enforced posture — shipped
+            in stages, each a layer on the one before.
           </p>
         </Reveal>
       </div>

@@ -7,8 +7,8 @@ stroke) are the only allowed expression — never new hues.
 Sources of DNA:
 - **The axon itself** — the nerve fiber that carries a signal. One idea owns
   the page: signals in → clarity out. Particles converge into the mark; the
-  loop section walks DISCOVER → UNDERSTAND → GOVERN → ACT — what Axon runs
-  for the customer.
+  pinned loop walks the roadmap NOW → NEXT → THEREAFTER — the three stages
+  Axon ships in.
 - **Brand file (`AXON Logo lime.html`)** — canonical mark path, exact palette,
   Syne / JetBrains Mono / Lora type stack.
 - **v1 lessons** — reduced-motion parity, rAF hygiene, AbortController
@@ -181,13 +181,13 @@ Knobs in `canvas/config.ts → FIELD_CONFIG`.
 ### THE LOOP (scrollytelling)
 Structure: `.loop-track` grid `[diagram-cell | steps]`. Diagram cell is
 `position: sticky; height: 100vh` — sticky inside its own grid column while
-the steps column scrolls four ~92vh stages. **Zero absolute positioning of
+the steps column scrolls three ~92vh stages. **Zero absolute positioning of
 content.**
 
 Diagram (viewBox 400², aria-hidden): base ring (hairline), progress arc
 (lime, `strokeDashoffset: calc(C * (1 - var(--loop-progress)))`, rotated to
 start at 12 o'clock), needle rotating
-`rotate(calc(var(--loop-progress) * 360deg))`, four station nodes lighting up
+`rotate(calc(var(--loop-progress) * 360deg))`, three station nodes lighting up
 progressively, center word swaps to active stage. Station numerals sit
 inward-facing so nothing can exit the viewBox (v1 overflow class eliminated).
 
@@ -236,10 +236,10 @@ components/
 └── sections/
     ├── Hero.tsx                   tidal stage: TideCanvas + bottom-centered copy
     ├── Partners.tsx               trust band — HackNation, AWS, Anthropic
-    ├── Loop.tsx                   pinned loop scrollytelling
+    ├── Loop.tsx                   pinned roadmap ring (NOW→NEXT→THEREAFTER)
     ├── Capabilities.tsx           stacking deck + SVG micro-diagrams
     ├── Governance.tsx             sovereignty band + kinetic word
-    ├── Path.tsx                   day-one coverage chips + NOW/NEXT/THEREAFTER roadmap
+    ├── Path.tsx                   day-one coverage statement
     └── AccessForm.tsx             coverage form (client states)
 lib/
 ├── animation.ts                   mulberry32 · clamp · lerp · smoothing
@@ -264,7 +264,7 @@ The voice stays first-person ("we") for the operations Axon performs, but
 "we" is the product working inside the customer's tenant; the reader is the
 company (founders/leadership and security-minded operators). Never address a
 "security team" as the buyer. The only actions for the reader are getting
-covered or learning how it works.
+covered or learning the road ahead.
 
 - Short declarative sentences. Full stops as punctuation marks of confidence:
   "Your data never leaves your tenant."
@@ -276,8 +276,8 @@ covered or learning how it works.
   person singular.
 - Capabilities vocabulary (ticker + rows): DISCOVERY · AGENT GRAPH · RISK
   PATHS · POLICY GUARDRAILS · SOVEREIGN BY DESIGN · FRAMEWORK MAPPING.
-- Loop stages — what Axon runs for the customer:
-  DISCOVER → UNDERSTAND → GOVERN → ACT.
+- Loop stages — the roadmap Axon ships in:
+  NOW → NEXT → THEREAFTER.
 - CTAs: coverage language ("Get covered"), never "request access to a tool".
 
 ---
