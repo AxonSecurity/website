@@ -4,7 +4,6 @@ import Governance from '@/components/sections/Governance'
 import Hero from '@/components/sections/Hero'
 import Loop from '@/components/sections/Loop'
 import Partners from '@/components/sections/Partners'
-import Path from '@/components/sections/Path'
 import Footer from '@/components/layout/Footer'
 import Nav from '@/components/layout/Nav'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from '@/lib/site'
@@ -81,7 +80,6 @@ export default function Page() {
       <Loop />
       <Capabilities />
       <Governance />
-      <Path />
       <AccessForm />
       <Footer />
     </main>

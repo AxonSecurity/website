@@ -841,25 +841,6 @@ canvas {
   user-select: none;
 }
 
-.path {
-  padding: 150px 0 110px;
-}
-
-.path-head {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 26px;
-}
-
-.path-head .display-section {
-  max-width: 900px;
-}
-
-.path-body {
-  max-width: 560px;
-}
-
 .access {
   padding: 170px 0 190px;
 }
@@ -1300,12 +1281,8 @@ canvas {
     display: none;
   }
 
-  .governance {
+.governance {
     padding: 130px 0 120px;
-  }
-
-  .path {
-    padding: 120px 0 90px;
   }
 
   .access {

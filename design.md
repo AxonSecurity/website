@@ -239,7 +239,6 @@ components/
     ├── Loop.tsx                   pinned roadmap ring (NOW→NEXT→THEREAFTER)
     ├── Capabilities.tsx           stacking deck + SVG micro-diagrams
     ├── Governance.tsx             sovereignty band + kinetic word
-    ├── Path.tsx                   day-one coverage statement
     └── AccessForm.tsx             coverage form (client states)
 lib/
 ├── animation.ts                   mulberry32 · clamp · lerp · smoothing
@@ -252,7 +251,7 @@ lib/fonts/Syne-Bold.ttf            satori-only font for OG card (Google Fonts, O
 Server components by default; `'use client'` only where state/canvas lives.
 
 Page order: Nav → Hero → Partners → Loop → Capabilities → Governance →
-Path → AccessForm → Footer.
+AccessForm → Footer.
 
 ---
 
