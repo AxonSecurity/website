@@ -33,13 +33,13 @@ export default function Loop() {
         </Reveal>
         <Reveal delay={1}>
           <DisplayHeading level={2} wordReveal>
-            One loop. We run it for you.
+            Every agent. One living graph.
           </DisplayHeading>
         </Reveal>
         <Reveal delay={2}>
           <p className="body-copy">
-            We turn your scattered AI usage into a single, continuously updated
-            security posture — on our end, not yours.
+            We turn the agents you already run into one continuously updated
+            security graph — mapped, measured, and enforced from a single pane.
           </p>
         </Reveal>
       </div>

@@ -21,17 +21,20 @@ export default function Hero() {
         </Reveal>
         <Reveal delay={2}>
           <DisplayHeading level={1} wordReveal>
-            We take care of your security. End to end.
+            Agent security for the AI stack you already run.
           </DisplayHeading>
         </Reveal>
         <Reveal delay={3}>
-          <p className="tide-accent">You don&apos;t need a security team. That&apos;s our job.</p>
+          <p className="tide-accent">
+            Your coding agents, MCP servers, and framework agents — secured as
+            the system they already are.
+          </p>
         </Reveal>
         <Reveal delay={4}>
           <p className="tide-sub">
-            Axon is the managed security service for AI: we find, govern, and
-            defend every model your company runs — always current, audit-ready,
-            and off your plate.
+            Axon discovers every agent in your AI stack — who it acts for,
+            what it can reach, where it runs — and renders the whole thing as
+            one interactive security graph of blast radius.
           </p>
         </Reveal>
         <Reveal delay={5}>

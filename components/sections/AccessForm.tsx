@@ -30,6 +30,7 @@ const ERROR_COPY: Record<string, string> = {
 
 const POINTS = [
   'A direct line to the founding engineers',
+  'A read-only scan of your own stack, in your own tenant',
 ]
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ''
@@ -192,7 +193,7 @@ export default function AccessForm() {
                   name="note"
                   maxLength={500}
                   rows={3}
-                  placeholder="We're deploying GPT-4 and Claude across 3 product teams..."
+                  placeholder="We run Claude Code and Cursor across the fleet, plus MCP servers and a few LangGraph agents..."
                 />
                 <div className="hp-field" aria-hidden="true">
                   <label htmlFor="company_website">Company website</label>

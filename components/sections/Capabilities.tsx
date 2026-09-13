@@ -61,8 +61,8 @@ const CAPABILITIES: Capability[] = [
   {
     num: '01',
     label: 'DISCOVER',
-    title: 'Your whole AI stack, on our radar.',
-    text: 'Models, agents, APIs, and vendor integrations — we find them in your cloud, code, and contracts, including unapproved wrappers and internal agents nobody reported.',
+    title: 'Your entire AI stack, one graph.',
+    text: 'Every agent and its non-human identity, the human it acts for, the models it uses, the tools and MCP servers it can call, the memory and data it reaches — all in one interactive graph.',
     linkHref: '#loop',
     linkText: 'See the loop',
     diagram: <NetworkDiagram />,
@@ -70,19 +70,19 @@ const CAPABILITIES: Capability[] = [
   {
     num: '02',
     label: 'UNDERSTAND',
-    title: 'Context, not noise.',
-    text: 'Every finding lands in its real blast radius: which PII each model touches, which permissions it carries, which vendor stands behind it.',
+    title: 'Risk as paths, not packets.',
+    text: 'Relationships are first-class. An exposed endpoint, an over-privileged identity, and a regulated data store on one path is a toxic combination you can click and see — grounded in OWASP Agentic Top 10, CSA MAESTRO, MITRE ATLAS, and OWASP MCP Top 10.',
     linkHref: '#loop',
-    linkText: 'Explore risk signals',
+    linkText: 'Explore risk paths',
     diagram: <GraphDiagram />,
   },
   {
     num: '03',
     label: 'GOVERN',
-    title: 'Guardrails, run for you.',
-    text: 'Your standards become enforced guardrails at every model surface — e.g., no model touches production PII without approval. Audit evidence follows as a side effect.',
+    title: 'Sovereign by design.',
+    text: 'Axon runs inside your tenant. Collectors are read-only and emit metadata only; raw prompts, data-store contents, and secrets never leave. Secrets become findings by reference, never stored values.',
     linkHref: '#governance',
-    linkText: 'See coverage in action',
+    linkText: 'See how it runs',
     diagram: <GateDiagram />,
   },
 ]
@@ -134,11 +134,11 @@ export default function Capabilities() {
     <section className="caps shell" id="platform">
       <div className="caps-head">
         <Reveal>
-          <p className="eyebrow">What we handle</p>
+          <p className="eyebrow">What Axon does</p>
         </Reveal>
         <Reveal delay={1}>
           <DisplayHeading level={2} wordReveal>
-            Security without a security team.
+            Not an inventory. The whole graph.
           </DisplayHeading>
         </Reveal>
       </div>

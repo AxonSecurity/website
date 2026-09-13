@@ -6,25 +6,25 @@ export default function Governance() {
   return (
     <section className="governance" id="governance">
       <Parallax className="kinetic-word" factor={0.16}>
-        GOVERNED
+        SOVEREIGN
       </Parallax>
       <div className="shell governance-inner">
         <Reveal>
-          <p className="eyebrow">Always-on coverage</p>
+          <p className="eyebrow">Sovereign by design</p>
         </Reveal>
         <Reveal delay={1}>
           <DisplayHeading level={2} wordReveal>
-            The model layer changes daily.
-            <br />
-            Our watch doesn&apos;t.
+            Your data never leaves your tenant.
           </DisplayHeading>
         </Reveal>
         <Reveal delay={2}>
           <p className="body-copy">
-            We continuously discover, contextualize, and resolve every exposure
-            across your AI environment. <em>No blind spots.</em>{' '}
-            <em>No alert fatigue.</em> Coverage that holds while everything
-            underneath it moves.
+            Collectors are read-only and emit metadata only. Raw prompts,
+            data-store contents, and secrets stay in your environment —
+            secrets become findings by reference, never stored values.
+            <em> One container store, no external calls from the data plane,
+            no vendor cloud.</em> The graph is also a live AI Bill of
+            Materials, exportable as CycloneDX.
           </p>
         </Reveal>
       </div>

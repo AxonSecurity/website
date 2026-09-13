@@ -8,7 +8,7 @@ import {
 const LINKS = [
   { href: '#platform', label: 'Why Axon' },
   { href: '#loop', label: 'How it works' },
-  { href: '#governance', label: 'Coverage' },
+  { href: '#path', label: 'Roadmap' },
   { href: '#access', label: 'Get covered' },
 ]
 
@@ -55,7 +55,7 @@ export default function Footer() {
           ))}
         </nav>
         <span className="footer-tagline">
-          Managed AI security, end to end.
+          Agent security for the AI stack you run.
         </span>
         <span>© 2026 Axon Security, Inc.</span>
       </div>

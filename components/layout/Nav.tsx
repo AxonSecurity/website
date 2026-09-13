@@ -7,7 +7,7 @@ import Logo from '@/components/brand/Logo'
 const LINKS = [
   { href: '#platform', label: 'Why Axon' },
   { href: '#loop', label: 'How it works' },
-  { href: '#governance', label: 'Coverage' },
+  { href: '#path', label: 'Roadmap' },
 ]
 
 export default function Nav() {
