@@ -192,7 +192,10 @@ progressively, center word swaps to active stage. Station numerals sit
 inward-facing so nothing can exit the viewBox (v1 overflow class eliminated).
 
 Mobile ≤900px: diagram hidden; slim sticky rail shows stage word +
-`scaleX(var(--loop-progress))` lime bar.
+`scaleX(var(--loop-progress))` lime bar. The rail pins to viewport top
+(`top: 0`, safe-area-aware `padding-top`) once the nav hides, and rests at
+`72px` (88px on 761–900 where nav is taller) while the nav is visible —
+`nav.nav:not(.nav-hidden) ~ .loop` drives the swap, so no empty strip ever.
 
 Reduced motion: hook pins progress=1, last stage active, all steps opacity 1.
 

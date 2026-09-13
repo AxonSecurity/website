@@ -1159,15 +1159,26 @@ canvas {
 
   .loop-mobile-rail {
     position: sticky;
-    top: 72px;
+    top: 0;
     z-index: 2;
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 18px 24px;
+    padding: max(18px, env(safe-area-inset-top, 0px)) 24px 18px;
     background: rgba(11, 12, 10, 0.86);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
+  }
+
+  nav.nav:not(.nav-hidden) ~ .loop .loop-mobile-rail {
+    top: 72px;
+    padding-top: 18px;
+  }
+
+  @media (min-width: 761px) and (max-width: 900px) {
+    nav.nav:not(.nav-hidden) ~ .loop .loop-mobile-rail {
+      top: 88px;
+    }
   }
 
   .loop-mobile-bar {
