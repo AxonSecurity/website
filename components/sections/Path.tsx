@@ -23,7 +23,7 @@ const PHASES = [
   {
     phase: 'Now',
     title: 'Discover and graph',
-    text: 'Your full AI stack as one interactive graph, a framework overlay, first declared-state findings, and an AIBOM ready to export.',
+    text: 'Your AI stack as one interactive graph, with first declared-state findings.',
   },
   {
     phase: 'Next',
@@ -53,11 +53,9 @@ export default function Path() {
         </Reveal>
         <Reveal delay={2}>
           <p className="path-body body-copy">
-            Claude Code, Cursor, Copilot, Codex, Gemini CLI — plus the
-            LangGraph, CrewAI, AutoGen, and OpenAI agents living in your
-            repositories. No enterprise cloud access is needed to see value on
-            day one. Cloud, identity providers, and SaaS agent platforms plug
-            into the same graph next.
+            No enterprise cloud access is needed to see value on day one.
+            Cloud, identity providers, and SaaS agent platforms plug into the
+            same graph next.
           </p>
         </Reveal>
       </div>

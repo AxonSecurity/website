@@ -71,7 +71,7 @@ const CAPABILITIES: Capability[] = [
     num: '02',
     label: 'UNDERSTAND',
     title: 'Risk as paths, not packets.',
-    text: 'Relationships are first-class. An exposed endpoint, an over-privileged identity, and a regulated data store on one path is a toxic combination you can click and see — grounded in OWASP Agentic Top 10, CSA MAESTRO, MITRE ATLAS, and OWASP MCP Top 10.',
+    text: 'Relationships are first-class: an exposed endpoint, an over-privileged identity, and a regulated data store on one path is a toxic combination you can click and see. Grounded in OWASP Agentic Top 10, CSA MAESTRO, and MITRE ATLAS.',
     linkHref: '#loop',
     linkText: 'Explore risk paths',
     diagram: <GraphDiagram />,
@@ -79,10 +79,10 @@ const CAPABILITIES: Capability[] = [
   {
     num: '03',
     label: 'GOVERN',
-    title: 'Sovereign by design.',
-    text: 'Axon runs inside your tenant. Collectors are read-only and emit metadata only; raw prompts, data-store contents, and secrets never leave. Secrets become findings by reference, never stored values.',
-    linkHref: '#governance',
-    linkText: 'See how it runs',
+    title: 'Guardrails every agent must pass.',
+    text: 'Your standards become guardrails at every agent surface, enforced before reach becomes an incident — with audit evidence written as a side effect.',
+    linkHref: '#loop',
+    linkText: 'See the loop',
     diagram: <GateDiagram />,
   },
 ]

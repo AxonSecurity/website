@@ -23,7 +23,7 @@ export default function Governance() {
             data-store contents, and secrets stay in your environment —
             secrets become findings by reference, never stored values.
             <em> One container store, no external calls from the data plane,
-            no vendor cloud.</em> The graph is also a live AI Bill of
+            no vendor cloud.</em> The graph doubles as a live AI Bill of
             Materials, exportable as CycloneDX.
           </p>
         </Reveal>
