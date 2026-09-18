@@ -238,7 +238,7 @@ components/
 ├── icons.tsx                      ArrowRight, ArrowDownRight, Menu, Close
 └── sections/
     ├── Hero.tsx                   tidal stage: TideCanvas + bottom-centered copy
-    ├── Partners.tsx               trust band — HackNation, AWS, Anthropic
+    ├── Partners.tsx               trust band — HackNation, AWS, E2B, Anthropic
     ├── Loop.tsx                   pinned roadmap ring (NOW→NEXT→THEREAFTER)
     ├── Capabilities.tsx           stacking deck + SVG micro-diagrams
     ├── Governance.tsx             sovereignty band + kinetic word

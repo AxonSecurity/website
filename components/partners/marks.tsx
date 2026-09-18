@@ -24,6 +24,17 @@ export function AwsMark({ size = 32 }: MarkProps) {
   )
 }
 
+export function E2bMark({ size = 32 }: MarkProps) {
+  return (
+    <img
+      src="/partners/e2b.png"
+      alt=""
+      loading="lazy"
+      style={{ height: size, width: 'auto' }}
+    />
+  )
+}
+
 export function AnthropicMark({ size = 32 }: MarkProps) {
   return (
     <img
