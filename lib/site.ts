@@ -2,7 +2,7 @@ const isDev = process.env.NODE_ENV === 'development'
 
 const rawUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
-  (isDev ? 'http://localhost:3000' : 'https://axon.example.com')
+  (isDev ? 'http://localhost:3000' : 'https://axonsecurity.tech')
 
 export const SITE_URL = rawUrl.replace(/\/+$/, '')
 

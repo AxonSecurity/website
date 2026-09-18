@@ -287,7 +287,7 @@ covered or learning the road ahead.
 ## 10 · SEO & Metadata Contract
 
 - **Canonical origin:** `NEXT_PUBLIC_SITE_URL` env var; dev falls back to
-  `http://localhost:3000`, prod placeholder `https://axon.example.com`
+  `http://localhost:3000`, prod fallback `https://axonsecurity.tech`
   (`lib/site.ts`). Domain swap later = one env var. All absolute URLs derive
   from `lib/site.ts` — never hard-coded.
 - **Metadata:** title/description single-source in `lib/site.ts`; canonical
