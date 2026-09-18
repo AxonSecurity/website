@@ -1,6 +1,7 @@
 import {
   AnthropicMark,
   AwsMark,
+  E2bMark,
   HackNationMark,
 } from '@/components/partners/marks'
 
@@ -20,6 +21,11 @@ const GROUPS = [
         name: 'AWS for Startups',
         href: 'https://aws.amazon.com/startups/',
         Mark: AwsMark,
+      },
+      {
+        name: 'E2B for Startups',
+        href: 'https://e2b.dev/startups/',
+        Mark: E2bMark,
       },
     ],
   },

@@ -31,6 +31,11 @@ const structuredData = {
         },
         {
           '@type': 'Organization',
+          name: 'E2B for Startups',
+          url: 'https://e2b.dev/startups/',
+        },
+        {
+          '@type': 'Organization',
           name: 'Anthropic Cyber Verification Program',
           url: 'https://support.claude.com/en/articles/14604842-real-time-cyber-safeguards-on-claude-opus-and-sonnet',
         },
