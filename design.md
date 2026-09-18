@@ -286,9 +286,10 @@ covered or learning the road ahead.
 
 ## 10 · SEO & Metadata Contract
 
-- **Canonical origin:** `NEXT_PUBLIC_SITE_URL` env var; placeholder fallback
-  `https://axon.example.com`. Domain swap later = one env var. All absolute
-  URLs derive from `lib/site.ts` — never hard-coded.
+- **Canonical origin:** `NEXT_PUBLIC_SITE_URL` env var; dev falls back to
+  `http://localhost:3000`, prod placeholder `https://axon.example.com`
+  (`lib/site.ts`). Domain swap later = one env var. All absolute URLs derive
+  from `lib/site.ts` — never hard-coded.
 - **Metadata:** title/description single-source in `lib/site.ts`; canonical
   `/`; OG via file convention; Twitter `summary_large_image` reusing the card.
 - **Structured data:** server-rendered JSON-LD entity graph (Organization ·
