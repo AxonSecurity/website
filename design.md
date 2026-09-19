@@ -209,8 +209,10 @@ app/
 ├── page.tsx                       JSON-LD graph + section order
 ├── globals.css                    v2 token/type/section styles
 ├── api/access/route.ts            POST: JSON-only, size cap, validation, honeypot,
-│                                  rate limit 5/10min/IP, dev JSONL store (.data/),
-│                                  masked PII log in prod, generic responses
+│                                  rate limit 5/10min/IP from rightmost
+│                                  x-forwarded-for hop (spoof-proof),
+│                                  Turnstile verify (5s timeout, fail-closed),
+│                                  _ax cookie, generic responses
 ├── opengraph-image.tsx            1200×630 satori card: Syne TTF + mark PNG, glows
 ├── twitter-image.tsx              re-export of OG card
 ├── robots.ts · sitemap.ts · manifest.ts   crawler plumbing off SITE_URL
