@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import {
   sendNotificationEmail,
   sendConfirmationEmail,
@@ -17,9 +17,20 @@ const MIN_SUBMISSION_MS = 2_000
 
 const hits = new Map<string, number[]>()
 
-function clientKey(request: Request): string {
-  const forwarded = request.headers.get('x-forwarded-for') ?? ''
-  return forwarded.split(',')[0].trim() || request.headers.get('x-real-ip') || 'unknown'
+function clientKey(request: NextRequest): string {
+  // Reverse proxies (Vercel) append the connecting client address to a
+  // client-supplied x-forwarded-for header, so the rightmost entry is the
+  // real sender; the leftmost is spoofable and must not gate the rate limit.
+  const forwarded = request.headers.get('x-forwarded-for')
+  if (forwarded) {
+    const addresses = forwarded
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+    const rightmost = addresses[addresses.length - 1]
+    if (rightmost) return rightmost
+  }
+  return request.headers.get('x-real-ip') ?? 'unknown'
 }
 
 function isRateLimited(key: string): boolean {
@@ -45,19 +56,29 @@ function isValidEmail(value: unknown): value is string {
 
 async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
   const secretKey = process.env.TURNSTILE_SECRET_KEY
-  if (!secretKey) return true
+  // Fail closed: with no secret we can't validate anything, so reject rather
+  // than silently accepting submissions.
+  if (!secretKey) return false
 
-  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ secret: secretKey, response: token, remoteip: ip }),
-  })
+  const params = new URLSearchParams({ secret: secretKey, response: token })
+  if (ip && ip !== 'unknown') params.set('remoteip', ip)
 
-  const data = (await res.json()) as { success?: boolean }
-  return data.success === true
+  try {
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params,
+      signal: AbortSignal.timeout(5_000),
+    })
+    const data = (await res.json()) as { success?: boolean }
+    return data.success === true
+  } catch {
+    // Timeout, network error, or malformed response → treat as invalid.
+    return false
+  }
 }
 
-export async function POST(request: Request): Promise<NextResponse> {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const key = clientKey(request)
 
   if (isRateLimited(key)) {

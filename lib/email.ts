@@ -93,7 +93,7 @@ export async function sendNotificationEmail(
       <table width="100%" cellpadding="0" cellspacing="0" style="background:${CARD_BG};border-radius:8px;overflow:hidden;">
         <tr><td style="padding:16px 20px;">
           <p style="margin:0 0 4px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:${GHOST};">Email</p>
-          <p style="margin:0;font-size:16px;color:${INK};"><a href="mailto:${submittedEmail}" style="color:#95ff2a;text-decoration:none;">${submittedEmail}</a></p>
+          <p style="margin:0;font-size:16px;color:${INK};"><a href="mailto:${escapeHtml(submittedEmail)}" style="color:#95ff2a;text-decoration:none;">${escapeHtml(submittedEmail)}</a></p>
         </td></tr>
         <tr><td style="padding:0 20px;border-top:1px solid ${CARD_BORDER};">
           <table width="100%" cellpadding="0" cellspacing="0"><tr>
