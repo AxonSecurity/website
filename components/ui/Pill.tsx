@@ -1,13 +1,11 @@
-'use client'
-
-import type { MouseEvent, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { ArrowRight } from '@/components/icons'
 
 interface PillBaseProps {
   children: ReactNode
-  variant?: 'solid' | 'ghost'
   size?: 'default' | 'small'
   className?: string
+  /** Label shown in the custom cursor while hovering. */
   cursor?: string
   icon?: ReactNode
 }
@@ -25,42 +23,15 @@ type PillButtonProps = PillBaseProps & {
   onClick?: () => void
 }
 
-// The fill circle grows from wherever the pointer entered the pill.
-function trackEntry(event: MouseEvent<HTMLElement>) {
-  const target = event.currentTarget
-  const rect = target.getBoundingClientRect()
-  target.style.setProperty('--fx', `${event.clientX - rect.left}px`)
-  target.style.setProperty('--fy', `${event.clientY - rect.top}px`)
-}
-
+// The CTA: a lime pill with an arrow chip. Hover only changes its colour.
 export default function Pill(props: PillLinkProps | PillButtonProps) {
-  const {
-    children,
-    variant = 'solid',
-    size = 'default',
-    className = '',
-    cursor,
-    icon = <ArrowRight size={16} />,
-  } = props
-
-  const classes = [
-    'pill',
-    variant === 'ghost' ? 'pill-ghost' : '',
-    size === 'small' ? 'pill-small' : '',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ')
+  const { children, size = 'default', className = '', cursor, icon = <ArrowRight size={16} /> } = props
+  const classes = ['pill', size === 'small' ? 'pill-small' : '', className].filter(Boolean).join(' ')
 
   const inner = (
     <>
-      <span className="pill-fill" aria-hidden="true" />
-      <span className="pill-label">
-        <span>{children}</span>
-        <span aria-hidden="true">{children}</span>
-      </span>
+      <span className="pill-label">{children}</span>
       <span className="pill-icon" aria-hidden="true">
-        {icon}
         {icon}
       </span>
     </>
@@ -68,13 +39,7 @@ export default function Pill(props: PillLinkProps | PillButtonProps) {
 
   if (props.href !== undefined) {
     return (
-      <a
-        href={props.href}
-        className={classes}
-        data-cursor={cursor}
-        onMouseEnter={trackEntry}
-        onMouseLeave={trackEntry}
-      >
+      <a href={props.href} className={classes} data-cursor={cursor}>
         {inner}
       </a>
     )
@@ -87,8 +52,6 @@ export default function Pill(props: PillLinkProps | PillButtonProps) {
       disabled={props.disabled}
       onClick={props.onClick}
       data-cursor={cursor}
-      onMouseEnter={trackEntry}
-      onMouseLeave={trackEntry}
     >
       {inner}
     </button>

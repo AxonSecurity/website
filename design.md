@@ -61,8 +61,7 @@ Eases: `'axon'` (0.16,1,0.3,1 — entrances), `'axon-io'` (0.76,0,0.24,1 — wip
 | SplitReveal | `motion/SplitReveal.tsx` | Masked lines/words/chars rise; `trigger="scroll" \| "intro"` |
 | Scramble | `motion/Scramble.tsx` | Mono text decodes from noise; `trigger="scroll" \| "intro" \| "hover"` |
 | Marquee | `motion/Marquee.tsx` | Infinite ticker, scroll-velocity boost/reverse/skew |
-| Magnetic | `motion/Magnetic.tsx` | Elastic pull toward the pointer |
-| Pill | `ui/Pill.tsx` | The CTA: fill grows from the entry point, label rolls, arrow swaps |
+| Pill | `ui/Pill.tsx` | The CTA: lime pill + arrow chip; hover is a colour change only (no movement) |
 | Eyebrow / SectionHead | `ui/*` | Chapter openers |
 
 Rules:
