@@ -5,7 +5,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin'
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin'
-import { TextPlugin } from 'gsap/TextPlugin'
 import { CustomEase } from 'gsap/CustomEase'
 import { useGSAP } from '@gsap/react'
 
@@ -19,7 +18,6 @@ function register() {
     SplitText,
     ScrambleTextPlugin,
     DrawSVGPlugin,
-    TextPlugin,
     CustomEase,
     useGSAP,
   )
@@ -42,4 +40,4 @@ export function prefersReducedMotion(): boolean {
 
 export const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/<>#*+-'
 
-export { gsap, ScrollTrigger, SplitText, ScrambleTextPlugin, DrawSVGPlugin, TextPlugin, useGSAP }
+export { gsap, ScrollTrigger, SplitText, ScrambleTextPlugin, DrawSVGPlugin, useGSAP }

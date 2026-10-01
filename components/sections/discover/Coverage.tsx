@@ -28,18 +28,19 @@ const FRAMEWORKS = [
   'n8n',
 ]
 
+// Outcome-level claims only; how discovery works stays off the page.
 const FACTS = [
   {
     label: 'Read-only',
-    text: 'Collectors read configs, lockfiles and source trees. They never write to them, and never start an MCP server to find out.',
+    text: 'Axon reads. It never writes. Nothing in your stack changes so that we can see it.',
   },
   {
-    label: 'No network probes',
-    text: 'Exposure is derived from addresses, config keys, launch commands and lockfiles — not from scanning your network.',
+    label: 'Nothing probed',
+    text: 'No network scanning, and no running system is touched to find what is there.',
   },
   {
-    label: 'Idempotent',
-    text: 'Every node and edge has a content-derived identity. Run discovery again and the graph updates; it never duplicates.',
+    label: 'Always current',
+    text: 'Run it again and the map updates in place. Nothing is duplicated.',
   },
 ]
 
@@ -56,7 +57,7 @@ function Row({ items, outlineEvery }: { items: string[]; outlineEvery: number })
   )
 }
 
-// What the collectors read today: the facts strip and two opposing tickers.
+// The facts strip and two opposing tickers of supported tools.
 export default function Coverage() {
   return (
     <div className="discover-coverage">

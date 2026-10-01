@@ -36,7 +36,9 @@ Canvas text: read the family with
 
 ## 3 · Layout
 
-- `.wrap` = max 1680px, `--gutter` side padding. `.section` = `--section-y` block padding.
+- `.wrap` = max 1840px, `--edge` side padding (`--gutter` + `--inset`). The blueprint
+  lines sit on `--gutter`, so content always clears them by `--inset`; never put
+  text or a box border on a blueprint line. `.section` = `--section-y` block padding.
 - `.grid-12` 12-col grid. Fixed blueprint column lines (6 cols) sit behind everything.
 - Chapters: each section root has `id` and `data-chapter` (drives the right-edge rail).
   `01 Premise #premise · 02 Discover #discover · 03 Judge #judge · 04 Observe #observe ·
@@ -96,13 +98,13 @@ per section with the CPU throttled 6× on an integrated GPU.
 | # | Section | Set piece |
 |---|---|---|
 | — | Preloader | Counter 000→100, mark draws, boot log decodes, screen collapses into the axon line |
-| — | Hero | WebGL **estate graph**: scattered points assemble into an agent graph; lime signals ride the edges; hover any node → its **blast radius** lights up. Kinetic width headline on intro (static afterwards, not pointer-reactive) |
+| — | Hero | WebGL **estate graph**: scattered points assemble into an agent graph; lime signals ride the edges; hover any node → its **blast radius** lights up (tooltip only, no HUD card). Kinetic width headline on intro (static afterwards, not pointer-reactive) |
 | — | Partners | Backed-by band |
 | 01 | Premise | Scroll-scrubbed manifesto; words light up, inline glyph chips pop in |
-| 02 | Discover | Pinned **scan**: a beam sweeps unknown dots, each resolves into a typed node, edges draw; client/framework marquees |
-| 03 | Judge | Pinned **three legs**: reach (left leg) + influence (right leg) + no boundary (the gapped crossbar) *assemble the Axon mark* — only then is it a finding. Finding anatomy + 123→18 precision counter |
-| 04 | Observe | Redaction machine (content → metadata), live event stream, declared / observed / both edge states |
-| 05 | Sovereign | Tenant boundary: metadata never leaves; signed content comes in through a 7-step verification ladder. Giant width-animated SOVEREIGN |
+| 02 | Discover | Section head, three outcome-level facts, client/framework marquees. No product visual (IP): no node/edge types, labels, sources or counts |
+| 03 | Judge | Pinned **three legs**: reach (left leg) + influence (right leg) + no boundary (the gapped crossbar) *assemble the Axon mark* — only then is it a finding |
+| 04 | Observe | Redaction machine (content → metadata), adapters, fail-open / report-first notes |
+| 05 | Sovereign | Tenant boundary: metadata never leaves; signed content comes in through the verification ladder (no bundle version shown). Giant width-animated SOVEREIGN |
 | 06 | Roadmap | Horizontal pinned track NOW → NEXT → THEREAFTER, a signal travels the line |
 | 07 | Get covered | Giant CTA, animated form, success burst. No ticker: the close is deliberately simple |
 | — | Footer | Parallax reveal, index, partners, UTC clock. No giant wordmark |

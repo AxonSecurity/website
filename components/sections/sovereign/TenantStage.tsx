@@ -16,7 +16,6 @@ const STEPS = [
 ]
 
 const SIGNATURE_STEP = 5
-const FIRST_VERSION = [0, 4, 2]
 
 const NOTE_OK = 'Fail-closed. Any failed step leaves the running content untouched. Works air-gapped.'
 const NOTE_REFUSED = 'Refused at signature. The running content keeps serving; a refused row names the step.'
@@ -36,7 +35,6 @@ export default function TenantStage() {
       if (!root || !canvas || !ladder || !panel) return
 
       const rows = Array.from(ladder.querySelectorAll<HTMLElement>('li'))
-      const version = root.querySelector<HTMLElement>('.sov-bundle-version')
       const note = root.querySelector<HTMLElement>('.sov-ladder-note')
       const reduced = prefersReducedMotion()
       const mobile = window.matchMedia('(max-width: 760px)').matches
@@ -85,7 +83,6 @@ export default function TenantStage() {
       let visible = false
       let cycle = 0
       let current: gsap.core.Timeline | null = null
-      const semver = [...FIRST_VERSION]
 
       const setNote = (text: string) => {
         if (!note || note.textContent === text) return
@@ -115,11 +112,8 @@ export default function TenantStage() {
             })
           },
         })
-        const label = `axon-content-${semver.join('.')}`
-
         tl.call(() => {
           rows.forEach((row) => setState(row, 'idle'))
-          if (version) version.textContent = label
           setNote(NOTE_OK)
           // A tampered bundle looks like any other until the signature fails.
           packet.refused = 0
@@ -139,7 +133,6 @@ export default function TenantStage() {
               setState(row, 'refused')
               setNote(NOTE_REFUSED)
               packet.refused = 1
-              if (version) version.textContent = `${label} · refused`
             })
           } else {
             tl.call(() => setState(row, 'ok'))
@@ -152,10 +145,7 @@ export default function TenantStage() {
             .to(packet, { alpha: 0, duration: 0.4 }, '-=0.4')
             .to({}, { duration: 1.6 })
         } else {
-          tl.call(() => {
-            scene.ripple()
-            semver[2] += 1
-          })
+          tl.call(() => scene.ripple())
             .to(packet, { alpha: 0.6, duration: 0.6 })
             .to({}, { duration: 2.2 })
             .to(packet, { alpha: 0, trail: 0, duration: 0.5 })
@@ -209,7 +199,7 @@ export default function TenantStage() {
       <div className="sov-stage-grid">
         <div className="sov-stage-copy">
           <p className="sov-stage-title">
-            Metadata moves inside the wall. <span className="serif-i">Nothing crosses it outward.</span>
+            Metadata moves inside the wall. <span className="serif-i lime">Nothing crosses it outward.</span>
           </p>
           <p className="body">
             The only inbound flow is Axon&apos;s own detection content — one signed, versioned bundle, verified on
@@ -219,7 +209,6 @@ export default function TenantStage() {
         <div className="sov-ladder">
           <div className="sov-ladder-head mono">
             <span>Signed content bundle</span>
-            <span className="sov-bundle-version tabular">axon-content-0.4.2</span>
           </div>
           <ol className="sov-ladder-list" aria-label="Content verification steps">
             {STEPS.map((step, index) => (

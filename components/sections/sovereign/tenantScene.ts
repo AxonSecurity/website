@@ -200,10 +200,13 @@ export function createTenantScene(canvas: HTMLCanvasElement, fontFamily: string,
     ctx.fillText('YOUR TENANT', x + 26, y + 26)
     ctx.fillStyle = `rgba(${PAPER}, 0.32)`
     ctx.fillText('EGRESS  ·  NONE', x + 26, y + 44)
-    ctx.fillStyle = `rgba(${LIME}, 0.9)`
-    const inbound = 'INBOUND ONLY'
+    // Larger than the other wall labels and set inside the wall, just under
+    // the port, so it reads clearly and never sits on the line itself.
+    ctx.font = `600 ${mobile ? 12 : 14}px ${fontFamily}`
+    ctx.fillStyle = `rgba(${LIME}, 0.95)`
+    const inbound = 'INBOUND ONLY ↓'
     const inboundWidth = ctx.measureText(inbound).width
-    ctx.fillText(inbound, channelX - PORT_HALF - 14 - inboundWidth, y - 0.5)
+    ctx.fillText(inbound, channelX - PORT_HALF - 12 - inboundWidth, y + 22)
   }
 
   const drawFlashes = (ctx: CanvasRenderingContext2D) => {

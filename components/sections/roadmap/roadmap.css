@@ -145,7 +145,7 @@
   align-items: stretch;
   justify-self: start;
   width: max-content;
-  padding-inline: var(--gutter);
+  padding-inline: var(--edge);
   will-change: transform;
 }
 

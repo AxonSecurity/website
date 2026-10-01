@@ -35,6 +35,10 @@
 
   /* Layout */
   --gutter: clamp(16px, 3.2vw, 48px);
+  /* Content sits this far inside the blueprint lines (which stay on the
+     gutter), so no text or box ever rides a line. */
+  --inset: clamp(14px, 1.9vw, 40px);
+  --edge: calc(var(--gutter) + var(--inset));
   --max: 1840px;
   --nav-h: 76px;
   --section-y: clamp(110px, 16vh, 200px);
@@ -191,7 +195,7 @@ p {
   width: 100%;
   max-width: var(--max);
   margin-inline: auto;
-  padding-inline: var(--gutter);
+  padding-inline: var(--edge);
 }
 
 .section {

@@ -110,3 +110,23 @@ html.has-cursor textarea {
 .cursor[data-pressed='true'] .cursor-ring-shape {
   scale: 0.82;
 }
+
+/* Over the lime menu: ink cursor, one fixed shape, no hover/label states.
+   (html.menu-open outranks the [data-state] rules above.) */
+html.menu-open .cursor .cursor-dot {
+  background: var(--ink);
+  opacity: 1;
+  scale: 1;
+}
+
+html.menu-open .cursor .cursor-ring-shape {
+  width: 38px;
+  height: 38px;
+  border-color: rgba(var(--ink-rgb), 0.6);
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+html.menu-open .cursor .cursor-label {
+  opacity: 0;
+}
