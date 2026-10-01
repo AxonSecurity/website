@@ -1,0 +1,177 @@
+.premise {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.premise-inner {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: clamp(28px, 4vh, 56px);
+  width: 100%;
+  min-height: 100svh;
+  padding-top: clamp(96px, 13vh, 150px);
+  padding-bottom: clamp(28px, 5vh, 56px);
+}
+
+.premise-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.premise-kicker {
+  color: var(--faint);
+  font-size: 10.5px;
+}
+
+.premise-text {
+  align-self: center;
+  max-width: 19.4em;
+  font-family: var(--font-display);
+  font-size: clamp(34px, 4.6vw, 94px);
+  font-weight: 680;
+  font-variation-settings: 'wdth' 100;
+  line-height: 1.02;
+  letter-spacing: -0.038em;
+  color: var(--paper);
+  text-wrap: pretty;
+}
+
+.pw {
+  display: inline;
+}
+
+.pw-tail {
+  margin-left: -0.02em;
+}
+
+.pm-final {
+  --wdth: 125;
+  display: block;
+  margin-top: 0.12em;
+  color: var(--lime);
+  font-weight: 800;
+  font-variation-settings: 'wdth' var(--wdth);
+}
+
+.pm-final .pw {
+  display: inline-block;
+}
+
+/* Inline glyph chips — a hairline lime pill carrying a line glyph. */
+.pchip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.46em;
+  height: 0.74em;
+  margin-inline: 0.02em 0.04em;
+  vertical-align: 0.02em;
+  border-radius: 999px;
+  border: 1.5px solid rgba(var(--lime-rgb), 0.6);
+  color: var(--lime);
+  overflow: hidden;
+  transform-origin: 50% 60%;
+}
+
+.pchip-flash {
+  position: absolute;
+  inset: 0;
+  background: var(--lime);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pchip-glyph {
+  position: relative;
+  width: 0.46em;
+  height: 0.46em;
+}
+
+/* The key is long and flat, so at the shared size it read small. */
+.pchip-glyph-key {
+  width: 0.7em;
+  height: 0.7em;
+}
+
+.premise-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.pm-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 10.5px;
+  color: var(--ghost);
+  white-space: nowrap;
+}
+
+.pm-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid var(--faint);
+  transition:
+    background-color 0.5s var(--ease),
+    border-color 0.5s var(--ease),
+    box-shadow 0.5s var(--ease);
+}
+
+.premise.is-mapped .pm-status {
+  color: var(--paper);
+}
+
+.premise.is-mapped .pm-status-dot {
+  background: var(--lime);
+  border-color: var(--lime);
+  box-shadow: 0 0 12px var(--lime-glow);
+}
+
+.pm-progress {
+  flex: 1;
+  max-width: 420px;
+  height: 1px;
+  background: var(--hairline);
+  overflow: hidden;
+}
+
+.pm-progress-fill {
+  height: 100%;
+  background: var(--lime);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+@media (max-width: 760px) {
+  .premise-kicker {
+    display: none;
+  }
+
+  .premise-text {
+    font-weight: 650;
+    line-height: 1.06;
+  }
+
+  .pm-progress {
+    max-width: 120px;
+  }
+
+  .pm-status {
+    font-size: 9.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-progress-fill {
+    transform: scaleX(1);
+  }
+}

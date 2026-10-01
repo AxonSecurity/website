@@ -1,0 +1,582 @@
+/* ==========================================================================
+   03 · JUDGE — three legs assemble the mark; finding anatomy; precision.
+   ========================================================================== */
+
+.judge {
+  position: relative;
+  padding-top: var(--section-y);
+}
+
+.judge-head {
+  padding-bottom: clamp(24px, 5vh, 64px);
+}
+
+/* ---------- Pinned stage ---------- */
+
+.tl {
+  --stage: 4;
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+}
+
+.tl-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(150px, auto);
+  grid-template-areas:
+    'steps steps steps'
+    'left  mark  right'
+    'slot  slot  slot';
+  align-content: center;
+  row-gap: 0;
+  height: 100%;
+  padding-top: calc(var(--nav-h) + 8px);
+  padding-bottom: 3vh;
+}
+
+/* Steps indicator */
+
+.tl-steps {
+  grid-area: steps;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  list-style: none;
+  margin: 0 0 clamp(20px, 4vh, 44px);
+  padding: 0;
+  font-size: 10.5px;
+}
+
+.tl-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--dim);
+  transition: color 0.5s var(--ease);
+}
+
+.tl-step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px currentColor;
+  transition:
+    background-color 0.5s var(--ease),
+    box-shadow 0.5s var(--ease);
+}
+
+.tl-step-num {
+  color: inherit;
+}
+
+.tl-step-rule {
+  position: relative;
+  width: clamp(28px, 5vw, 72px);
+  height: 1px;
+  margin-left: 4px;
+  background: var(--hairline);
+  overflow: hidden;
+}
+
+.tl-step-rule::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--lime);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.9s var(--ease);
+}
+
+.tl-step.is-on {
+  color: var(--paper);
+}
+
+.tl-step.is-on .tl-step-dot {
+  background: var(--lime);
+  box-shadow:
+    inset 0 0 0 1px var(--lime),
+    0 0 10px var(--lime-glow);
+}
+
+.tl-step.is-current .tl-step-name {
+  color: var(--lime);
+}
+
+.tl-step:has(+ .tl-step.is-on) .tl-step-rule::after {
+  transform: scaleX(1);
+}
+
+/* Mark */
+
+.tl-markcell {
+  grid-area: mark;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+/* The ignition glow is a plain gradient layer faded on opacity: no SVG
+   filter is ever re-rasterised while the stroke is being scrubbed. */
+.tl-glow {
+  position: absolute;
+  inset: -30% -40%;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--lime-rgb), 0.2),
+    rgba(var(--lime-rgb), 0.07) 45%,
+    rgba(var(--lime-rgb), 0)
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s var(--ease);
+}
+
+.tl[data-stage='4'] .tl-glow {
+  opacity: 1;
+}
+
+.tl-markbox {
+  position: relative;
+  transform-origin: 50% 55%;
+}
+
+.tl-svg {
+  position: relative;
+  display: block;
+  height: min(56vh, 640px);
+  width: auto;
+  aspect-ratio: 100 / 86;
+  overflow: visible;
+}
+
+.tl-ghost-edge {
+  stroke: rgba(var(--paper-rgb), 0.24);
+}
+
+.tl-ghost-fill {
+  stroke: var(--ink);
+}
+
+.tl-lime path {
+  stroke: var(--lime);
+  stroke-linecap: butt;
+}
+
+.tl-lead {
+  fill: none;
+  stroke: rgba(var(--paper-rgb), 0.5);
+  stroke-width: 0.2;
+}
+
+.tl-lead-dot {
+  fill: var(--paper);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+
+.tl-lead-dot-1 {
+  opacity: clamp(0, var(--stage), 1);
+}
+
+.tl-lead-dot-2 {
+  opacity: clamp(0, calc(var(--stage) - 1), 1);
+}
+
+.tl-lead-dot-3 {
+  opacity: clamp(0, calc(var(--stage) - 2), 1);
+}
+
+/* The gap: the boundary that isn't there. A static dashed outline in the
+   SVG, plus an HTML fill that breathes on opacity only (compositor). */
+
+.tl-gap-box {
+  fill: none;
+  stroke: rgba(var(--lime-rgb), 0.9);
+  stroke-width: 0.22;
+  stroke-dasharray: 0.7 0.55;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+}
+
+.tl[data-stage='3'] .tl-gap-box {
+  opacity: 1;
+}
+
+/* Positioned in viewBox units: x 48.5–51.5, y 52.5–63.5 of a 100 × 86 box
+   whose origin sits at y = 6. */
+.tl-gap-pulse {
+  position: absolute;
+  left: 48.5%;
+  top: 54.07%;
+  width: 3%;
+  height: 12.79%;
+  background: var(--lime);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tl[data-stage='3'] .tl-gap-pulse {
+  animation: tl-gap-pulse 1.3s ease-in-out infinite alternate;
+}
+
+@keyframes tl-gap-pulse {
+  from {
+    opacity: 0.08;
+  }
+  to {
+    opacity: 0.55;
+  }
+}
+
+/* Ignition: two shockwave rings, played once per ignition. */
+
+.tl-ring {
+  position: absolute;
+  left: 50%;
+  top: 53.49%;
+  width: 52%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(var(--lime-rgb), 0.7);
+  border-radius: 50%;
+  translate: -50% -50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tl[data-stage='4'] .tl-ring {
+  animation: tl-ring 2.6s var(--ease) both;
+}
+
+.tl[data-stage='4'] .tl-ring + .tl-ring {
+  animation-delay: 0.5s;
+}
+
+@keyframes tl-ring {
+  from {
+    transform: scale(0.5);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+/* Labels */
+
+.tl-label {
+  position: relative;
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.9s var(--ease);
+}
+
+.tl-label-kicker {
+  font-size: 10.5px;
+  color: var(--ghost);
+}
+
+.tl-label-title {
+  margin-top: 10px;
+  font-size: clamp(20px, 1.75vw, 28px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--paper);
+  text-wrap: balance;
+}
+
+.tl-label-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(16px, 1.25vw, 19px);
+  line-height: 1.3;
+  color: var(--ghost);
+}
+
+.tl-label-rule {
+  display: block;
+  background: rgba(var(--paper-rgb), 0.5);
+  transition: transform 0.8s var(--ease) 0.25s;
+}
+
+/* Side labels hang off a leader aligned with the leg's midpoint. */
+
+.tl-label-1,
+.tl-label-2 {
+  align-self: stretch;
+}
+
+.tl-label-1 {
+  grid-area: left;
+  text-align: right;
+}
+
+.tl-label-2 {
+  grid-area: right;
+}
+
+/* Labels hug the mark (the outer edges stay clear for the chapter rail). */
+.tl-label-1 .tl-label-top,
+.tl-label-2 .tl-label-top {
+  position: absolute;
+  bottom: calc(50% + 14px);
+  width: min(250px, calc(100% - 40px));
+}
+
+.tl-label-1 .tl-label-top,
+.tl-label-1 .tl-label-sub {
+  right: 32px;
+}
+
+.tl-label-2 .tl-label-top,
+.tl-label-2 .tl-label-sub {
+  left: 32px;
+}
+
+.tl-label-1 .tl-label-sub,
+.tl-label-2 .tl-label-sub {
+  position: absolute;
+  top: calc(50% + 14px);
+  width: min(240px, calc(100% - 40px));
+}
+
+.tl-label-1 .tl-label-rule,
+.tl-label-2 .tl-label-rule {
+  position: absolute;
+  top: calc(50% - 0.5px);
+  width: min(282px, 100%);
+  height: 1px;
+  transform: scaleX(0);
+}
+
+.tl-label-1 .tl-label-rule {
+  right: 0;
+  transform-origin: right center;
+}
+
+.tl-label-2 .tl-label-rule {
+  left: 0;
+  transform-origin: left center;
+}
+
+/* Bottom slot: label 03 and the verdict share it. */
+
+.tl-label-3,
+.tl-verdict {
+  grid-area: slot;
+  justify-self: center;
+  align-self: start;
+  text-align: center;
+}
+
+.tl-label-3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.tl-label-3 .tl-label-rule {
+  order: -1;
+  width: 1px;
+  height: 22px;
+  transform: scaleY(0);
+  transform-origin: top center;
+}
+
+.tl-label-3 .tl-label-title {
+  margin-top: 6px;
+}
+
+.tl-verdict {
+  padding-top: 18px;
+  font-size: clamp(38px, 4.6vw, 80px);
+  font-weight: 800;
+  font-variation-settings: 'wdth' 108;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s var(--ease),
+    transform 1s var(--ease);
+}
+
+.tl-verdict .serif-i {
+  text-shadow: 0 0 40px rgba(var(--lime-rgb), 0.35);
+}
+
+/* Stage states */
+
+.tl[data-stage='1'] .tl-label-1,
+.tl[data-stage='2'] .tl-label-1,
+.tl[data-stage='2'] .tl-label-2,
+.tl[data-stage='3'] .tl-label-1,
+.tl[data-stage='3'] .tl-label-2,
+.tl[data-stage='3'] .tl-label-3,
+.tl[data-stage='4'] .tl-verdict {
+  opacity: 1;
+  transform: none;
+}
+
+.tl[data-stage='4'] .tl-label-1,
+.tl[data-stage='4'] .tl-label-2 {
+  opacity: 0.38;
+  transform: none;
+}
+
+.tl[data-stage='1'] .tl-label-1 .tl-label-rule,
+.tl[data-stage='2'] .tl-label-1 .tl-label-rule,
+.tl[data-stage='2'] .tl-label-2 .tl-label-rule,
+.tl[data-stage='3'] .tl-label-1 .tl-label-rule,
+.tl[data-stage='3'] .tl-label-2 .tl-label-rule,
+.tl[data-stage='4'] .tl-label-1 .tl-label-rule,
+.tl[data-stage='4'] .tl-label-2 .tl-label-rule {
+  transform: scaleX(1);
+}
+
+.tl[data-stage='3'] .tl-label-3 .tl-label-rule {
+  transform: scaleY(1);
+}
+
+.tl[data-stage='4'] .tl-label-3 {
+  opacity: 0;
+  transform: translateY(-18px);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .tl-stage {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(170px, auto);
+    grid-template-areas:
+      'steps'
+      'mark'
+      'slot';
+  }
+
+  .tl-svg {
+    height: min(38vh, 420px);
+  }
+
+  .tl-lead-1,
+  .tl-lead-2,
+  .tl-lead-dot-1,
+  .tl-lead-dot-2 {
+    display: none;
+  }
+
+  .tl-label-1,
+  .tl-label-2 {
+    grid-area: slot;
+    align-self: start;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .tl-label-1 .tl-label-top,
+  .tl-label-2 .tl-label-top,
+  .tl-label-1 .tl-label-sub,
+  .tl-label-2 .tl-label-sub {
+    position: static;
+    width: auto;
+    max-width: 30ch;
+  }
+
+  .tl-label-1 .tl-label-rule,
+  .tl-label-2 .tl-label-rule {
+    position: static;
+    order: -1;
+    width: 1px;
+    height: 22px;
+    transform: scaleY(1);
+  }
+
+  /* One label at a time in the shared slot. */
+  .tl[data-stage='2'] .tl-label-1,
+  .tl[data-stage='3'] .tl-label-1,
+  .tl[data-stage='3'] .tl-label-2,
+  .tl[data-stage='4'] .tl-label-1,
+  .tl[data-stage='4'] .tl-label-2 {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+
+  .tl-steps {
+    gap: 8px;
+    font-size: 9.5px;
+  }
+
+  .tl-step-name {
+    display: none;
+  }
+
+  .tl-step.is-current .tl-step-name {
+    display: inline;
+  }
+}
+
+
+/* ---------- Reduced motion: everything visible, nothing shares a slot ---------- */
+
+.tl.is-static {
+  height: auto;
+}
+
+.tl.is-static .tl-stage {
+  grid-template-rows: auto auto auto auto;
+  grid-template-areas:
+    'steps steps steps'
+    'left  mark  right'
+    'slot  slot  slot'
+    'verdict verdict verdict';
+  padding-block: 40px;
+}
+
+.tl.is-static .tl-label,
+.tl.is-static .tl-verdict {
+  opacity: 1;
+  transform: none;
+}
+
+.tl.is-static .tl-label-rule {
+  transform: none;
+}
+
+.tl.is-static .tl-verdict {
+  grid-area: verdict;
+  padding-top: 40px;
+}
+
+@media (max-width: 900px) {
+  .tl.is-static .tl-stage {
+    grid-template-areas:
+      'steps'
+      'mark'
+      'l1'
+      'l2'
+      'slot'
+      'verdict';
+    grid-template-rows: auto;
+    row-gap: 28px;
+  }
+
+  .tl.is-static .tl-label-1 {
+    grid-area: l1;
+  }
+
+  .tl.is-static .tl-label-2 {
+    grid-area: l2;
+  }
+}

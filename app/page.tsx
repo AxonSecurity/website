@@ -1,9 +1,12 @@
-import AccessForm from '@/components/sections/AccessForm'
-import Capabilities from '@/components/sections/Capabilities'
-import Governance from '@/components/sections/Governance'
-import Hero from '@/components/sections/Hero'
-import Loop from '@/components/sections/Loop'
-import Partners from '@/components/sections/Partners'
+import Access from '@/components/sections/access/Access'
+import Discover from '@/components/sections/discover/Discover'
+import Hero from '@/components/sections/hero/Hero'
+import Judge from '@/components/sections/judge/Judge'
+import Manifesto from '@/components/sections/manifesto/Manifesto'
+import Observe from '@/components/sections/observe/Observe'
+import Partners from '@/components/sections/partners/Partners'
+import Roadmap from '@/components/sections/roadmap/Roadmap'
+import Sovereign from '@/components/sections/sovereign/Sovereign'
 import Footer from '@/components/layout/Footer'
 import Nav from '@/components/layout/Nav'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from '@/lib/site'
@@ -72,7 +75,7 @@ const structuredData = {
 
 export default function Page() {
   return (
-    <main>
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -80,13 +83,18 @@ export default function Page() {
         }}
       />
       <Nav />
-      <Hero />
-      <Partners />
-      <Loop />
-      <Capabilities />
-      <Governance />
-      <AccessForm />
+      <main id="main">
+        <Hero />
+        <Partners />
+        <Manifesto />
+        <Discover />
+        <Judge />
+        <Observe />
+        <Sovereign />
+        <Roadmap />
+        <Access />
+      </main>
       <Footer />
-    </main>
+    </>
   )
 }

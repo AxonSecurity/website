@@ -1,0 +1,111 @@
+.rail {
+  position: fixed;
+  right: 10px;
+  top: 50%;
+  z-index: 60;
+  transform: translate(24px, -50%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.6s var(--ease),
+    transform 0.8s var(--ease),
+    visibility 0s linear 0.6s;
+}
+
+.rail-on {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -50%);
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.rail ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.rail button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  width: 100%;
+  padding: 5px 0;
+}
+
+.rail-name {
+  font-size: 10px;
+  color: var(--faint);
+  opacity: 0;
+  transform: translateX(8px);
+  transition:
+    opacity 0.4s var(--ease),
+    transform 0.5s var(--ease),
+    color 0.3s var(--ease);
+  white-space: nowrap;
+}
+
+.rail-num {
+  color: var(--dim);
+}
+
+.rail-tick {
+  width: 12px;
+  height: 1px;
+  background: var(--faint);
+  transition:
+    width 0.6s var(--ease),
+    background 0.4s var(--ease);
+}
+
+.rail li.is-active .rail-tick {
+  width: 32px;
+  background: var(--lime);
+  box-shadow: 0 0 10px var(--lime-glow);
+}
+
+.rail li.is-active .rail-name {
+  color: var(--paper);
+}
+
+.rail li.is-active .rail-num {
+  color: var(--lime);
+}
+
+.rail::before {
+  content: '';
+  position: absolute;
+  inset: -18px -10px -18px -220px;
+  background: linear-gradient(90deg, rgba(var(--ink-rgb), 0), rgba(var(--ink-rgb), 0.92) 40%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+
+.rail:hover::before {
+  opacity: 1;
+}
+
+.rail ol {
+  position: relative;
+}
+
+.rail:hover .rail-name {
+  opacity: 1;
+  transform: none;
+}
+
+.rail button:hover .rail-name {
+  color: var(--paper);
+}
+
+@media (max-width: 1100px) {
+  .rail {
+    display: none;
+  }
+}

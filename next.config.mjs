@@ -37,6 +37,7 @@ const securityHeaders = [
 ]
 
 const nextConfig = {
+  devIndicators: false,
   // Ensure runtime fs reads (OG/Twitter image fonts + brand marks) survive
   // Vercel's serverless bundle tracing.
   outputFileTracingIncludes: {

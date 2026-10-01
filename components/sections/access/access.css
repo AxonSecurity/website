@@ -1,0 +1,361 @@
+.acc {
+  position: relative;
+  padding-bottom: var(--section-y);
+  overflow: clip;
+}
+
+/* ---------- Body ---------- */
+
+.acc-body {
+  padding-top: var(--section-y);
+}
+
+.acc-title {
+  margin-top: clamp(24px, 4vh, 40px);
+  --wdth: 118;
+}
+
+.acc-title .serif-i {
+  font-size: 1.04em;
+  letter-spacing: -0.03em;
+  padding-right: 0.05em;
+}
+
+.acc-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--gutter);
+  margin-top: clamp(64px, 11vh, 130px);
+}
+
+/* ---------- Points ---------- */
+
+.acc-points {
+  display: grid;
+  align-content: start;
+  gap: clamp(40px, 6vh, 64px);
+}
+
+.acc-points-lead {
+  max-width: 24ch;
+}
+
+.acc-point-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  max-width: 440px;
+}
+
+.acc-point {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: baseline;
+  padding: 22px 0;
+}
+
+.acc-point-rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: var(--hairline);
+  transform-origin: left center;
+}
+
+.acc-point:last-child::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--hairline);
+}
+
+.acc-point-num {
+  font-size: 10.5px;
+  color: var(--lime);
+}
+
+.acc-point-text {
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+/* ---------- Form ---------- */
+
+.acc-form-col {
+  min-width: 0;
+}
+
+.acc-form {
+  display: grid;
+  gap: clamp(30px, 4.6vh, 48px);
+  padding-left: clamp(0px, 4vw, 72px);
+}
+
+.acc-field {
+  display: grid;
+  gap: 10px;
+}
+
+.acc-control {
+  position: relative;
+  padding-top: 28px;
+}
+
+.acc-input {
+  display: block;
+  width: 100%;
+  padding: 10px 0 16px;
+  border: 0;
+  border-bottom: 1px solid var(--hairline);
+  border-radius: 0;
+  background: transparent;
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.3vw, 38px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  outline: none;
+  caret-color: var(--lime);
+  transition: border-color 0.4s var(--ease);
+}
+
+.acc-input:hover {
+  border-bottom-color: var(--dim);
+}
+
+.acc-input:focus-visible {
+  outline: none;
+}
+
+.acc-textarea {
+  resize: none;
+  min-height: 3.9em;
+  font-size: clamp(19px, 1.6vw, 24px);
+  line-height: 1.4;
+}
+
+.acc-label {
+  position: absolute;
+  left: 0;
+  top: 44px;
+  font-size: 12px;
+  color: var(--faint);
+  pointer-events: none;
+  transform-origin: left top;
+  transition:
+    transform 0.6s var(--ease),
+    color 0.4s var(--ease),
+    top 0.6s var(--ease);
+}
+
+.acc-input:focus + .acc-label,
+.acc-input:not(:placeholder-shown) + .acc-label {
+  top: 0;
+  transform: scale(0.88);
+  color: var(--ghost);
+}
+
+.acc-input:focus + .acc-label {
+  color: var(--lime);
+}
+
+.acc-optional {
+  margin-left: 8px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  font-size: 9.5px;
+  color: var(--faint);
+}
+
+.acc-underline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--lime);
+  transform: scaleX(0);
+  transform-origin: left center;
+  box-shadow: 0 0 14px var(--lime-glow);
+  transition: transform 0.9s var(--ease);
+}
+
+.acc-input:focus ~ .acc-underline {
+  transform: scaleX(1);
+}
+
+.acc-input[aria-invalid='true'] {
+  border-bottom-color: var(--paper);
+}
+
+.acc-note-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20px;
+}
+
+.acc-hint {
+  font-size: 13.5px;
+  color: var(--faint);
+  max-width: 48ch;
+}
+
+.acc-count {
+  flex: none;
+  font-size: 10.5px;
+  color: var(--faint);
+}
+
+.acc-count-now {
+  color: var(--lime);
+}
+
+.acc-hp {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.acc-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--paper);
+}
+
+.acc-error::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--lime);
+  animation: acc-blink 0.8s steps(2) infinite;
+}
+
+@keyframes acc-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.acc-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px 28px;
+  padding-top: 6px;
+}
+
+.acc-fine {
+  font-size: 10px;
+  color: var(--faint);
+}
+
+/* ---------- Success ---------- */
+
+.acc-success {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(28px, 4vw, 56px);
+  padding-left: clamp(0px, 4vw, 72px);
+  min-height: 320px;
+}
+
+.acc-success-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 200px;
+  height: 200px;
+}
+
+.acc-success-mark {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  color: var(--lime);
+  overflow: visible;
+  filter: drop-shadow(0 0 22px rgba(var(--lime-rgb), 0.35));
+}
+
+.acc-success-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(var(--lime-rgb), 0.4);
+  opacity: 0.6;
+}
+
+.acc-spark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%;
+  background: var(--lime);
+  opacity: 0;
+}
+
+.acc-success-msg {
+  display: grid;
+  gap: 16px;
+  outline: none;
+}
+
+.acc-success-label {
+  font-size: 11px;
+  color: var(--lime);
+}
+
+.acc-success-text {
+  font-size: clamp(24px, 2.3vw, 36px);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  max-width: 20ch;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 960px) {
+  .acc-grid {
+    grid-template-columns: 1fr;
+    row-gap: 64px;
+  }
+
+  .acc-form,
+  .acc-success {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .acc-success {
+    grid-template-columns: 1fr;
+  }
+
+  .acc-note-meta {
+    flex-direction: column;
+    gap: 6px;
+  }
+}

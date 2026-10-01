@@ -1,9 +1,13 @@
 import { Analytics } from '@vercel/analytics/next'
 import Script from 'next/script'
-import { Syne, JetBrains_Mono, Lora } from 'next/font/google'
+import { Geist_Mono, Instrument_Serif, Mona_Sans } from 'next/font/google'
 import type { Metadata, Viewport } from 'next'
 import SmoothScroll from '@/components/motion/SmoothScroll'
-import SignalField from '@/components/canvas/SignalField'
+import Cursor from '@/components/motion/Cursor'
+import Preloader from '@/components/motion/Preloader'
+import { INTRO_GATE_SCRIPT } from '@/lib/intro-gate'
+import Atmosphere from '@/components/layout/Atmosphere'
+import ChapterRail from '@/components/layout/ChapterRail'
 import {
   SITE_DESCRIPTION,
   SITE_LOCALE,
@@ -13,23 +17,26 @@ import {
 } from '@/lib/site'
 import './globals.css'
 
-const syne = Syne({
+// Mona Sans carries the variable width axis the kinetic type rides on.
+const mona = Mona_Sans({
   subsets: ['latin'],
-  weight: ['700'],
-  variable: '--font-syne',
+  axes: ['wdth'],
+  variable: '--font-mona',
+  display: 'swap',
 })
 
-const jetbrainsMono = JetBrains_Mono({
+const geistMono = Geist_Mono({
   subsets: ['latin'],
-  weight: ['400', '600'],
-  variable: '--font-mono',
+  variable: '--font-geist-mono',
+  display: 'swap',
 })
 
-const lora = Lora({
+const instrument = Instrument_Serif({
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: '400',
   style: ['normal', 'italic'],
-  variable: '--font-lora',
+  variable: '--font-instrument',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -77,16 +84,29 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
+    // suppressHydrationWarning: the intro gate script may add a class to
+    // <html> before React hydrates.
     <html
       lang="en"
-      className={`${syne.variable} ${jetbrainsMono.variable} ${lora.variable}`}
+      className={`${mona.variable} ${geistMono.variable} ${instrument.variable}`}
+      suppressHydrationWarning
     >
       {/* suppressHydrationWarning: browser extensions inject attributes
           onto <body> before hydration (e.g. data-atm-ext-installed). */}
       <body suppressHydrationWarning>
-        <SignalField />
+        <script dangerouslySetInnerHTML={{ __html: INTRO_GATE_SCRIPT }} />
+        <noscript>
+          <style>{'.preloader{display:none!important}'}</style>
+        </noscript>
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
+        <Atmosphere />
         <SmoothScroll />
+        <Preloader />
+        <Cursor />
         {children}
+        <ChapterRail />
         {process.env.NODE_ENV === 'production' && <Analytics />}
         {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
           <Script
