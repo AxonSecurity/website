@@ -44,7 +44,15 @@ const nextConfig = {
     '/': ['./lib/fonts/**', './public/brand/**'],
   },
   async headers() {
-    return [{ source: '/:path*', headers: securityHeaders }]
+    return [
+      { source: '/:path*', headers: securityHeaders },
+      // Brand images are embedded by email clients and other sites; CORP
+      // same-origin would block them there. Later rules win for the same key.
+      {
+        source: '/brand/:path*',
+        headers: [{ key: 'Cross-Origin-Resource-Policy', value: 'cross-origin' }],
+      },
+    ]
   },
 }
 
