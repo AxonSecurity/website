@@ -1,74 +1,48 @@
 'use client'
 
 import { useEffect } from 'react'
-import { lerp, smoothing } from '@/lib/animation'
+import Lenis from 'lenis'
+import { gsap, ScrollTrigger, prefersReducedMotion } from '@/lib/gsap'
+import { setLenis, setScrollVelocity } from '@/lib/scroll'
 
-const HALF_LIFE_MS = 140
-
-/**
- * Lenis-style inertial scrolling: wheel input accumulates a target,
- * a rAF loop eases the real scroll position toward it.
- * Native anchors / keyboard / touch stay untouched via resync-on-scroll.
- */
+// Lenis drives an inertial native scroll; GSAP's ticker is the single rAF
+// for both, so pinned ScrollTriggers never drift a frame behind the scroll.
 export default function SmoothScroll() {
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    if (window.matchMedia('(pointer: coarse)').matches) return
+    if (prefersReducedMotion()) return
 
-    let target = window.scrollY
-    let current = window.scrollY
-    let raf = 0
-    let last = performance.now()
-
-    const maxScroll = () =>
-      document.documentElement.scrollHeight - window.innerHeight
-
-    const frame = (now: number) => {
-      const dt = Math.min(now - last, 34)
-      last = now
-      current = lerp(current, target, smoothing(HALF_LIFE_MS, dt))
-      if (Math.abs(target - current) < 0.5) current = target
-      window.scrollTo({ top: current, behavior: 'instant' })
-      raf = current !== target ? requestAnimationFrame(frame) : 0
-    }
-
-    const kick = () => {
-      if (!raf) {
-        last = performance.now()
-        raf = requestAnimationFrame(frame)
-      }
-    }
-
-    const onWheel = (event: WheelEvent) => {
-      if (event.ctrlKey) return
-      event.preventDefault()
-      const raw =
-        event.deltaMode === 1 ? event.deltaY * 16 : event.deltaY
-      const delta = Math.max(-240, Math.min(240, raw))
-      target = Math.min(Math.max(target + delta, 0), maxScroll())
-      kick()
-    }
-
-    const onScroll = () => {
-      if (Math.abs(window.scrollY - current) > 1) {
-        current = window.scrollY
-        target = current
-      }
-    }
-
-    const controller = new AbortController()
-    window.addEventListener('wheel', onWheel, {
-      signal: controller.signal,
-      passive: false,
+    const lenis = new Lenis({
+      lerp: 0.085,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.4,
+      anchors: { offset: 0, duration: 1.6 },
+      autoRaf: false,
     })
-    window.addEventListener('scroll', onScroll, {
-      signal: controller.signal,
-      passive: true,
-    })
+    setLenis(lenis)
+    // The preloader may have locked scroll before Lenis existed.
+    if (document.documentElement.classList.contains('is-locked')) lenis.stop()
+
+    const onScroll = (instance: Lenis) => {
+      setScrollVelocity(instance.velocity)
+      ScrollTrigger.update()
+    }
+    lenis.on('scroll', onScroll)
+
+    const tick = (time: number) => lenis.raf(time * 1000)
+    gsap.ticker.add(tick)
+    gsap.ticker.lagSmoothing(0)
+
+    // Fonts and late images change layout; re-measure every trigger once.
+    const refresh = () => ScrollTrigger.refresh()
+    document.fonts?.ready.then(refresh).catch(() => undefined)
+    window.addEventListener('load', refresh, { once: true })
 
     return () => {
-      controller.abort()
-      cancelAnimationFrame(raf)
+      window.removeEventListener('load', refresh)
+      gsap.ticker.remove(tick)
+      lenis.off('scroll', onScroll)
+      lenis.destroy()
+      setLenis(null)
     }
   }, [])
 

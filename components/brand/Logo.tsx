@@ -1,20 +1,27 @@
 import type { CSSProperties } from 'react'
 
-const MARK_PATH = 'M14 80 L50 20 L86 80 M31 58 H43 M57 58 H69'
-const STROKE_WIDTH = 11
+export const MARK_PATH = 'M14 80 L50 20 L86 80 M31 58 H43 M57 58 H69'
+export const MARK_LEGS = 'M14 80 L50 20 L86 80'
+export const MARK_LEFT_LEG = 'M14 80 L50 20'
+export const MARK_RIGHT_LEG = 'M50 20 L86 80'
+export const MARK_BAR_LEFT = 'M31 58 H43'
+export const MARK_BAR_RIGHT = 'M57 58 H69'
+export const MARK_STROKE = 11
 
 interface MarkProps {
   size?: number
   className?: string
+  style?: CSSProperties
 }
 
-function Mark({ size = 28, className = '' }: MarkProps) {
+export function Mark({ size = 28, className = '', style }: MarkProps) {
   return (
     <svg
       viewBox="0 0 100 100"
       width={size}
       height={size}
       className={className}
+      style={style}
       aria-hidden="true"
       focusable="false"
     >
@@ -22,7 +29,7 @@ function Mark({ size = 28, className = '' }: MarkProps) {
         d={MARK_PATH}
         fill="none"
         stroke="currentColor"
-        strokeWidth={STROKE_WIDTH}
+        strokeWidth={MARK_STROKE}
         strokeLinecap="square"
       />
     </svg>
@@ -31,26 +38,15 @@ function Mark({ size = 28, className = '' }: MarkProps) {
 
 interface LogoProps {
   markSize?: number
-  wordSize?: number
   compact?: boolean
   className?: string
 }
 
-export default function Logo({
-  markSize = 28,
-  wordSize = 19,
-  compact = false,
-  className = '',
-}: LogoProps) {
-  const style: CSSProperties =
-    wordSize !== 19 ? { fontSize: `${wordSize}px` } : {}
-
+export default function Logo({ markSize = 26, compact = false, className = '' }: LogoProps) {
   return (
     <span className={`logo ${compact ? 'logo-compact' : ''} ${className}`.trim()}>
       <Mark size={markSize} className="logo-mark" />
-      <span className="logo-word" style={style}>
-        AXON
-      </span>
+      <span className="logo-word">AXON</span>
     </span>
   )
 }

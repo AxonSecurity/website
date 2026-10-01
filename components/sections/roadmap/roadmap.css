@@ -1,0 +1,344 @@
+.rm {
+  position: relative;
+  padding-top: var(--section-y);
+}
+
+.rm-head {
+  padding-bottom: clamp(56px, 9vh, 110px);
+}
+
+/* ---------- Stage (pinned on desktop) ---------- */
+
+.rm-stage {
+  --p: 0;
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  padding-top: calc(var(--nav-h) + 3vh);
+  border-top: 1px solid var(--hairline-2);
+}
+
+/* ---------- Rail ---------- */
+
+.rm-rail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(24px, 3vw, 56px);
+  padding-bottom: 20px;
+}
+
+.rm-rail-line {
+  position: relative;
+  height: 1px;
+  margin: 26px 26px 26px 6px;
+  background: var(--hairline);
+}
+
+.rm-rail-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--lime);
+  transform: scaleX(var(--p));
+  transform-origin: left center;
+  box-shadow: 0 0 10px var(--lime-glow);
+}
+
+/* The rider spans the rail and slides by its own width, so the pulse moves
+   on transform (no layout) and breathes on transform/opacity (no repaint). */
+.rm-rail-rider {
+  position: absolute;
+  inset: 0;
+  transform: translateX(calc(var(--p, 0) * 100%));
+  pointer-events: none;
+}
+
+.rm-rail-pulse {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow:
+    0 0 0 5px rgba(var(--lime-rgb), 0.16),
+    0 0 26px 4px var(--lime-glow);
+}
+
+.rm-rail-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: rgba(var(--lime-rgb), 0.18);
+  animation: rm-pulse 1.6s var(--ease) infinite;
+}
+
+@keyframes rm-pulse {
+  from {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.rm-station {
+  position: absolute;
+  top: 50%;
+  left: var(--at);
+  transform: translate(-50%, -50%);
+  display: grid;
+  justify-items: center;
+}
+
+.rm-station-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--faint);
+  transition:
+    background-color 0.4s var(--ease),
+    box-shadow 0.4s var(--ease);
+}
+
+.rm-station-label {
+  position: absolute;
+  top: 16px;
+  font-size: 10px;
+  color: var(--faint);
+  white-space: nowrap;
+  transition: color 0.4s var(--ease);
+}
+
+.rm-station.is-on .rm-station-dot {
+  background: var(--lime);
+  box-shadow: 0 0 0 4px rgba(var(--lime-rgb), 0.14);
+}
+
+.rm-station.is-on .rm-station-label {
+  color: var(--paper);
+}
+
+.rm-count {
+  font-size: 10.5px;
+  color: var(--faint);
+}
+
+.rm-count-now {
+  color: var(--lime);
+}
+
+/* ---------- Track ---------- */
+
+.rm-track {
+  display: flex;
+  align-items: stretch;
+  justify-self: start;
+  width: max-content;
+  padding-inline: var(--gutter);
+  will-change: transform;
+}
+
+.rm-panel {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--pw, 64vw);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: clamp(18px, 3vh, 34px) clamp(28px, 3vw, 52px) clamp(32px, 6vh, 64px);
+  border-left: 1px solid var(--hairline);
+}
+
+.rm-panel::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: 0;
+  width: 7px;
+  height: 7px;
+  background: var(--paper);
+  opacity: 0.4;
+  transition:
+    background-color 0.4s var(--ease),
+    opacity 0.4s var(--ease);
+}
+
+.rm-panel.is-current::before {
+  background: var(--lime);
+  opacity: 1;
+}
+
+.rm-panel:last-child {
+  border-right: 1px solid var(--hairline);
+}
+
+.rm-panel-meta {
+  display: flex;
+  gap: 18px;
+  font-size: 10.5px;
+  color: var(--faint);
+}
+
+.rm-panel-num {
+  color: var(--lime);
+}
+
+.rm-word {
+  --rw: 110;
+  align-self: center;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(96px, 11.5vw, 230px);
+  line-height: 0.78;
+  letter-spacing: -0.028em;
+  font-variation-settings: 'wdth' var(--rw);
+  white-space: nowrap;
+  color: var(--paper);
+  transition: color 0.6s var(--ease);
+  padding-block: 0.06em;
+}
+
+.rm-panel:not(.is-current) .rm-word {
+  color: var(--ink);
+  -webkit-text-stroke: 2px rgba(var(--paper-rgb), 0.3);
+  paint-order: stroke fill;
+}
+
+.rm-panel.is-current .rm-word {
+  color: var(--paper);
+  -webkit-text-stroke: 0 transparent;
+}
+
+.rm-panel-body {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 56px);
+  align-items: start;
+  padding-top: clamp(20px, 3vh, 36px);
+  border-top: 1px solid var(--hairline-2);
+  max-width: 980px;
+}
+
+.rm-title {
+  font-size: clamp(28px, 2.7vw, 46px);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.rm-panel-copy {
+  display: grid;
+  gap: 22px;
+}
+
+.rm-text {
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: var(--ghost);
+  max-width: 44ch;
+}
+
+.rm-keys {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 10px;
+}
+
+.rm-keys li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  color: var(--paper);
+}
+
+.rm-keys li::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--lime);
+}
+
+/* ---------- Stacked (mobile + reduced motion) ---------- */
+
+@media (max-width: 900px), (prefers-reduced-motion: reduce) {
+  .rm-stage {
+    height: auto;
+    display: block;
+    overflow: visible;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .rm-rail {
+    display: none;
+  }
+
+  .rm-track {
+    display: grid;
+    width: auto;
+    gap: clamp(48px, 8vh, 80px);
+    padding-bottom: var(--section-y);
+  }
+
+  .rm-panel {
+    width: auto;
+    padding: 22px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--hairline);
+    gap: 18px;
+  }
+
+  .rm-panel:last-child {
+    border-right: 0;
+  }
+
+  .rm-panel::before {
+    left: 0;
+    top: -4px;
+  }
+
+  .rm-panel .rm-word,
+  .rm-panel:not(.is-current) .rm-word {
+    color: var(--paper);
+    -webkit-text-stroke: 0 transparent;
+    font-size: clamp(56px, 12.5vw, 150px);
+    margin-block: 8px 4px;
+  }
+
+  .rm-panel-body {
+    grid-template-columns: 1fr;
+    border-top: 0;
+    padding-top: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rm-word {
+    --rw: 110;
+  }
+
+  .rm-rail-pulse {
+    animation: none;
+  }
+}

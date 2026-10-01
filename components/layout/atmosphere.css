@@ -1,0 +1,49 @@
+/* Static grain on normal blending. A full-viewport blend-mode layer that
+   moves forces the whole page to re-composite every frame; this one is a
+   single cached texture the GPU never has to revisit. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 240;
+  pointer-events: none;
+  opacity: 0.26;
+}
+
+.gridlines {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.gridlines-inner {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  height: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.gridlines-col {
+  border-left: 1px solid var(--hairline-2);
+  transform-origin: 50% 0%;
+}
+
+.gridlines-col:last-child {
+  border-right: 1px solid var(--hairline-2);
+}
+
+@media (max-width: 760px) {
+  .gridlines-inner {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .gridlines-col:nth-child(n + 4) {
+    display: none;
+  }
+
+  .gridlines-col:nth-child(3) {
+    border-right: 1px solid var(--hairline-2);
+  }
+}

@@ -2,23 +2,39 @@ import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { ImageResponse } from 'next/og'
 
-export const alt = 'Axon — Agent security for the AI stack you run'
+export const alt = 'Axon — Agent security for the AI stack you already run'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-let assetsPromise:
-  | Promise<{ syne: ArrayBuffer; mark: string }>
-  | null = null
+const INK = '#0b0c0a'
+const PAPER = '#f3f2f2'
+const LIME = '#95ff2a'
 
-async function loadAssets() {
+// Static WOFF cuts of the site's type (satori can't read woff2 or variable
+// axes): Mona Sans 800 at wdth 112, Instrument Serif italic, Geist Mono 500.
+interface Assets {
+  display: ArrayBuffer
+  serif: ArrayBuffer
+  mono: ArrayBuffer
+  mark: string
+}
+
+let assetsPromise: Promise<Assets> | null = null
+
+async function loadAssets(): Promise<Assets> {
   const fontsDir = path.join(process.cwd(), 'lib', 'fonts')
   const brandDir = path.join(process.cwd(), 'public', 'brand')
-  const [syne, mark] = await Promise.all([
-    readFile(path.join(fontsDir, 'Syne-Bold.ttf')),
+  const [display, serif, mono, mark] = await Promise.all([
+    readFile(path.join(fontsDir, 'MonaSans-ExtraBold-Wide.woff')),
+    readFile(path.join(fontsDir, 'InstrumentSerif-Italic.woff')),
+    readFile(path.join(fontsDir, 'GeistMono-Medium.woff')),
     readFile(path.join(brandDir, 'axon-mark-lime.png')),
   ])
+  const buffer = (data: Buffer) => data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength) as ArrayBuffer
   return {
-    syne: syne.buffer as ArrayBuffer,
+    display: buffer(display),
+    serif: buffer(serif),
+    mono: buffer(mono),
     mark: `data:image/png;base64,${mark.toString('base64')}`,
   }
 }
@@ -28,13 +44,19 @@ function getAssets() {
   return assetsPromise
 }
 
-const GLOW = {
-  position: 'absolute',
+const MONO = {
+  fontFamily: 'Geist Mono',
+  fontSize: 17,
+  letterSpacing: '0.16em',
+} as const
+
+const LINE = {
   display: 'flex',
+  alignItems: 'baseline',
 } as const
 
 export default async function OpengraphImage() {
-  const { syne, mark } = await getAssets()
+  const { display, serif, mono, mark } = await getAssets()
 
   return new ImageResponse(
     (
@@ -45,102 +67,112 @@ export default async function OpengraphImage() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: '68px 72px',
-          background: '#0b0c0a',
+          padding: '60px 72px 58px',
+          background: INK,
           position: 'relative',
+          color: PAPER,
         }}
       >
+        {/* Blueprint columns, as on the site. */}
+        {/* satori ignores the `inset` shorthand; size absolutes explicitly. */}
         <div
           style={{
-            ...GLOW,
-            left: -280,
-            top: -340,
-            width: 920,
-            height: 920,
-            backgroundImage:
-              'radial-gradient(circle at center, rgba(149,255,42,0.17) 0%, rgba(149,255,42,0) 68%)',
-          }}
-        />
-        <div
-          style={{
-            ...GLOW,
-            right: -360,
-            bottom: -440,
-            width: 1100,
-            height: 1100,
-            backgroundImage:
-              'radial-gradient(circle at center, rgba(149,255,42,0.10) 0%, rgba(149,255,42,0) 70%)',
-          }}
-        />
-        <div
-          style={{
+            position: 'absolute',
+            left: 72,
+            top: 0,
+            width: size.width - 144,
+            height: size.height,
             display: 'flex',
-            alignItems: 'center',
-            gap: 16,
-            color: '#95ff2a',
-            fontSize: 23,
-            fontWeight: 700,
-            letterSpacing: '0.1em',
-            fontFamily: 'Syne',
           }}
         >
-          AGENT SECURITY
+          {[0, 1, 2, 3, 4, 5].map((column) => (
+            <div
+              key={column}
+              style={{
+                flex: 1,
+                borderLeft: '1px solid rgba(243,242,242,0.06)',
+                borderRight: column === 5 ? '1px solid rgba(243,242,242,0.06)' : 'none',
+              }}
+            />
+          ))}
         </div>
         <div
           style={{
+            // Kept inside the canvas: satori clips gradients on boxes that
+            // overflow it.
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: size.width,
+            height: size.height,
             display: 'flex',
-            fontSize: 86,
-            fontWeight: 700,
-            letterSpacing: '-0.02em',
-            lineHeight: 1.02,
-            color: '#f3f2f2',
-            maxWidth: 980,
-            fontFamily: 'Syne',
+            backgroundImage:
+              'radial-gradient(circle at 82% 18%, rgba(149,255,42,0.14) 0%, rgba(149,255,42,0.05) 28%, rgba(149,255,42,0) 52%)',
+          }}
+        />
+
+        <div style={{ ...MONO, display: 'flex', alignItems: 'center', gap: 18, color: 'rgba(243,242,242,0.62)' }}>
+          <div style={{ width: 46, height: 1, background: 'rgba(243,242,242,0.4)' }} />
+          AGENT SECURITY · IN-TENANT
+        </div>
+
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            fontFamily: 'Mona Sans',
+            fontSize: 96,
+            lineHeight: 0.98,
+            letterSpacing: -4,
           }}
         >
-          Agent security for the AI stack you already run.
+          <div style={LINE}>Agent security</div>
+          <div style={LINE}>for the AI stack</div>
+          <div style={LINE}>
+            you
+            <span
+              style={{
+                fontFamily: 'Instrument Serif',
+                fontStyle: 'italic',
+                fontSize: 108,
+                letterSpacing: -2,
+                color: LIME,
+                margin: '0 18px 0 24px',
+              }}
+            >
+              already
+            </span>
+            run.
+          </div>
         </div>
+
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             width: '100%',
+            paddingTop: 26,
+            borderTop: '1px solid rgba(243,242,242,0.12)',
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 18,
-              color: '#f3f2f2',
-            }}
-          >
-            <img src={mark} width={54} height={54} alt="" />
-            <span
-              style={{
-                fontFamily: 'Syne',
-                fontSize: 34,
-                fontWeight: 700,
-                letterSpacing: '0.06em',
-              }}
-            >
-              AXON
-            </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <img src={mark} width={46} height={46} alt="" />
+            <span style={{ fontFamily: 'Mona Sans', fontSize: 32, letterSpacing: 1 }}>AXON</span>
           </div>
-          <div
-            style={{
-              display: 'flex',
-              color: 'rgba(243,242,242,0.5)',
-              fontSize: 19,
-              letterSpacing: '0.08em',
-            }}
-          >
-            SIGNAL IN. CLARITY OUT.
+          <div style={{ ...MONO, display: 'flex', color: 'rgba(243,242,242,0.5)' }}>
+            EVERY AGENT, ACCOUNTED FOR.
           </div>
         </div>
       </div>
     ),
-    { ...size, fonts: [{ name: 'Syne', data: syne, weight: 700 }] },
+    {
+      ...size,
+      fonts: [
+        { name: 'Mona Sans', data: display, weight: 800, style: 'normal' },
+        { name: 'Instrument Serif', data: serif, weight: 400, style: 'italic' },
+        { name: 'Geist Mono', data: mono, weight: 500, style: 'normal' },
+      ],
+    },
   )
 }

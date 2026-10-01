@@ -1,0 +1,144 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  pointer-events: all;
+}
+
+.pl-panel {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: calc(var(--gutter) * 0.9) var(--gutter);
+  background: var(--ink);
+  clip-path: inset(0% 0% 0% 0%);
+  overflow: hidden;
+}
+
+.pl-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  color: var(--faint);
+}
+
+.pl-clip {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.pl-clip > span {
+  display: inline-block;
+}
+
+.pl-mark {
+  place-self: center;
+  width: clamp(96px, 11vw, 150px);
+  height: auto;
+  color: var(--paper);
+  overflow: visible;
+}
+
+.pl-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.pl-count {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-variation-settings: 'wdth' 125;
+  font-size: clamp(88px, 17vw, 300px);
+  line-height: 0.78;
+  letter-spacing: -0.06em;
+  color: var(--paper);
+  margin-bottom: -0.04em;
+}
+
+.pl-log {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 8px;
+  display: grid;
+  gap: 8px;
+  width: min(420px, 44vw);
+  color: var(--ghost);
+  font-size: 10.5px;
+}
+
+.pl-log li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pl-log-dots {
+  flex: 1;
+  height: 1px;
+  background-image: linear-gradient(90deg, var(--faint) 50%, transparent 0);
+  background-size: 4px 1px;
+  transform-origin: left center;
+}
+
+.pl-log-status {
+  color: var(--lime);
+}
+
+.pl-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: var(--hairline-2);
+}
+
+.pl-progress-fill {
+  height: 100%;
+  background: var(--lime);
+  transform: scaleX(0);
+  transform-origin: left center;
+  box-shadow: 0 0 12px var(--lime-glow);
+}
+
+.pl-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--lime);
+  transform: scaleX(0);
+  box-shadow:
+    0 0 14px var(--lime-glow),
+    0 0 42px rgba(var(--lime-rgb), 0.25);
+}
+
+@media (max-width: 760px) {
+  .pl-bottom {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
+  .pl-log {
+    width: 100%;
+  }
+
+  .pl-top > :last-child {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader {
+    display: none;
+  }
+}
+
+.intro-seen .preloader {
+  display: none;
+}

@@ -1,89 +1,118 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
 import Logo from '@/components/brand/Logo'
-import {
-  AnthropicMark,
-  AwsMark,
-  E2bMark,
-  HackNationMark,
-} from '@/components/partners/marks'
+import { AnthropicMark, AwsMark, E2bMark, HackNationMark } from '@/components/partners/marks'
+import { gsap, useGSAP, prefersReducedMotion } from '@/lib/gsap'
+import { scrollToTarget } from '@/lib/scroll'
+import { NAV_LINKS, PARTNER_LINKS } from '@/components/layout/links'
+import './footer.css'
 
-const LINKS = [
-  { href: '#platform', label: 'Why Axon' },
-  { href: '#loop', label: 'The road ahead' },
-  { href: '#access', label: 'Get covered' },
-]
-
-const ECHO_GROUPS = [
-  {
-    label: 'Backed by',
-    items: [
-      {
-        name: 'HackNation Venture Lab',
-        href: 'https://ventures.hack-nation.ai/',
-        Mark: HackNationMark,
-      },
-      {
-        name: 'AWS for Startups',
-        href: 'https://aws.amazon.com/startups/',
-        Mark: AwsMark,
-      },
-      {
-        name: 'E2B for Startups',
-        href: 'https://e2b.dev/startups/',
-        Mark: E2bMark,
-      },
-    ],
-  },
-  {
-    label: 'Member of the cybersecurity program of',
-    items: [
-      {
-        name: 'Anthropic Cyber Verification Program',
-        href: 'https://support.claude.com/en/articles/14604842-real-time-cyber-safeguards-on-claude-opus-and-sonnet',
-        Mark: AnthropicMark,
-      },
-    ],
-  },
-]
+function useClock(): string {
+  const [time, setTime] = useState('--:--:--')
+  useEffect(() => {
+    const format = () =>
+      new Date().toLocaleTimeString('en-GB', { hour12: false, timeZone: 'UTC' })
+    setTime(format())
+    const id = window.setInterval(() => setTime(format()), 1000)
+    return () => window.clearInterval(id)
+  }, [])
+  return time
+}
 
 export default function Footer() {
+  const ref = useRef<HTMLElement | null>(null)
+  const time = useClock()
+
+  useGSAP(
+    () => {
+      const root = ref.current
+      if (!root || prefersReducedMotion()) return
+      gsap.fromTo(
+        '.footer-inner',
+        { yPercent: -18 },
+        {
+          yPercent: 0,
+          ease: 'none',
+          scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom bottom', scrub: true },
+        },
+      )
+    },
+    { scope: ref },
+  )
+
   return (
-    <footer className="footer shell">
-      <div className="footer-top">
-        <a href="#top" aria-label="Axon home">
-          <Logo compact />
-        </a>
-        <nav className="footer-nav" aria-label="Footer navigation">
-          {LINKS.map((link) => (
-            <a key={link.href} href={link.href}>
-              {link.label}
-            </a>
-          ))}
-        </nav>
-        <span className="footer-tagline">
-          Agent security for the AI stack you run.
-        </span>
-        <span>© 2026 Axon Security, Inc.</span>
-      </div>
-      <div className="footer-echo">
-        {ECHO_GROUPS.map((group) => (
-          <div className="footer-echo-group" key={group.label}>
-            <span className="footer-echo-label">{group.label}</span>
-            {group.items.map(({ name, href, Mark }) => (
-              <a
-                key={name}
-                className="footer-echo-link"
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={name}
-              >
-                <span className="footer-echo-mark">
-                  <Mark size={14} />
-                </span>
-              </a>
-            ))}
+    <footer ref={ref} className="footer" id="footer">
+      <div className="footer-inner wrap">
+        <div className="footer-top">
+          <div className="footer-lockup">
+            <Logo compact />
+            <p className="footer-line">
+              Every agent, <span className="serif-i">accounted for.</span>
+            </p>
           </div>
-        ))}
+          <div className="footer-cols">
+            <div className="footer-col">
+              <p className="mono footer-h">Index</p>
+              <ul>
+                {NAV_LINKS.map((link) => (
+                  <li key={link.href}>
+                    <a href={link.href}>{link.label}</a>
+                  </li>
+                ))}
+                <li>
+                  <a href="#access">Get covered</a>
+                </li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <p className="mono footer-h">Backed by</p>
+              <ul className="footer-marks">
+                <li>
+                  <a href={PARTNER_LINKS.hacknation.href} target="_blank" rel="noopener noreferrer" aria-label={PARTNER_LINKS.hacknation.name}>
+                    <HackNationMark size={20} />
+                  </a>
+                </li>
+                <li>
+                  <a href={PARTNER_LINKS.aws.href} target="_blank" rel="noopener noreferrer" aria-label={PARTNER_LINKS.aws.name}>
+                    <AwsMark size={20} />
+                  </a>
+                </li>
+                <li>
+                  <a href={PARTNER_LINKS.e2b.href} target="_blank" rel="noopener noreferrer" aria-label={PARTNER_LINKS.e2b.name}>
+                    <E2bMark size={20} />
+                  </a>
+                </li>
+              </ul>
+              <p className="mono footer-h footer-h-gap">Member of</p>
+              <ul className="footer-marks">
+                <li>
+                  <a href={PARTNER_LINKS.anthropic.href} target="_blank" rel="noopener noreferrer" aria-label={PARTNER_LINKS.anthropic.name}>
+                    <AnthropicMark size={16} />
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <p className="mono footer-h">Status</p>
+              <p className="footer-status mono">
+                <span className="footer-pulse" aria-hidden="true" /> All systems nominal
+              </p>
+              <p className="footer-clock mono tabular">
+                {time} <span>UTC</span>
+              </p>
+              <button type="button" className="footer-top-link mono" onClick={() => scrollToTarget(0)} data-cursor="UP">
+                Back to top ↑
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-base mono">
+          <span>© 2026 Axon Security, Inc.</span>
+          <span>Agent security for the AI stack you run.</span>
+          <span>In-tenant · Read-only · Signed</span>
+        </div>
       </div>
     </footer>
   )

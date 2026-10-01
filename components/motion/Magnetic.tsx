@@ -1,83 +1,59 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import type { ReactNode } from 'react'
-import { lerp, smoothing } from '@/lib/animation'
+import { useRef, type ReactNode } from 'react'
+import { gsap, useGSAP } from '@/lib/gsap'
 
 interface MagneticProps {
   children: ReactNode
   strength?: number
-  halfLifeMs?: number
+  className?: string
 }
 
-/** Cursor-attracted spring wrapper. Disabled for reduced motion + touch. */
+// Springs its child toward the pointer while hovered; fine pointers only.
 export default function Magnetic({
   children,
-  strength = 0.28,
-  halfLifeMs = 70,
+  strength = 0.32,
+  className = '',
 }: MagneticProps) {
-  const ref = useRef<HTMLSpanElement | null>(null)
+  const ref = useRef<HTMLDivElement | null>(null)
 
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    if (window.matchMedia('(pointer: coarse)').matches) return
+  useGSAP(
+    () => {
+      const element = ref.current
+      if (!element) return
+      const mm = gsap.matchMedia()
+      mm.add(
+        '(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)',
+        () => {
+          const xTo = gsap.quickTo(element, 'x', { duration: 0.9, ease: 'elastic.out(1, 0.4)' })
+          const yTo = gsap.quickTo(element, 'y', { duration: 0.9, ease: 'elastic.out(1, 0.4)' })
 
-    let tx = 0
-    let ty = 0
-    let x = 0
-    let y = 0
-    let raf = 0
-    let last = performance.now()
+          const onMove = (event: PointerEvent) => {
+            const rect = element.getBoundingClientRect()
+            xTo((event.clientX - (rect.left + rect.width / 2)) * strength)
+            yTo((event.clientY - (rect.top + rect.height / 2)) * strength)
+          }
+          const onLeave = () => {
+            xTo(0)
+            yTo(0)
+          }
 
-    const frame = (now: number) => {
-      const dt = Math.min(now - last, 34)
-      last = now
-      const ease = smoothing(halfLifeMs, dt)
-      x = lerp(x, tx, ease)
-      y = lerp(y, ty, ease)
-      el.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`
-      raf =
-        Math.abs(tx - x) > 0.05 || Math.abs(ty - y) > 0.05
-          ? requestAnimationFrame(frame)
-          : 0
-    }
-
-    const kick = () => {
-      if (!raf) {
-        last = performance.now()
-        raf = requestAnimationFrame(frame)
-      }
-    }
-
-    const onMove = (event: PointerEvent) => {
-      const rect = el.getBoundingClientRect()
-      const cx = rect.left + rect.width / 2 - x
-      const cy = rect.top + rect.height / 2 - y
-      tx = (event.clientX - cx) * strength
-      ty = (event.clientY - cy) * strength
-      kick()
-    }
-
-    const onLeave = () => {
-      tx = 0
-      ty = 0
-      kick()
-    }
-
-    const controller = new AbortController()
-    el.addEventListener('pointermove', onMove, { signal: controller.signal })
-    el.addEventListener('pointerleave', onLeave, { signal: controller.signal })
-    return () => {
-      controller.abort()
-      cancelAnimationFrame(raf)
-    }
-  }, [strength, halfLifeMs])
+          element.addEventListener('pointermove', onMove)
+          element.addEventListener('pointerleave', onLeave)
+          return () => {
+            element.removeEventListener('pointermove', onMove)
+            element.removeEventListener('pointerleave', onLeave)
+          }
+        },
+      )
+      return () => mm.revert()
+    },
+    { scope: ref },
+  )
 
   return (
-    <span ref={ref} className="magnetic">
+    <div ref={ref} className={`magnetic ${className}`.trim()} style={{ display: 'inline-block' }}>
       {children}
-    </span>
+    </div>
   )
 }

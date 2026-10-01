@@ -1,0 +1,100 @@
+.partners {
+  position: relative;
+  z-index: 1;
+  padding-block: clamp(40px, 7vh, 72px);
+}
+
+.partners-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  gap: 32px var(--gutter);
+  align-items: center;
+  padding-top: clamp(32px, 5vh, 52px);
+}
+
+.partners-rule {
+  position: absolute;
+  top: 0;
+  left: var(--gutter);
+  right: var(--gutter);
+  height: 1px;
+  background: var(--hairline);
+  transform-origin: 0% 50%;
+}
+
+.partners-group {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 3vw, 44px);
+  min-width: 0;
+}
+
+.partners-group-one {
+  justify-content: flex-end;
+}
+
+.partners-label {
+  flex-shrink: 0;
+  max-width: 17ch;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--faint);
+}
+
+.partners-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px clamp(26px, 3.4vw, 56px);
+}
+
+.partners-link {
+  display: block;
+  padding: 6px 0;
+}
+
+.partners-link img {
+  width: auto;
+  max-width: none;
+  /* Every mark becomes a paper silhouette: the band reads as one family. */
+  filter: brightness(0) invert(0.96);
+  opacity: 0.5;
+  transition:
+    opacity 0.5s var(--ease),
+    filter 0.5s var(--ease),
+    transform 0.6s var(--ease);
+}
+
+.partners-link:hover img,
+.partners-link:focus-visible img {
+  opacity: 1;
+  transform: translateY(-2px);
+  filter: brightness(0) invert(0.96) drop-shadow(0 0 14px rgba(var(--lime-rgb), 0.45));
+}
+
+@media (max-width: 1000px) {
+  .partners-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .partners-group-one {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 620px) {
+  .partners-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .partners-link img {
+    transform: scale(0.88);
+    transform-origin: 0 50%;
+  }
+}

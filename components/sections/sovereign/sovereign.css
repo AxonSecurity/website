@@ -1,0 +1,384 @@
+.sov {
+  overflow: clip;
+  padding-top: clamp(40px, 8vh, 96px);
+}
+
+/* ---------- Kinetic word ---------- */
+
+.sov-word {
+  --sw: 125;
+  --fill: 0%;
+  --lift: 0em;
+  position: relative;
+  width: 100%;
+  padding-inline: calc(var(--gutter) * 0.5);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 13.4vw;
+  line-height: 0.8;
+  letter-spacing: -0.025em;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  /* The width-axis scrub re-lays out the word every frame; keep that work
+     from spilling into the rest of the page. */
+  contain: layout style;
+}
+
+.sov-word > span {
+  display: block;
+  width: max-content;
+  margin-inline: auto;
+  font-variation-settings: 'wdth' var(--sw);
+  transform: translateY(var(--lift));
+}
+
+.sov-word-stroke {
+  /* Stroke painted under an ink fill hides the variable font's
+     overlapping contours; only the outer half of the stroke shows. */
+  color: var(--ink);
+  -webkit-text-stroke: 2px rgba(var(--paper-rgb), 0.3);
+  paint-order: stroke fill;
+}
+
+.sov-word-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  color: var(--lime);
+  clip-path: inset(-0.1em var(--fill) -0.1em 0);
+}
+
+.sov-inner {
+  padding-top: clamp(80px, 13vh, 150px);
+}
+
+/* ---------- Tenant stage ---------- */
+
+.sov-stage {
+  position: relative;
+  margin-top: clamp(64px, 10vh, 120px);
+  min-height: clamp(620px, 86vh, 820px);
+  isolation: isolate;
+}
+
+.sov-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.sov-stage-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  gap: var(--gutter);
+  min-height: inherit;
+  padding: clamp(90px, 13vh, 130px) clamp(28px, 4vw, 64px) clamp(40px, 6vh, 64px);
+}
+
+.sov-stage-copy {
+  display: grid;
+  align-content: end;
+  gap: 22px;
+  padding-bottom: 8px;
+}
+
+.sov-stage-title {
+  font-size: clamp(26px, 2.5vw, 40px);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  max-width: 15ch;
+  text-wrap: balance;
+}
+
+.sov-stage-title .serif-i {
+  color: var(--ghost);
+}
+
+.sov-ladder {
+  align-self: end;
+  justify-self: end;
+  width: min(100%, 480px);
+  padding: 22px 24px 20px;
+  border-radius: 18px;
+  /* No backdrop-filter: the tenant canvas behind redraws every frame. */
+  background: rgba(var(--ink-rgb), 0.9);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+
+.sov-ladder-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--hairline-2);
+  font-size: 10px;
+  color: var(--faint);
+}
+
+.sov-bundle-version {
+  color: var(--lime);
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+
+.sov-ladder-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sov-step {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) 18px 76px;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--hairline-2);
+  transition: opacity 0.4s var(--ease);
+}
+
+.sov-step:last-child {
+  border-bottom: 0;
+}
+
+.sov-step-num {
+  font-size: 10px;
+  color: var(--dim);
+  transition: color 0.3s var(--ease);
+}
+
+.sov-step-body {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.sov-step-name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--faint);
+  transition: color 0.3s var(--ease);
+}
+
+.sov-step-detail {
+  font-size: 12px;
+  color: var(--dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.3s var(--ease);
+}
+
+.sov-step-check {
+  color: var(--lime);
+}
+
+.sov-step-check path {
+  stroke-dasharray: 16;
+  stroke-dashoffset: 16;
+  transition: stroke-dashoffset 0.45s var(--ease);
+}
+
+.sov-step-state {
+  justify-self: end;
+  font-size: 9.5px;
+  color: var(--dim);
+}
+
+.sov-step.is-active .sov-step-name,
+.sov-step.is-ok .sov-step-name {
+  color: var(--paper);
+}
+
+.sov-step.is-active .sov-step-detail,
+.sov-step.is-ok .sov-step-detail {
+  color: var(--ghost);
+}
+
+.sov-step.is-active .sov-step-num,
+.sov-step.is-active .sov-step-state {
+  color: var(--paper);
+  animation: sov-blink 0.5s steps(2) infinite;
+}
+
+.sov-step.is-ok .sov-step-num,
+.sov-step.is-ok .sov-step-state {
+  color: var(--lime);
+}
+
+.sov-step.is-ok .sov-step-check path {
+  stroke-dashoffset: 0;
+}
+
+.sov-step.is-refused .sov-step-name {
+  color: var(--paper);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.sov-step.is-refused .sov-step-state,
+.sov-step.is-refused .sov-step-num {
+  color: var(--ink);
+  background: var(--paper);
+  padding: 2px 5px;
+  margin-right: -5px;
+}
+
+.sov-step.is-refused .sov-step-num {
+  justify-self: start;
+  margin-right: 0;
+  margin-left: -5px;
+}
+
+.sov-step:last-child.is-ok .sov-step-name {
+  color: var(--lime);
+}
+
+@keyframes sov-blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.sov-ladder-note {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hairline-2);
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--ghost);
+  min-height: 3.2em;
+}
+
+/* ---------- Facts ---------- */
+
+.sov-facts {
+  list-style: none;
+  margin: clamp(80px, 12vh, 140px) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gutter);
+}
+
+.sov-fact {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding-top: 26px;
+}
+
+.sov-fact-rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: var(--hairline);
+  transform-origin: left center;
+}
+
+.sov-fact-rule::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 28px;
+  height: 3px;
+  background: var(--lime);
+}
+
+.sov-fact-num {
+  font-size: clamp(44px, 4.6vw, 76px);
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(var(--lime-rgb), 0.75);
+  text-transform: none;
+}
+
+.sov-fact:hover .sov-fact-num {
+  color: var(--lime);
+}
+
+.sov-fact-num {
+  transition: color 0.5s var(--ease);
+}
+
+.sov-fact-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.sov-fact-text {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ghost);
+  max-width: 30ch;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1100px) {
+  .sov-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 48px;
+  }
+}
+
+@media (max-width: 900px) {
+  .sov-stage-grid {
+    grid-template-columns: 1fr;
+    align-content: space-between;
+  }
+
+  .sov-stage-copy {
+    align-content: start;
+  }
+
+  .sov-ladder {
+    justify-self: stretch;
+    width: auto;
+    margin-right: 22px;
+  }
+
+  .sov-stage-copy {
+    padding-right: 30px;
+  }
+}
+
+@media (max-width: 760px) {
+  .sov-stage-grid {
+    padding: 84px 18px 22px;
+    gap: 36px;
+  }
+
+  .sov-ladder {
+    padding: 16px 16px 14px;
+  }
+
+  .sov-step {
+    grid-template-columns: 22px minmax(0, 1fr) 16px 60px;
+    gap: 8px;
+  }
+
+  .sov-step-detail {
+    display: none;
+  }
+
+  .sov-facts {
+    grid-template-columns: 1fr;
+  }
+}
