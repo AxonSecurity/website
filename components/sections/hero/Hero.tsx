@@ -11,7 +11,6 @@ import { onIntroDone } from '@/lib/intro'
 import { buildEstate, TYPE_LABEL } from './estateData'
 import type EstateGraph from './EstateGraph'
 import type { FocusSnapshot } from './EstateGraph'
-import HeroHud from './HeroHud'
 import HeroTitle from './HeroTitle'
 import StaticGraph from './StaticGraph'
 import './hero.css'
@@ -33,8 +32,6 @@ export default function Hero() {
     const card = tipRef.current?.querySelector<HTMLElement>('.hero-tip-card')
     if (card) cardWidthRef.current = card.offsetWidth
   }, [focus])
-  const [stats, setStats] = useState<EstateGraph['stats'] | null>(null)
-  const [live, setLive] = useState(false)
   const [mobile, setMobile] = useState(false)
 
   // ---- WebGL estate graph
@@ -45,10 +42,7 @@ export default function Hero() {
     const isMobile = window.matchMedia(MOBILE_QUERY).matches
     setMobile(isMobile)
     const estate = buildEstate(isMobile ? 7 : 10)
-    const fallback = () => {
-      setStats({ nodes: estate.nodes.length, edges: estate.edges.length, signalsPerSecond: 0 })
-      setMode('static')
-    }
+    const fallback = () => setMode('static')
     if (prefersReducedMotion()) {
       fallback()
       return
@@ -108,7 +102,6 @@ export default function Hero() {
         return () => undefined
       }
       setMode('webgl')
-      setStats(graph.stats)
 
       let inView = true
       let pageVisible = !document.hidden
@@ -119,10 +112,7 @@ export default function Hero() {
       // GSAP context happened to announce the intro.
       let introTimer = 0
       const unsubscribe = onIntroDone(() => {
-        introTimer = window.setTimeout(() => {
-          graph.playIntro()
-          setLive(true)
-        }, 0)
+        introTimer = window.setTimeout(() => graph.playIntro(), 0)
       })
 
       const io = new IntersectionObserver(([entry]) => {
@@ -137,7 +127,7 @@ export default function Hero() {
       }
       // The copy layer is pointer-events:none, so test its boxes geometrically.
       const copyBlocks = Array.from(
-        section.querySelectorAll<HTMLElement>('.ht-word, .hero-lead, .hero-ctas, .hud'),
+        section.querySelectorAll<HTMLElement>('.ht-word, .hero-lead, .hero-ctas'),
       )
       // Pointer work is batched to one pass per frame, and the copy boxes
       // are measured once and re-measured only after a scroll or resize.
@@ -208,17 +198,12 @@ export default function Hero() {
     }
   }, [])
 
-  useEffect(() => {
-    if (mode !== 'static') return
-    return onIntroDone(() => setLive(true))
-  }, [mode])
-
   // ---- Entrances + scroll-out
   useGSAP(
     () => {
       if (prefersReducedMotion()) return
       gsap.set('.hero-rule', { scaleX: 0 })
-      gsap.set('.hero-ctas > *, .hud, .hero-cue > *', { opacity: 0, y: 24 })
+      gsap.set('.hero-ctas > *, .hero-cue > *', { opacity: 0, y: 24 })
 
       // Built paused inside this scope: onIntroDone may fire from inside the
       // preloader's GSAP context, where scoped selectors would miss.
@@ -226,7 +211,6 @@ export default function Hero() {
         .timeline({ paused: true, delay: 0.9 })
         .to('.hero-rule', { scaleX: 1, duration: 1.6, ease: 'axon-io' }, 0)
         .to('.hero-ctas > *', { opacity: 1, y: 0, duration: 1.1, stagger: 0.1 }, 0.35)
-        .to('.hud', { opacity: 1, y: 0, duration: 1.2 }, 0.6)
         .to('.hero-cue > *', { opacity: 1, y: 0, duration: 1, stagger: 0.1 }, 1)
       const unsubscribe = onIntroDone(() => entrance.play())
 
@@ -237,12 +221,6 @@ export default function Hero() {
         .to('.hero-content', { opacity: 0, duration: 0.45 }, 0.55)
         .to('.hero-cue', { opacity: 0, duration: 0.15 }, 0)
       gsap.to('.hero-stage', { yPercent: 26, ease: 'none', scrollTrigger: scrub })
-      gsap.to('.hud-shell', {
-        yPercent: -40,
-        autoAlpha: 0,
-        ease: 'none',
-        scrollTrigger: { ...scrub, end: '45% top' },
-      })
 
       return unsubscribe
     },
@@ -273,10 +251,6 @@ export default function Hero() {
               : ''}
           </span>
         </span>
-      </div>
-
-      <div className="hud-shell">
-        <HeroHud stats={stats} focus={focus} live={live} still={mode === 'static'} />
       </div>
 
       <div className="hero-content wrap">

@@ -94,10 +94,7 @@ export default function Footer() {
               </ul>
             </div>
             <div className="footer-col">
-              <p className="mono footer-h">Status</p>
-              <p className="footer-status mono">
-                <span className="footer-pulse" aria-hidden="true" /> All systems nominal
-              </p>
+              <p className="mono footer-h">Time</p>
               <p className="footer-clock mono tabular">
                 {time} <span>UTC</span>
               </p>

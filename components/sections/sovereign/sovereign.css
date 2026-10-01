@@ -97,7 +97,7 @@
 }
 
 .sov-stage-title .serif-i {
-  color: var(--ghost);
+  color: var(--lime);
 }
 
 .sov-ladder {
@@ -302,8 +302,12 @@
   font-weight: 300;
   letter-spacing: -0.04em;
   line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(var(--lime-rgb), 0.75);
+  /* Ink fill over a stroke painted underneath: only the outline of the whole
+     glyph shows, so the slashed zero's bar stops at the inner ring instead
+     of its own contour cutting across it. */
+  color: var(--ink);
+  -webkit-text-stroke: 2px rgba(var(--lime-rgb), 0.75);
+  paint-order: stroke fill;
   text-transform: none;
 }
 
@@ -360,8 +364,10 @@
 }
 
 @media (max-width: 760px) {
+  /* The wall is drawn 14px in and the inbound channel runs 11px right of the
+     ladder, so the right side needs room for both with clear air between. */
   .sov-stage-grid {
-    padding: 84px 18px 22px;
+    padding: 84px 46px 24px 28px;
     gap: 36px;
   }
 

@@ -1,7 +1,5 @@
 import SectionHead from '@/components/ui/SectionHead'
 import Redaction from '@/components/sections/observe/Redaction'
-import EventStream from '@/components/sections/observe/EventStream'
-import EdgeStates from '@/components/sections/observe/EdgeStates'
 import Adapters from '@/components/sections/observe/Adapters'
 import SplitReveal from '@/components/motion/SplitReveal'
 import './observe.css'
@@ -22,20 +20,6 @@ export default function Observe() {
         />
 
         <Redaction />
-
-        <div className="ob-grid">
-          <div className="ob-stream-col">
-            <p className="ob-kicker mono">
-              <span className="lime">04.1</span> Live ingest
-            </p>
-            <EventStream />
-            <p className="ob-caption body">
-              Idempotent ingest into a day-partitioned log. Every event aggregates into an
-              observed edge beside the declared graph.
-            </p>
-          </div>
-          <EdgeStates />
-        </div>
 
         <Adapters />
 

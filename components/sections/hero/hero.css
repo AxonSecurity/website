@@ -190,172 +190,6 @@
   }
 }
 
-/* ---------- HUD ---------- */
-
-.hud-shell {
-  position: absolute;
-  z-index: 3;
-  top: calc(var(--nav-h) + 28px);
-  right: var(--gutter);
-  pointer-events: none;
-}
-
-.hud {
-  width: 248px;
-  padding: 14px 16px 16px;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  color: var(--ghost);
-  /* Opaque enough to read without backdrop-filter, which would re-blur the
-     live WebGL graph underneath on every frame. */
-  background: linear-gradient(180deg, rgba(var(--ink-rgb), 0.94), rgba(var(--ink-rgb), 0.86));
-  border: 1px solid var(--hairline-2);
-  border-left: 1px solid rgba(var(--lime-rgb), 0.5);
-}
-
-.hud dl {
-  margin: 0;
-}
-
-.hud dd {
-  margin: 0;
-}
-
-.hud-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-  padding: 5px 0;
-}
-
-.hud-row dt {
-  color: var(--faint);
-}
-
-.hud-row dd {
-  color: var(--paper);
-  text-align: right;
-}
-
-.hud-head {
-  padding-top: 0;
-  padding-bottom: 10px;
-  margin-bottom: 4px;
-  border-bottom: 1px solid var(--hairline-2);
-  color: var(--paper);
-}
-
-.hud-live {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.hud-live i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--lime);
-  box-shadow: 0 0 10px var(--lime-glow);
-  animation: hud-blink 1.6s steps(2, jump-none) infinite;
-}
-
-@keyframes hud-blink {
-  50% {
-    opacity: 0.25;
-  }
-}
-
-.hud-stats {
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--hairline-2);
-}
-
-.hud-stats dd {
-  font-size: 12px;
-  letter-spacing: 0.04em;
-}
-
-.hud-focus {
-  position: relative;
-  height: 86px;
-  margin-top: 6px;
-  border-bottom: 1px solid var(--hairline-2);
-}
-
-.hud-hint,
-.hud-focus-rows {
-  position: absolute;
-  inset: 0;
-  transition:
-    opacity 0.45s var(--ease),
-    transform 0.6s var(--ease);
-}
-
-.hud-hint {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  line-height: 1.6;
-  color: var(--ghost);
-}
-
-.hud-hint-arrow {
-  color: var(--lime);
-}
-
-.hud-focus-rows {
-  opacity: 0;
-  transform: translateY(8px);
-}
-
-.hud-focus.is-on .hud-hint {
-  opacity: 0;
-  transform: translateY(-8px);
-}
-
-.hud-focus.is-on .hud-focus-rows {
-  opacity: 1;
-  transform: none;
-}
-
-.hud-focus-rows .hud-row {
-  padding: 3px 0;
-}
-
-.hud-name {
-  max-width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-transform: none;
-  letter-spacing: 0.02em;
-}
-
-.hud-legend {
-  list-style: none;
-  margin: 12px 0 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px 10px;
-  font-size: 9px;
-  color: var(--faint);
-}
-
-.hud-legend li {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  white-space: nowrap;
-}
-
-.hud-legend svg {
-  color: var(--paper);
-  flex-shrink: 0;
-}
-
 /* ---------- Blast-radius tooltip ---------- */
 
 .hero-tip {
@@ -465,18 +299,9 @@
 /* ---------- Responsive ---------- */
 
 @media (max-height: 820px) and (min-width: 761px) {
-  .hud-legend {
-    display: none;
-  }
 
   .hero-title {
     font-size: clamp(54px, min(9.2vw, 15.5vh), 188px);
-  }
-}
-
-@media (max-width: 1100px) {
-  .hud {
-    width: 220px;
   }
 }
 
@@ -498,47 +323,6 @@
   }
 
   .ht-br {
-    display: none;
-  }
-
-  .hud-shell {
-    top: calc(var(--nav-h) + 12px);
-    left: var(--gutter);
-    right: var(--gutter);
-  }
-
-  /* A single readout strip: status + three counters. */
-  .hud {
-    width: 100%;
-    padding: 9px 12px;
-    background: rgba(var(--ink-rgb), 0.6);
-  }
-
-  .hud-head {
-    padding-bottom: 7px;
-  }
-
-  .hud-stats {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    justify-content: space-between;
-    gap: 12px;
-    padding: 4px 0 0;
-    border-bottom: 0;
-  }
-
-  .hud-stats .hud-row {
-    justify-content: flex-start;
-    gap: 8px;
-    padding: 2px 0;
-  }
-
-  .hud-stats dd {
-    font-size: 11px;
-  }
-
-  .hud-focus,
-  .hud-legend {
     display: none;
   }
 
@@ -569,7 +353,6 @@
     display: none;
   }
 
-  .hud-live i,
   .hero-cue-line::after {
     animation: none;
   }

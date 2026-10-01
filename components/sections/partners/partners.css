@@ -16,8 +16,8 @@
 .partners-rule {
   position: absolute;
   top: 0;
-  left: var(--gutter);
-  right: var(--gutter);
+  left: var(--edge);
+  right: var(--edge);
   height: 1px;
   background: var(--hairline);
   transform-origin: 0% 50%;

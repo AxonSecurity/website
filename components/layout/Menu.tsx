@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { Mark } from '@/components/brand/Logo'
-import { gsap, useGSAP, prefersReducedMotion, SCRAMBLE_CHARS } from '@/lib/gsap'
+import { gsap, useGSAP, prefersReducedMotion, SplitText } from '@/lib/gsap'
 import { lockScroll, scrollToTarget } from '@/lib/scroll'
 import { NAV_LINKS, PARTNER_LINKS } from '@/components/layout/links'
 import './menu.css'
@@ -15,7 +15,7 @@ interface MenuProps {
 const ITEMS = [...NAV_LINKS, { href: '#access', label: 'Get covered' }]
 
 const PREVIEWS: Record<string, string> = {
-  '#discover': 'Every agent, identity, tool and MCP server — one graph.',
+  '#discover': 'Every agent, every identity — on one map.',
   '#judge': 'Three legs, or it isn’t a finding.',
   '#observe': 'Metadata only. Never the message.',
   '#sovereign': 'Your data never leaves your tenant.',
@@ -33,6 +33,8 @@ export default function Menu({ open, onClose }: MenuProps) {
   const previewRef = useRef<HTMLParagraphElement | null>(null)
   const [hovered, setHovered] = useState<string | null>(null)
 
+  // Preview swap: the current line lifts out and fades, then the new
+  // line's words rise in from under their line masks.
   useEffect(() => {
     const element = previewRef.current
     if (!element) return
@@ -41,13 +43,33 @@ export default function Menu({ open, onClose }: MenuProps) {
       element.textContent = text
       return
     }
-    const tween = gsap.to(element, {
-      duration: 0.7,
-      ease: 'none',
-      scrambleText: { text, chars: SCRAMBLE_CHARS.toLowerCase(), speed: 1, revealDelay: 0.1 },
+    if (element.textContent === text) {
+      // Back on the line already showing (fast hover in/out): just settle it.
+      const settle = gsap.to(element, { yPercent: 0, opacity: 1, duration: 0.3, overwrite: true })
+      return () => {
+        settle.kill()
+      }
+    }
+
+    let split: SplitText | null = null
+    let rise: gsap.core.Tween | null = null
+    const leave = gsap.to(element, {
+      yPercent: -10,
+      opacity: 0,
+      duration: 0.22,
+      ease: 'power2.in',
+      overwrite: true,
+      onComplete: () => {
+        element.textContent = text
+        gsap.set(element, { yPercent: 0, opacity: 1 })
+        split = SplitText.create(element, { type: 'lines,words', mask: 'lines', linesClass: 'split-line' })
+        rise = gsap.from(split.words, { yPercent: 110, duration: 0.75, stagger: 0.03, ease: 'axon' })
+      },
     })
     return () => {
-      tween.kill()
+      leave.kill()
+      rise?.kill()
+      split?.revert()
     }
   }, [hovered])
 
@@ -75,6 +97,12 @@ export default function Menu({ open, onClose }: MenuProps) {
     },
     { scope: ref },
   )
+
+  // The cursor turns ink and stops morphing while the lime menu is up.
+  useEffect(() => {
+    document.documentElement.classList.toggle('menu-open', open)
+    return () => document.documentElement.classList.remove('menu-open')
+  }, [open])
 
   useEffect(() => {
     const tl = timeline.current
