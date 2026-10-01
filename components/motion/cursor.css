@@ -72,9 +72,11 @@ html.has-cursor textarea {
   transition: opacity 0.3s var(--ease);
 }
 
+/* Growth is kept small: a touch larger and lime on links, and just big
+   enough for a short label (GO, SEND, VISIT) when one is set. */
 .cursor[data-state='hover'] .cursor-ring-shape {
-  width: 64px;
-  height: 64px;
+  width: 46px;
+  height: 46px;
   border-color: var(--lime);
   background-color: rgba(var(--lime-rgb), 0.08);
 }
@@ -84,8 +86,8 @@ html.has-cursor textarea {
 }
 
 .cursor[data-state='label'] .cursor-ring-shape {
-  width: 96px;
-  height: 96px;
+  width: 54px;
+  height: 54px;
   border-color: var(--lime);
   background-color: var(--lime);
 }

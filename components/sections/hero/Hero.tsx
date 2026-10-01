@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Magnetic from '@/components/motion/Magnetic'
 import SplitReveal from '@/components/motion/SplitReveal'
 import Eyebrow from '@/components/ui/Eyebrow'
 import Pill from '@/components/ui/Pill'
@@ -263,11 +262,9 @@ export default function Hero() {
             judges the paths that matter.
           </SplitReveal>
           <div className="hero-ctas">
-            <Magnetic>
-              <Pill href="#access" cursor="GO">
-                Get covered
-              </Pill>
-            </Magnetic>
+            <Pill href="#access" cursor="GO">
+              Get covered
+            </Pill>
             <a className="text-link" href="#premise">
               See how it works <ArrowDownRight size={14} />
             </a>

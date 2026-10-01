@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect, type FormEvent } from 'react'
 import Pill from '@/components/ui/Pill'
-import Magnetic from '@/components/motion/Magnetic'
 import AccessSuccess from './AccessSuccess'
 
 declare global {
@@ -205,11 +204,9 @@ export default function AccessForm() {
           ) : null}
 
           <div className="acc-actions">
-            <Magnetic>
-              <Pill type="submit" disabled={status === 'submitting'} cursor="SEND">
-                {status === 'submitting' ? 'Sending' : 'Get covered'}
-              </Pill>
-            </Magnetic>
+            <Pill type="submit" disabled={status === 'submitting'} cursor="SEND">
+              {status === 'submitting' ? 'Sending' : 'Get covered'}
+            </Pill>
             <p className="acc-fine mono">Read-only · In your tenant · No content leaves</p>
           </div>
         </form>
